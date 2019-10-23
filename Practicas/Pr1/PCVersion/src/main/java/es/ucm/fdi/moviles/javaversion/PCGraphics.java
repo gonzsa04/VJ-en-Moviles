@@ -11,29 +11,11 @@ import es.ucm.fdi.moviles.interfaces.ImageInterface;
 public class PCGraphics extends JFrame implements GraphicsInterface {
 
     private Graphics g_;
-    private java.awt.image.BufferStrategy strategy_;
 
     private void init(int winWidth, int winHeight){
         setSize(winWidth,winHeight);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setIgnoreRepaint(true);
-        setStrategy();
-    }
-
-    private void setStrategy(){
-        int veces = 100;
-        do{
-            try{
-                createBufferStrategy(2);
-                break;
-            }
-            catch(Exception e){}
-        }while(veces-- > 0);
-
-        if(veces == 0){
-            System.err.println("El doble buffer no pudo cargarse");
-        }
-        strategy_ = getBufferStrategy();
     }
 
     public PCGraphics(String title, int winWidth, int winHeight){
@@ -78,9 +60,7 @@ public class PCGraphics extends JFrame implements GraphicsInterface {
                     (int)dstBottom, srcLeft, srcTop, srcRight, srcBottom, null);
     }
 
-    public void updateDrawGraphics(){g_ = strategy_.getDrawGraphics();}
-    public void releaseGraphics(){g_.dispose();}
-    public java.awt.image.BufferStrategy getStrategy(){return strategy_;}
+    public void setGraphics(Graphics g){g_ = g;}
 
     public int getWindowWidth(){return getWidth();}
     public int getWindowHeight(){return getHeight();}

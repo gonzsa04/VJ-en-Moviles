@@ -19,7 +19,7 @@ public class AndroidGame implements GameInterface, Runnable{
     public AndroidGame(Context context){
         context_ = context;
         //PROVISIONAL
-        imagePrueba = getGraphics().newImage("java.png");
+        imagePrueba = getGraphics().newImage("Sprites/java.png");
         //PROVISIONAL
     }
 
