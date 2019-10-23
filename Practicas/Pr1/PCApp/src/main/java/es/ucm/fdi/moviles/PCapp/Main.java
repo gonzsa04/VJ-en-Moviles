@@ -1,6 +1,6 @@
 package es.ucm.fdi.moviles.PCapp;
 
-import es.ucm.fdi.moviles.javaversion.PCGame;
+import es.ucm.fdi.moviles.PCVersion.PCGame;
 
 public class Main {
 

@@ -1,4 +1,4 @@
-package es.ucm.fdi.moviles.javaversion;
+package es.ucm.fdi.moviles.PCVersion;
 
 import java.awt.Color;
 import java.awt.Graphics;

@@ -1,6 +1,5 @@
 package es.ucm.fdi.moviles.pr1;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;

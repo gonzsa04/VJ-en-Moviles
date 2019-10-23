@@ -1,4 +1,4 @@
-package es.ucm.fdi.moviles.javaversion;
+package es.ucm.fdi.moviles.PCVersion;
 
 import es.ucm.fdi.moviles.interfaces.GameInterface;
 import es.ucm.fdi.moviles.interfaces.ImageInterface;
