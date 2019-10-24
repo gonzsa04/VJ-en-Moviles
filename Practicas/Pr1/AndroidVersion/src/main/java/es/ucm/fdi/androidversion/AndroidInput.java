@@ -1,8 +1,8 @@
-package es.ucm.fdi.moviles.androidversion;
+package es.ucm.fdi.androidversion;
 
 import java.util.List;
 
-import es.ucm.fdi.moviles.interfaces.InputInterface;
+import es.ucm.fdi.interfaces.InputInterface;
 
 public class AndroidInput implements InputInterface {
     public List<TouchEvent> getTouchEvents(){return null;}

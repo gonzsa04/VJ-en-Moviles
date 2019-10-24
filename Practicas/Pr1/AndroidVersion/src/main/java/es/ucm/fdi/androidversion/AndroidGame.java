@@ -1,9 +1,9 @@
-package es.ucm.fdi.moviles.androidversion;
+package es.ucm.fdi.androidversion;
 
 import android.content.Context;
 
-import es.ucm.fdi.moviles.interfaces.GameInterface;
-import es.ucm.fdi.moviles.interfaces.ImageInterface;
+import es.ucm.fdi.interfaces.GameInterface;
+import es.ucm.fdi.interfaces.ImageInterface;
 
 public class AndroidGame implements GameInterface, Runnable{
     private AndroidGraphics graphicsInstance_ = null;
@@ -35,8 +35,7 @@ public class AndroidGame implements GameInterface, Runnable{
             getGraphics().setCanvas();
 
             //PROVISIONAL
-            getGraphics().drawImage(imagePrueba, 0, 0, 200, 300,
-                    200, 200, imagePrueba.getWidth(), imagePrueba.getHeight(), 255);
+            getGraphics().drawImage(imagePrueba, 255);
             //PROVISIONAL
 
             getGraphics().releaseCanvas();

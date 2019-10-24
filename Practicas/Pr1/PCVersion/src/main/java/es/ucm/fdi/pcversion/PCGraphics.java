@@ -1,16 +1,18 @@
-package es.ucm.fdi.moviles.PCVersion;
+package es.ucm.fdi.pcversion;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Composite;
+import java.awt.Graphics2D;
 
 import javax.swing.JFrame;
 
-import es.ucm.fdi.moviles.interfaces.GraphicsInterface;
-import es.ucm.fdi.moviles.interfaces.ImageInterface;
+import es.ucm.fdi.interfaces.GraphicsInterface;
+import es.ucm.fdi.interfaces.ImageInterface;
 
 public class PCGraphics extends JFrame implements GraphicsInterface {
 
-    private Graphics g_;
+    private Graphics2D g_;
 
     private void init(int winWidth, int winHeight){
         setSize(winWidth,winHeight);
@@ -42,25 +44,30 @@ public class PCGraphics extends JFrame implements GraphicsInterface {
     }
 
     public void drawImage(ImageInterface image, int alpha){
-        if(image != null)
+        float a = (float)(alpha)/255f;
+        if(image != null) {
+            Composite alphaComp = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, a);
+            g_.setComposite(alphaComp);
             g_.drawImage(PCImage.class.cast(image).getImage(), 0, 0, null);
+        }
     }
 
     public void drawImage(ImageInterface image, float dstLeft, float dstTop, float dstRight, float dstBottom, int alpha){
 
         if(image != null)
-            g_.drawImage(PCImage.class.cast(image).getImage(), (int)dstLeft, (int)dstTop, (int)dstRight, (int)dstBottom, null);
+            g_.drawImage(PCImage.class.cast(image).getImage(), (int)dstLeft, (int)dstTop, (int)(dstRight + dstLeft),
+                    (int)(dstBottom + dstTop), null);
     }
 
     public void drawImage(ImageInterface image, int srcLeft, int srcTop, int srcRight, int srcBottom,
                           float dstLeft, float dstTop, float dstRight, float dstBottom, int alpha){
 
         if(image != null)
-            g_.drawImage(PCImage.class.cast(image).getImage(), (int)dstLeft, (int)dstTop, (int)dstRight,
-                    (int)dstBottom, srcLeft, srcTop, srcRight, srcBottom, null);
+            g_.drawImage(PCImage.class.cast(image).getImage(), (int)dstLeft, (int)dstTop, (int)(dstRight + dstLeft),
+                    (int)(dstBottom + dstTop), srcLeft, srcTop, srcRight, srcBottom, null);
     }
 
-    public void setGraphics(Graphics g){g_ = g;}
+    public void setGraphics(Graphics2D g){g_ = g;}
 
     public int getWindowWidth(){return getWidth();}
     public int getWindowHeight(){return getHeight();}

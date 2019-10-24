@@ -1,8 +1,8 @@
-package es.ucm.fdi.moviles.androidversion;
+package es.ucm.fdi.androidversion;
 
 import android.graphics.Bitmap;
 
-import es.ucm.fdi.moviles.interfaces.ImageInterface;
+import es.ucm.fdi.interfaces.ImageInterface;
 
 public class AndroidImage implements ImageInterface {
     private Bitmap image_;

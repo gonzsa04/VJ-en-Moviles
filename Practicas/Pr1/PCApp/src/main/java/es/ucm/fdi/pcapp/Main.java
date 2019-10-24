@@ -1,6 +1,6 @@
-package es.ucm.fdi.moviles.PCapp;
+package es.ucm.fdi.pcapp;
 
-import es.ucm.fdi.moviles.PCVersion.PCGame;
+import es.ucm.fdi.pcversion.PCGame;
 
 public class Main {
 

@@ -1,9 +1,9 @@
-package es.ucm.fdi.moviles.PCVersion;
+package es.ucm.fdi.pcversion;
 
-import es.ucm.fdi.moviles.interfaces.GameInterface;
-import es.ucm.fdi.moviles.interfaces.ImageInterface;
+import es.ucm.fdi.interfaces.GameInterface;
+import es.ucm.fdi.interfaces.ImageInterface;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.*;
 
 public class PCGame implements GameInterface{
@@ -11,7 +11,7 @@ public class PCGame implements GameInterface{
     private PCInput inputInstance_ = null;
     private boolean running_;
     private BufferStrategy strategy_;
-    private Graphics g_;
+    private Graphics2D g_;
 
     private String winTitle_;
     private int winWidth_;
@@ -65,11 +65,10 @@ public class PCGame implements GameInterface{
             //Graphics g = ventana.getGraphics(); // hay que pedirle Graphics a la ventana, modificarlo y luego devolverselo
             do {
                 do {
-                    g_ = strategy_.getDrawGraphics();
+                    g_ = Graphics2D.class.cast(strategy_.getDrawGraphics());
                     getGraphics().setGraphics(g_); // en vez de pedirselo a la ventana, pedimos el buffer de dibujado a la strategy (donde puedo pintar)
                     try {
-                        getGraphics().drawImage(imagePrueba, 0, 0, 200, 300,
-                                200, 200, imagePrueba.getWidth(), imagePrueba.getHeight(), 255);
+                        getGraphics().drawImage(imagePrueba, 100);
                     }
                     // no hay catch(...) porque no hay que declarar TODAS las excepciones -> los errores de programacion como salirnos de un vector, etc. no hay que declararlas
                     // solo si peta al cargar cosas, etc., como en init() al cargar la imagen
@@ -81,9 +80,6 @@ public class PCGame implements GameInterface{
 
                 strategy_.show(); // mostramos el buffer de dibujado
             } while (strategy_.contentsLost());
-
-            try{ Thread.sleep(1); }
-            catch(Exception e){}
         }// while
     }
 }

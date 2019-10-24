@@ -1,4 +1,4 @@
-package es.ucm.fdi.moviles.pr1;
+package es.ucm.fdi.androidversion;
 
 import org.junit.Test;
 

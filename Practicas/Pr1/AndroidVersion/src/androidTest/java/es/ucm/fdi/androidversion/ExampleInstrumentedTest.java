@@ -1,9 +1,8 @@
-package es.ucm.fdi.moviles.pr1;
+package es.ucm.fdi.androidversion;
 
 import android.content.Context;
-
-import androidx.test.InstrumentationRegistry;
-import androidx.test.runner.AndroidJUnit4;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("es.ucm.fdi.moviles.pr1", appContext.getPackageName());
+        assertEquals("es.ucm.fdi.androidversion.test", appContext.getPackageName());
     }
 }

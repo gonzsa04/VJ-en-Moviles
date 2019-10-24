@@ -1,4 +1,4 @@
-package es.ucm.fdi.moviles.androidversion;
+package es.ucm.fdi.androidversion;
 
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -12,8 +12,8 @@ import android.view.SurfaceView;
 import java.io.IOException;
 import java.io.InputStream;
 
-import es.ucm.fdi.moviles.interfaces.GraphicsInterface;
-import es.ucm.fdi.moviles.interfaces.ImageInterface;
+import es.ucm.fdi.interfaces.GraphicsInterface;
+import es.ucm.fdi.interfaces.ImageInterface;
 
 public class AndroidGraphics extends SurfaceView implements GraphicsInterface {
 

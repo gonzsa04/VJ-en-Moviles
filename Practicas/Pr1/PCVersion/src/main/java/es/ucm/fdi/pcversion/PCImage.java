@@ -1,8 +1,8 @@
-package es.ucm.fdi.moviles.PCVersion;
+package es.ucm.fdi.pcversion;
 
 import java.awt.Image;
 
-import es.ucm.fdi.moviles.interfaces.ImageInterface;
+import es.ucm.fdi.interfaces.ImageInterface;
 
 public class PCImage implements ImageInterface {
     private Image image_;

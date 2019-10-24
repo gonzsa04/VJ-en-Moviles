@@ -1,4 +1,4 @@
-package es.ucm.fdi.moviles.interfaces;
+package es.ucm.fdi.interfaces;
 
 import java.util.List;
 

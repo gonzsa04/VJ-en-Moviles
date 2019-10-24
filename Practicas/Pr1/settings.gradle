@@ -1,1 +1,1 @@
-include ':AndroidApp', ':Interfaces', ':AndroidVersion', ':PCVersion', ':PCApp'
+include ':AndroidApp', ':PCApp', ':androidversion', ':Interfaces', ':PCVersion'

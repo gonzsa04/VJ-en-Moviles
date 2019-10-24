@@ -1,4 +1,4 @@
-package es.ucm.fdi.moviles.interfaces;
+package es.ucm.fdi.interfaces;
 
 public interface ImageInterface {
     public int getWidth();

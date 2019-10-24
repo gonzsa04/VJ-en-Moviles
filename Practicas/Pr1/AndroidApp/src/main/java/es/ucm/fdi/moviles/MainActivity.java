@@ -1,10 +1,9 @@
-package es.ucm.fdi.moviles.pr1;
+package es.ucm.fdi.moviles;
 
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import es.ucm.fdi.moviles.androidversion.AndroidGame;
+import es.ucm.fdi.androidversion.AndroidGame;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,4 +27,3 @@ public class MainActivity extends AppCompatActivity {
         game.resume();
     }
 }
-
