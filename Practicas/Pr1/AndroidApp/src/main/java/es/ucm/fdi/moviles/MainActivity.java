@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import es.ucm.fdi.androidversion.AndroidGame;
+import es.ucm.fdi.logic.LogicGame;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -14,6 +15,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         game = new AndroidGame(this);
+        LogicGame logic = new LogicGame(game);
+        logic.init();
+        game.setLogic(logic);
         setContentView(game.getGraphics());
     }
 

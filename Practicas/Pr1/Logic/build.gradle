@@ -2,8 +2,8 @@ apply plugin: 'java-library'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    compile project(path: ':PCVersion')
-    compile project(path: ':Logic')
+    compile project(path: ':Utils')
+    compile project(path: ':Interfaces')
 }
 
 sourceCompatibility = "7"

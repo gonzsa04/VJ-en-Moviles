@@ -37,10 +37,12 @@ public class AndroidGraphics extends SurfaceView implements GraphicsInterface {
             android.util.Log.e("AndroidGraphics", "Error leyendo imagen");
         }
         finally{
-            try{
-                inputStream.close();
+            if(inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (Exception io) {
+                }
             }
-            catch(Exception io){}
         }
         return image;
     }

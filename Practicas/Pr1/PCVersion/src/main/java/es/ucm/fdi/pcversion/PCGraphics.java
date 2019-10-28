@@ -14,15 +14,14 @@ public class PCGraphics extends JFrame implements GraphicsInterface {
 
     private Graphics2D g_;
 
-    private void init(int winWidth, int winHeight){
+    public PCGraphics(String title){
+        super(title);
+    }
+
+    public void init(int winWidth, int winHeight){
         setSize(winWidth,winHeight);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setIgnoreRepaint(true);
-    }
-
-    public PCGraphics(String title, int winWidth, int winHeight){
-        super(title);
-        init(winWidth, winHeight);
         setVisible(true);
     }
 
@@ -38,7 +37,6 @@ public class PCGraphics extends JFrame implements GraphicsInterface {
     }
 
     public void clear(int color){
-
         g_.setColor(new Color(color));
         g_.fillRect(0,0,getWindowWidth(),getWindowHeight());
     }
@@ -55,8 +53,8 @@ public class PCGraphics extends JFrame implements GraphicsInterface {
     public void drawImage(ImageInterface image, float dstLeft, float dstTop, float dstRight, float dstBottom, int alpha){
 
         if(image != null)
-            g_.drawImage(PCImage.class.cast(image).getImage(), (int)dstLeft, (int)dstTop, (int)(dstRight + dstLeft),
-                    (int)(dstBottom + dstTop), null);
+            g_.drawImage(PCImage.class.cast(image).getImage(), (int)dstLeft, (int)dstTop, (int)(dstRight),
+                    (int)(dstBottom), null);
     }
 
     public void drawImage(ImageInterface image, int srcLeft, int srcTop, int srcRight, int srcBottom,

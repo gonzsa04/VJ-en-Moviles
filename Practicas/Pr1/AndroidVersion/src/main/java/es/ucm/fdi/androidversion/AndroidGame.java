@@ -4,6 +4,7 @@ import android.content.Context;
 
 import es.ucm.fdi.interfaces.GameInterface;
 import es.ucm.fdi.interfaces.ImageInterface;
+import es.ucm.fdi.logic.LogicGame;
 
 public class AndroidGame implements GameInterface, Runnable{
     private AndroidGraphics graphicsInstance_ = null;
@@ -13,14 +14,15 @@ public class AndroidGame implements GameInterface, Runnable{
     volatile private boolean running_;
 
     //PROVISIONAL
-    private ImageInterface imagePrueba;
+    private LogicGame logic_;
     //PROVISIONAL
 
     public AndroidGame(Context context){
         context_ = context;
-        //PROVISIONAL
-        imagePrueba = getGraphics().newImage("Sprites/java.png");
-        //PROVISIONAL
+    }
+
+    public void setLogic(LogicGame logic){
+        logic_ = logic;
     }
 
     public AndroidGraphics getGraphics(){
@@ -31,13 +33,19 @@ public class AndroidGame implements GameInterface, Runnable{
     public AndroidInput getInput(){return null;}
 
     public void run(){
+        long lastFrameTime = System.nanoTime();
+
         while(running_){
+            //--------------------------------------------UPDATE-------------------------------------------------------
+            long currentTime = System.nanoTime();
+            long nanoElapsedTime = currentTime - lastFrameTime;
+            lastFrameTime = currentTime;
+            double elapsedTime = (double) nanoElapsedTime / 1.0E9;
+            logic_.update(elapsedTime);
+
+            //--------------------------------------------RENDER-------------------------------------------------------
             getGraphics().setCanvas();
-
-            //PROVISIONAL
-            getGraphics().drawImage(imagePrueba, 255);
-            //PROVISIONAL
-
+            logic_.render();
             getGraphics().releaseCanvas();
         }
     }
@@ -55,6 +63,7 @@ public class AndroidGame implements GameInterface, Runnable{
         while(true){
             try{
                 thread_.join();
+                thread_ = null;
                 break;
             }
             catch (InterruptedException ie){}
