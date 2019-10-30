@@ -41,31 +41,18 @@ public class PCGraphics extends JFrame implements GraphicsInterface {
         g_.fillRect(0,0,getWindowWidth(),getWindowHeight());
     }
 
-    public void drawImage(ImageInterface image, int alpha){
-        float a = (float)(alpha)/255f;
-        if(image != null) {
-            Composite alphaComp = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, a);
-            g_.setComposite(alphaComp);
-            g_.drawImage(PCImage.class.cast(image).getImage(), 0, 0, null);
-        }
-    }
-
-    public void drawImage(ImageInterface image, float dstLeft, float dstTop, float dstRight, float dstBottom, int alpha){
-
-        if(image != null)
-            g_.drawImage(PCImage.class.cast(image).getImage(), (int)dstLeft, (int)dstTop, (int)(dstRight),
-                    (int)(dstBottom), null);
-    }
-
     public void drawImage(ImageInterface image, int srcLeft, int srcTop, int srcRight, int srcBottom,
                           float dstLeft, float dstTop, float dstRight, float dstBottom, int alpha){
-
         if(image != null)
             g_.drawImage(PCImage.class.cast(image).getImage(), (int)dstLeft, (int)dstTop, (int)(dstRight + dstLeft),
                     (int)(dstBottom + dstTop), srcLeft, srcTop, srcRight, srcBottom, null);
     }
 
     public void setGraphics(Graphics2D g){g_ = g;}
+
+    public void setCanvasSize(int x, int y){
+        //reescalado del espacio de juego
+    }
 
     public int getWindowWidth(){return getWidth();}
     public int getWindowHeight(){return getHeight();}

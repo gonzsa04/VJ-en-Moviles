@@ -5,9 +5,7 @@ import es.ucm.fdi.interfaces.GameInterface;
 public class Ball extends GameObject {
     private float vel_;
 
-    public Ball(GameInterface game){
-        super(game);
-    }
+    public Ball(GameInterface game){ super(game); }
 
     public void init(){
         super.init();
@@ -15,23 +13,21 @@ public class Ball extends GameObject {
     }
 
     public void render(){
-        game_.getGraphics().drawImage(image_, position.x - scale.x * image_.getWidth()/2,
-                position.y - scale.x * image_.getHeight()/2, scale.x * image_.getWidth(),
-                scale.y * image_.getHeight(), 255);
+        image_.draw(position_);
     }
 
     public void update(double deltaTime){
-        float maxX = game_.getGraphics().getHeight() - scale.y;
+        float maxX = game_.getGraphics().getHeight() - scale_.y;
 
-        position.y += vel_ * deltaTime;
-        while(position.y < 0 || position.y > maxX) {
-            if (position.y < 0) {
-                position.y = -position.y;
+        position_.y += vel_ * deltaTime;
+        while(position_.y < 0 || position_.y > maxX) {
+            if (position_.y < 0) {
+                position_.y = -position_.y;
                 vel_ *= -1;
             }
-            else if (position.y > maxX) {
+            else if (position_.y > maxX) {
                 // Nos salimos por la derecha. Rebotamos
-                position.y = 2*maxX - position.y;
+                position_.y = 2*maxX - position_.y;
                 vel_ *= -1;
             }
         } // while

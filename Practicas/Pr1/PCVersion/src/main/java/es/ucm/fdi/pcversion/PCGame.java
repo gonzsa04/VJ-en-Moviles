@@ -2,7 +2,7 @@ package es.ucm.fdi.pcversion;
 
 import es.ucm.fdi.interfaces.GameInterface;
 import es.ucm.fdi.interfaces.ImageInterface;
-import es.ucm.fdi.logic.LogicGame;
+import es.ucm.fdi.interfaces.StateInterface;
 
 import java.awt.Graphics2D;
 import java.awt.image.*;
@@ -18,9 +18,7 @@ public class PCGame implements GameInterface{
     private int winWidth_;
     private int winHeight_;
 
-    //PROVISIONAL
-    private LogicGame logic_;
-    //PROVISIONAL
+    private StateInterface state_;
 
     public PCGame(String winTitle, int winWidth, int winHeight){
         winTitle_ = winTitle;
@@ -33,8 +31,8 @@ public class PCGame implements GameInterface{
         setStrategy();
     }
 
-    public void setLogic(LogicGame logic){
-        logic_ = logic;
+    public void setState(StateInterface state){
+        state_ = state;
     }
 
     private void setStrategy(){
@@ -71,7 +69,7 @@ public class PCGame implements GameInterface{
             long nanoElapsedTime = currentTime - lastFrameTime;
             lastFrameTime = currentTime;
             double elapsedTime = (double) nanoElapsedTime / 1.0E9;
-            logic_.update(elapsedTime);
+            state_.update(elapsedTime);
 
             //--------------------------------------------RENDER-------------------------------------------------------
             do {
@@ -80,7 +78,7 @@ public class PCGame implements GameInterface{
                     getGraphics().setGraphics(g_); // en vez de pedirselo a la ventana, pedimos el buffer de dibujado a la strategy (donde puedo pintar)
                     getGraphics().clear(0xFF0000FF);
                     try {
-                        logic_.render();
+                        state_.render();
                     }
                     // no hay catch(...) porque no hay que declarar TODAS las excepciones -> los errores de programacion como salirnos de un vector, etc. no hay que declararlas
                     // solo si peta al cargar cosas, etc., como en init() al cargar la imagen
@@ -92,10 +90,6 @@ public class PCGame implements GameInterface{
 
                 strategy_.show(); // mostramos el buffer de dibujado
             } while (strategy_.contentsLost());
-            try {
-                Thread.sleep(1);
-            }
-            catch(Exception e) {}
         }// while
     }
 }

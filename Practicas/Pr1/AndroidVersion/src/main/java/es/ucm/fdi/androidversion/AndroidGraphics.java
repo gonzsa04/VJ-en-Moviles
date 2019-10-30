@@ -51,21 +51,6 @@ public class AndroidGraphics extends SurfaceView implements GraphicsInterface {
         canvas_.drawColor(color);
     }
 
-    public void drawImage(ImageInterface image, int alpha){
-        Paint paint = new Paint(); paint.setAlpha(alpha);
-        if(image != null)
-            canvas_.drawBitmap(AndroidImage.class.cast(image).getBitmap(), 0, 0, paint);
-    }
-
-    public void drawImage(ImageInterface image, float dstLeft, float dstTop, float dstRight, float dstBottom, int alpha){
-
-        Rect src = new Rect(0, 0, image.getWidth(), image.getHeight());
-        RectF dst = new RectF(dstLeft, dstTop, dstRight + dstLeft, dstBottom + dstTop);
-        Paint paint = new Paint(); paint.setAlpha(alpha);
-        if(image != null)
-            canvas_.drawBitmap(AndroidImage.class.cast(image).getBitmap(), src, dst, paint);
-    }
-
     public void drawImage(ImageInterface image, int srcLeft, int srcTop, int srcRight, int srcBottom,
                           float dstLeft, float dstTop, float dstRight, float dstBottom, int alpha){
 
@@ -81,6 +66,10 @@ public class AndroidGraphics extends SurfaceView implements GraphicsInterface {
         canvas_ = getHolder().lockCanvas();
     }
     public void releaseCanvas(){ getHolder().unlockCanvasAndPost(canvas_); }
+
+    public void setCanvasSize(int x, int y){
+        //reescalado del espacio de juego
+    }
 
     public int getCanvasWidth(){return canvas_.getWidth();}
     public int getCanvasHeight(){return canvas_.getHeight();}

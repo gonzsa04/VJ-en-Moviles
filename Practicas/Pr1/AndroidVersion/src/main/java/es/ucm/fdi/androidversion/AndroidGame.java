@@ -3,8 +3,7 @@ package es.ucm.fdi.androidversion;
 import android.content.Context;
 
 import es.ucm.fdi.interfaces.GameInterface;
-import es.ucm.fdi.interfaces.ImageInterface;
-import es.ucm.fdi.logic.LogicGame;
+import es.ucm.fdi.interfaces.StateInterface;
 
 public class AndroidGame implements GameInterface, Runnable{
     private AndroidGraphics graphicsInstance_ = null;
@@ -13,16 +12,14 @@ public class AndroidGame implements GameInterface, Runnable{
     private Thread thread_;
     volatile private boolean running_;
 
-    //PROVISIONAL
-    private LogicGame logic_;
-    //PROVISIONAL
+    private StateInterface state_;
 
     public AndroidGame(Context context){
         context_ = context;
     }
 
-    public void setLogic(LogicGame logic){
-        logic_ = logic;
+    public void setState(StateInterface state){
+        state_ = state;
     }
 
     public AndroidGraphics getGraphics(){
@@ -41,11 +38,11 @@ public class AndroidGame implements GameInterface, Runnable{
             long nanoElapsedTime = currentTime - lastFrameTime;
             lastFrameTime = currentTime;
             double elapsedTime = (double) nanoElapsedTime / 1.0E9;
-            logic_.update(elapsedTime);
+            state_.update(elapsedTime);
 
             //--------------------------------------------RENDER-------------------------------------------------------
             getGraphics().setCanvas();
-            logic_.render();
+            state_.render();
             getGraphics().releaseCanvas();
         }
     }
