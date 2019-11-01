@@ -12,16 +12,16 @@ import android.view.SurfaceView;
 import java.io.IOException;
 import java.io.InputStream;
 
+import es.ucm.fdi.interfaces.AbstractGraphics;
 import es.ucm.fdi.interfaces.GraphicsInterface;
 import es.ucm.fdi.interfaces.ImageInterface;
 
-public class AndroidGraphics extends SurfaceView implements GraphicsInterface {
+public class AndroidGraphics extends AbstractGraphics implements GraphicsInterface {
 
     private Context context_;
     private Canvas canvas_;
 
     public AndroidGraphics(Context context){
-        super(context);
         context_ = context;
     }
 
@@ -61,16 +61,12 @@ public class AndroidGraphics extends SurfaceView implements GraphicsInterface {
             canvas_.drawBitmap(AndroidImage.class.cast(image).getBitmap(), src, dst, paint);
     }
 
-    public void setCanvas(){
-        while(!getHolder().getSurface().isValid());
-        canvas_ = getHolder().lockCanvas();
-    }
-    public void releaseCanvas(){ getHolder().unlockCanvasAndPost(canvas_); }
+    public void setCanvas(Canvas canvas){canvas_ = canvas;}
 
     public void setCanvasSize(int x, int y){
         //reescalado del espacio de juego
     }
 
-    public int getCanvasWidth(){return canvas_.getWidth();}
-    public int getCanvasHeight(){return canvas_.getHeight();}
+    public int getWidth(){return canvas_.getWidth();}
+    public int getHeight(){return canvas_.getHeight();}
 }

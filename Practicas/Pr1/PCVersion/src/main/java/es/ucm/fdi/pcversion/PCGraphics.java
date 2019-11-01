@@ -7,22 +7,16 @@ import java.awt.Graphics2D;
 
 import javax.swing.JFrame;
 
+import es.ucm.fdi.interfaces.AbstractGraphics;
 import es.ucm.fdi.interfaces.GraphicsInterface;
 import es.ucm.fdi.interfaces.ImageInterface;
 
-public class PCGraphics extends JFrame implements GraphicsInterface {
-
+public class PCGraphics extends AbstractGraphics implements GraphicsInterface {
     private Graphics2D g_;
+    private JFrame window_;
 
-    public PCGraphics(String title){
-        super(title);
-    }
-
-    public void init(int winWidth, int winHeight){
-        setSize(winWidth,winHeight);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setIgnoreRepaint(true);
-        setVisible(true);
+    public PCGraphics(JFrame window){
+        window_ = window;
     }
 
     public ImageInterface newImage(String name){
@@ -38,7 +32,7 @@ public class PCGraphics extends JFrame implements GraphicsInterface {
 
     public void clear(int color){
         g_.setColor(new Color(color));
-        g_.fillRect(0,0,getWindowWidth(),getWindowHeight());
+        g_.fillRect(0,0,getWidth(),getHeight());
     }
 
     public void drawImage(ImageInterface image, int srcLeft, int srcTop, int srcRight, int srcBottom,
@@ -54,6 +48,6 @@ public class PCGraphics extends JFrame implements GraphicsInterface {
         //reescalado del espacio de juego
     }
 
-    public int getWindowWidth(){return getWidth();}
-    public int getWindowHeight(){return getHeight();}
+    public int getWidth(){return window_.getWidth();}
+    public int getHeight(){return window_.getHeight();}
 }

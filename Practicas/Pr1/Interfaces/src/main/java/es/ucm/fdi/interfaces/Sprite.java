@@ -24,7 +24,7 @@ public class Sprite {
         sTop_ = 0;
         sRight_ = image_.getWidth();
         sBottom_ = image_.getHeight();
-        alpha_ = 1;
+        alpha_ = 255;
     }
 
     public Sprite(GraphicsInterface g, String name, Vector2 scale, int left, int top, int right, int bottom, int alpha) {

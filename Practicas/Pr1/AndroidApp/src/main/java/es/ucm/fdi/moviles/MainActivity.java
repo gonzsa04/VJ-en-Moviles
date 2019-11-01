@@ -2,6 +2,7 @@ package es.ucm.fdi.moviles;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.SurfaceView;
 
 import es.ucm.fdi.androidversion.AndroidGame;
 import es.ucm.fdi.logic.GameState;
@@ -18,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         GameState gameState = new GameState(game);
         gameState.init();
         game.setState(gameState);
-        setContentView(game.getGraphics());
+        setContentView(game.getSurfaceView());
     }
 
     protected void onPause(){

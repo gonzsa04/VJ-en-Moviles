@@ -7,26 +7,26 @@ import es.ucm.fdi.interfaces.StateInterface;
 import java.awt.Graphics2D;
 import java.awt.image.*;
 
+import javax.swing.JFrame;
+
 public class PCGame implements GameInterface{
     private PCGraphics graphicsInstance_ = null;
     private PCInput inputInstance_ = null;
     private boolean running_;
     private BufferStrategy strategy_;
+    private JFrame window_;
     private Graphics2D g_;
-
-    private String winTitle_;
-    private int winWidth_;
-    private int winHeight_;
 
     private StateInterface state_;
 
     public PCGame(String winTitle, int winWidth, int winHeight){
-        winTitle_ = winTitle;
-        winWidth_ = winWidth;
-        winHeight_ = winHeight;
-        running_ = true;
+        window_ = new JFrame(winTitle);
+        window_.setSize(winWidth,winHeight);
+        window_.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window_.setIgnoreRepaint(true);
+        window_.setVisible(true);
 
-        getGraphics().init(winWidth, winHeight);
+        running_ = true;
 
         setStrategy();
     }
@@ -39,7 +39,7 @@ public class PCGame implements GameInterface{
         int veces = 100;
         do{
             try{
-                getGraphics().createBufferStrategy(2);
+                window_.createBufferStrategy(2);
                 break;
             }
             catch(Exception e){}
@@ -48,12 +48,12 @@ public class PCGame implements GameInterface{
         if(veces == 0){
             System.err.println("El doble buffer no pudo cargarse");
         }
-        strategy_ = getGraphics().getBufferStrategy();
+        strategy_ = window_.getBufferStrategy();
     }
 
     public PCGraphics getGraphics(){
         if(graphicsInstance_ == null)
-            graphicsInstance_ = new PCGraphics(winTitle_);
+            graphicsInstance_ = new PCGraphics(window_);
         return graphicsInstance_;
     }
 
