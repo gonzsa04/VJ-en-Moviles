@@ -63,6 +63,7 @@ public class PCGame implements GameInterface{
         long lastFrameTime = System.nanoTime();
 
         while (running_) { // haremos bucles de renderizado y logica. SEPARAR METODOS DE RENDER Y UPDATE EN OTRA CLASE, no todo dentro de la clase que hereda de JFrame
+            getGraphics().scaleCanvas();
 
             //--------------------------------------------UPDATE-------------------------------------------------------
             long currentTime = System.nanoTime();
@@ -76,7 +77,6 @@ public class PCGame implements GameInterface{
                 do {
                     g_ = Graphics2D.class.cast(strategy_.getDrawGraphics());
                     getGraphics().setGraphics(g_); // en vez de pedirselo a la ventana, pedimos el buffer de dibujado a la strategy (donde puedo pintar)
-                    getGraphics().clear(0xFF0000FF);
                     try {
                         state_.render();
                     }

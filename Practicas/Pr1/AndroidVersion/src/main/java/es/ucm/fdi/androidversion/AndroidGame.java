@@ -51,6 +51,7 @@ public class AndroidGame implements GameInterface, Runnable{
         while(running_){
             startFrame();   // lock
             getGraphics().setCanvas(canvas_);
+            getGraphics().scaleCanvas();
             //--------------------------------------------UPDATE-------------------------------------------------------
             long currentTime = System.nanoTime();
             long nanoElapsedTime = currentTime - lastFrameTime;
@@ -59,7 +60,6 @@ public class AndroidGame implements GameInterface, Runnable{
             state_.update(elapsedTime);
 
             //--------------------------------------------RENDER-------------------------------------------------------
-            getGraphics().clear(0xFF0000FF);
             state_.render();
 
             endFrame();     // release

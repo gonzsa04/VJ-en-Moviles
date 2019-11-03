@@ -5,10 +5,13 @@ import es.ucm.fdi.interfaces.GameInterface;
 public class Ball extends GameObject {
     private float vel_;
 
-    public Ball(GameInterface game){ super(game); }
+    public Ball(GameInterface game){
+        super(game);
+        init();
+    }
 
     public void init(){
-        super.init();
+        setActive(true);
         vel_ = 0;
     }
 
@@ -17,7 +20,7 @@ public class Ball extends GameObject {
     }
 
     public void update(double deltaTime){
-        float maxX = game_.getGraphics().getHeight() - scale_.y;
+        float maxX = game_.getGraphics().getLogicHeight() - scale_.y;
 
         position_.y += vel_ * deltaTime;
         while(position_.y < 0 || position_.y > maxX) {

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -15,6 +16,7 @@ import java.io.InputStream;
 import es.ucm.fdi.interfaces.AbstractGraphics;
 import es.ucm.fdi.interfaces.GraphicsInterface;
 import es.ucm.fdi.interfaces.ImageInterface;
+import es.ucm.fdi.utils.Vector2;
 
 public class AndroidGraphics extends AbstractGraphics implements GraphicsInterface {
 
@@ -22,6 +24,7 @@ public class AndroidGraphics extends AbstractGraphics implements GraphicsInterfa
     private Canvas canvas_;
 
     public AndroidGraphics(Context context){
+
         context_ = context;
     }
 
@@ -48,25 +51,34 @@ public class AndroidGraphics extends AbstractGraphics implements GraphicsInterfa
     }
 
     public void clear(int color){
-        canvas_.drawColor(color);
+        canvas_.drawColor(Color.BLACK);
+        Paint paint = new Paint();
+        paint.setColor(color);
+        canvas_.drawRect(offsetX_, offsetY_, logicWidth_ + offsetX_, logicHeight_ + offsetY_, paint);
     }
 
     public void drawImage(ImageInterface image, int srcLeft, int srcTop, int srcRight, int srcBottom,
                           float dstLeft, float dstTop, float dstRight, float dstBottom, int alpha){
 
-        Rect src = new Rect(srcLeft, srcTop, srcRight, srcBottom);
-        RectF dst = new RectF(dstLeft, dstTop, dstRight + dstLeft, dstBottom + dstTop);
+        Vector2 position = transalteImage(dstLeft, dstTop);
+        Vector2 scale = scaleImage(dstRight, dstBottom);
+
+        Rect src = new Rect(srcLeft, srcTop, srcRight + srcLeft, srcBottom + srcTop);
+        RectF dst = new RectF(position.x, position.y, scale.x + position.x, scale.y + position.y);
+
         Paint paint = new Paint(); paint.setAlpha(alpha);
         if(image != null)
             canvas_.drawBitmap(AndroidImage.class.cast(image).getBitmap(), src, dst, paint);
     }
 
-    public void setCanvas(Canvas canvas){canvas_ = canvas;}
-
-    public void setCanvasSize(int x, int y){
-        //reescalado del espacio de juego
+    public void scaleCanvas(){
+        super.scaleCanvas(getWindowWidth(), getWindowHeight());
     }
 
-    public int getWidth(){return canvas_.getWidth();}
-    public int getHeight(){return canvas_.getHeight();}
+    public void setCanvas(Canvas canvas){canvas_ = canvas;}
+
+    public int getWindowWidth(){return canvas_.getWidth();}
+    public int getWindowHeight(){return canvas_.getHeight();}
+    public int getLogicWidth(){return logicWidth_;}
+    public int getLogicHeight(){return logicHeight_;}
 }

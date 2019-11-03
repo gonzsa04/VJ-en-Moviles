@@ -5,7 +5,8 @@ public interface GraphicsInterface {
     public void clear(int color);
     public void drawImage(ImageInterface image, int srcLeft, int srcTop, int srcRight, int srcBottom,
                           float dstLeft, float dstTop, float dstRight, float dstBottom, int alpha);
-    public void setCanvasSize(int x, int y);
-    public int getWidth();
-    public int getHeight();
+    public int getWindowWidth();
+    public int getWindowHeight();
+    public int getLogicWidth();
+    public int getLogicHeight();
 }

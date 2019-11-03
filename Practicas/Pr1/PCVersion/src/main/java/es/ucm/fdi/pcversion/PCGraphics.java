@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import es.ucm.fdi.interfaces.AbstractGraphics;
 import es.ucm.fdi.interfaces.GraphicsInterface;
 import es.ucm.fdi.interfaces.ImageInterface;
+import es.ucm.fdi.utils.Vector2;
 
 public class PCGraphics extends AbstractGraphics implements GraphicsInterface {
     private Graphics2D g_;
@@ -31,23 +32,36 @@ public class PCGraphics extends AbstractGraphics implements GraphicsInterface {
     }
 
     public void clear(int color){
+        g_.setColor(Color.BLACK);
+        g_.fillRect(0,0,getWindowWidth(),getWindowHeight());
         g_.setColor(new Color(color));
-        g_.fillRect(0,0,getWidth(),getHeight());
+        g_.fillRect(offsetX_,offsetY_,getLogicWidth(),getLogicHeight());
     }
 
     public void drawImage(ImageInterface image, int srcLeft, int srcTop, int srcRight, int srcBottom,
                           float dstLeft, float dstTop, float dstRight, float dstBottom, int alpha){
+
+        Vector2 position = transalteImage(dstLeft, dstTop);
+        Vector2 scale = scaleImage(dstRight, dstBottom);
+
+        float a = (float)alpha/255.0f;
+        Composite comp = AlphaComposite.getInstance(AlphaComposite.SRC_OVER , a);
+        g_.setComposite(comp);
+
         if(image != null)
-            g_.drawImage(PCImage.class.cast(image).getImage(), (int)dstLeft, (int)dstTop, (int)(dstRight + dstLeft),
-                    (int)(dstBottom + dstTop), srcLeft, srcTop, srcRight, srcBottom, null);
+            g_.drawImage(PCImage.class.cast(image).getImage(), (int)position.x, (int)position.y, (int)scale.x + (int)position.x,
+                    (int)scale.y + (int)position.y, srcLeft, srcTop, srcRight + srcLeft, srcBottom + srcTop, null);
     }
 
     public void setGraphics(Graphics2D g){g_ = g;}
 
-    public void setCanvasSize(int x, int y){
-        //reescalado del espacio de juego
+    public void scaleCanvas(){
+        super.scaleCanvas(getWindowWidth(), getWindowHeight());
     }
 
-    public int getWidth(){return window_.getWidth();}
-    public int getHeight(){return window_.getHeight();}
+
+    public int getWindowWidth(){return window_.getWidth();}
+    public int getWindowHeight(){return window_.getHeight();}
+    public int getLogicWidth(){return logicWidth_;}
+    public int getLogicHeight(){return logicHeight_;}
 }
