@@ -35,7 +35,7 @@ public class PCGraphics extends AbstractGraphics implements GraphicsInterface {
         g_.setColor(Color.BLACK);
         g_.fillRect(0,0,getWindowWidth(),getWindowHeight());
         g_.setColor(new Color(color));
-        g_.fillRect(offsetX_,offsetY_,getLogicWidth(),getLogicHeight());
+        g_.fillRect(offsetX_, offsetY_, logicWidth_, logicHeight_);
     }
 
     public void drawImage(ImageInterface image, int srcLeft, int srcTop, int srcRight, int srcBottom,
@@ -62,6 +62,6 @@ public class PCGraphics extends AbstractGraphics implements GraphicsInterface {
 
     public int getWindowWidth(){return window_.getWidth();}
     public int getWindowHeight(){return window_.getHeight();}
-    public int getLogicWidth(){return logicWidth_;}
-    public int getLogicHeight(){return logicHeight_;}
+    public int getDefaultWidth(){return DEFAULT_WIDTH_;}
+    public int getDefaultHeight(){return DEFAULT_HEIGHT_;}
 }

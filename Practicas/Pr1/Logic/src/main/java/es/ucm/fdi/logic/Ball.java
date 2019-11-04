@@ -1,5 +1,6 @@
 package es.ucm.fdi.logic;
 
+import es.ucm.fdi.interfaces.AbstractGraphics;
 import es.ucm.fdi.interfaces.GameInterface;
 
 public class Ball extends GameObject {
@@ -20,7 +21,7 @@ public class Ball extends GameObject {
     }
 
     public void update(double deltaTime){
-        float maxX = game_.getGraphics().getLogicHeight() - scale_.y;
+        float maxX = game_.getGraphics().getDefaultHeight() - scale_.y;
 
         position_.y += vel_ * deltaTime;
         while(position_.y < 0 || position_.y > maxX) {

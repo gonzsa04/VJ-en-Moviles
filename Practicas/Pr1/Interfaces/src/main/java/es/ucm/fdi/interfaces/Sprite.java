@@ -41,13 +41,13 @@ public class Sprite {
     }
 
     public void draw() {
-        g_.drawImage(image_, sLeft_, sTop_, sRight_, sBottom_, g_.getLogicWidth()/2 - WIDTH*scale_.x/2, g_.getLogicHeight()/2 - HEIGHT*scale_.y/2,
-                scale_.x * WIDTH, scale_.y * image_.getHeight(), alpha_);
+        g_.drawImage(image_, sLeft_, sTop_, sRight_, sBottom_, g_.getDefaultWidth()/2 - WIDTH*scale_.x/2, g_.getDefaultHeight()/2 - HEIGHT*scale_.y/2,
+                scale_.x * WIDTH, scale_.y * HEIGHT, alpha_);
     }
 
     public void draw(Vector2 position) {
         g_.drawImage(image_, sLeft_, sTop_, sRight_, sBottom_, position.x - scale_.x * WIDTH / 2,
-                position.y - scale_.x * HEIGHT / 2, scale_.x * WIDTH,
+                position.y - scale_.y * HEIGHT / 2, scale_.x * WIDTH,
                 scale_.y * HEIGHT, alpha_);
     }
 

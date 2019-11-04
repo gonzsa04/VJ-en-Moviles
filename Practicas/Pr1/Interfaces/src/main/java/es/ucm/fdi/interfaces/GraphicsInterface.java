@@ -7,6 +7,6 @@ public interface GraphicsInterface {
                           float dstLeft, float dstTop, float dstRight, float dstBottom, int alpha);
     public int getWindowWidth();
     public int getWindowHeight();
-    public int getLogicWidth();
-    public int getLogicHeight();
+    public int getDefaultWidth();
+    public int getDefaultHeight();
 }

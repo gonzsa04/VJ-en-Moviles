@@ -79,6 +79,6 @@ public class AndroidGraphics extends AbstractGraphics implements GraphicsInterfa
 
     public int getWindowWidth(){return canvas_.getWidth();}
     public int getWindowHeight(){return canvas_.getHeight();}
-    public int getLogicWidth(){return logicWidth_;}
-    public int getLogicHeight(){return logicHeight_;}
+    public int getDefaultWidth(){return DEFAULT_WIDTH_;}
+    public int getDefaultHeight(){return DEFAULT_HEIGHT_;}
 }

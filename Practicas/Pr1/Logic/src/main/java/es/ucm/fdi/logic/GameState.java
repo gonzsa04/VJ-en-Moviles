@@ -16,9 +16,9 @@ public class GameState implements StateInterface {
 
     public void init(){
         ball = new Ball(game_);
-        ball.setPosition(200.0f, 200.0f);
-        ball.setScale(0.5f, 0.5f);
-        ball.setVelocity(50);
+        ball.setScale(1.5f, 1.5f);
+        ball.setPosition(game_.getGraphics().getDefaultWidth()/2, 0.0f);
+        ball.setVelocity(500);
         ball.setSprite("Sprites/balls.png", 2, 10, 0, 255);
     }
 
