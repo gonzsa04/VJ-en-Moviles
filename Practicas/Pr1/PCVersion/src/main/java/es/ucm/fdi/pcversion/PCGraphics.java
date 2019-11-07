@@ -49,7 +49,7 @@ public class PCGraphics extends AbstractGraphics implements GraphicsInterface {
         g_.setComposite(comp);
 
         if(image != null)
-            g_.drawImage(PCImage.class.cast(image).getImage(), (int)position.x, (int)position.y, (int)scale.x + (int)position.x,
+            g_.drawImage(((PCImage)image).getImage(), (int)position.x, (int)position.y, (int)scale.x + (int)position.x,
                     (int)scale.y + (int)position.y, srcLeft, srcTop, srcRight + srcLeft, srcBottom + srcTop, null);
     }
 

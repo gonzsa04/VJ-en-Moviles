@@ -21,6 +21,7 @@ import es.ucm.fdi.utils.Vector2;
 public class AndroidGraphics extends AbstractGraphics implements GraphicsInterface {
 
     private Context context_;
+    private SurfaceView surfaceView_;
     private Canvas canvas_;
 
     public AndroidGraphics(Context context){
@@ -68,17 +69,23 @@ public class AndroidGraphics extends AbstractGraphics implements GraphicsInterfa
 
         Paint paint = new Paint(); paint.setAlpha(alpha);
         if(image != null)
-            canvas_.drawBitmap(AndroidImage.class.cast(image).getBitmap(), src, dst, paint);
+            canvas_.drawBitmap(((AndroidImage)image).getBitmap(), src, dst, paint);
     }
 
     public void scaleCanvas(){
         super.scaleCanvas(getWindowWidth(), getWindowHeight());
     }
 
-    public void setCanvas(Canvas canvas){canvas_ = canvas;}
+    public void startFrame(){
+        while(!surfaceView_.getHolder().getSurface().isValid());
+        canvas_ = surfaceView_.getHolder().lockCanvas();
+    }
+    public void endFrame(){ surfaceView_.getHolder().unlockCanvasAndPost(canvas_); }
 
-    public int getWindowWidth(){return canvas_.getWidth();}
-    public int getWindowHeight(){return canvas_.getHeight();}
+    public void setSurfaceView(SurfaceView surfaceView){surfaceView_ = surfaceView;}
+
+    public int getWindowWidth(){return surfaceView_.getWidth();}
+    public int getWindowHeight(){return surfaceView_.getHeight();}
     public int getDefaultWidth(){return DEFAULT_WIDTH_;}
     public int getDefaultHeight(){return DEFAULT_HEIGHT_;}
 }

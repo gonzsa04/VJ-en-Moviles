@@ -39,19 +39,15 @@ public class AndroidGame implements GameInterface, Runnable{
 
     public SurfaceView getSurfaceView(){return surfaceView_;}
 
-    private void startFrame(){
-        while(!surfaceView_.getHolder().getSurface().isValid());
-        canvas_ = surfaceView_.getHolder().lockCanvas();
-    }
-    private void endFrame(){ surfaceView_.getHolder().unlockCanvasAndPost(canvas_); }
-
     public void run(){
         long lastFrameTime = System.nanoTime();
 
+        getGraphics().setSurfaceView(surfaceView_);
+
+        while(getGraphics().getWindowWidth() == 0){}
+        getGraphics().scaleCanvas();
+
         while(running_){
-            startFrame();   // lock
-            getGraphics().setCanvas(canvas_);
-            getGraphics().scaleCanvas();
             //--------------------------------------------UPDATE-------------------------------------------------------
             long currentTime = System.nanoTime();
             long nanoElapsedTime = currentTime - lastFrameTime;
@@ -60,9 +56,9 @@ public class AndroidGame implements GameInterface, Runnable{
             state_.update(elapsedTime);
 
             //--------------------------------------------RENDER-------------------------------------------------------
+            getGraphics().startFrame(); //lock
             state_.render();
-
-            endFrame();     // release
+            getGraphics().endFrame();     // unlock
         }
     }
 

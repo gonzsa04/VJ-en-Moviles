@@ -75,16 +75,17 @@ public class PCGame implements GameInterface{
             //--------------------------------------------RENDER-------------------------------------------------------
             do {
                 do {
-                    g_ = Graphics2D.class.cast(strategy_.getDrawGraphics());
-                    getGraphics().setGraphics(g_); // en vez de pedirselo a la ventana, pedimos el buffer de dibujado a la strategy (donde puedo pintar)
                     try {
+                        g_ = (Graphics2D) strategy_.getDrawGraphics();
+                        getGraphics().setGraphics(g_); // en vez de pedirselo a la ventana, pedimos el buffer de dibujado a la strategy (donde puedo pintar)
                         state_.render();
                     }
                     // no hay catch(...) porque no hay que declarar TODAS las excepciones -> los errores de programacion como salirnos de un vector, etc. no hay que declararlas
                     // solo si peta al cargar cosas, etc., como en init() al cargar la imagen
                     // asi nos asegurmos de que esto se ejecute siempre -> libera la variable graphics de ventana, si no habra leaks!!
                     finally {
-                        g_.dispose();
+                        if(g_ != null)
+                            g_.dispose();
                     }
                 } while (strategy_.contentsRestored()); // idealmente este bucle solo se hara una vez, pero podria ser que entre medias perdiesemos el buffer (el. ALt+Tab), por lo que habria que repintarlo
 
