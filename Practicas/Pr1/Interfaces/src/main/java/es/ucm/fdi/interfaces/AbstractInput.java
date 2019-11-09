@@ -1,12 +1,17 @@
 package es.ucm.fdi.interfaces;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public abstract class AbstractInput implements InputInterface {
-    protected List<TouchEvent> eventList_;
+    protected ArrayList<TouchEvent> eventList_;
 
-    synchronized public List<TouchEvent> getTouchEvents(){
-        List<TouchEvent> aux = eventList_;
+    public AbstractInput(){
+        eventList_ = new ArrayList<TouchEvent>();
+    }
+
+    synchronized public ArrayList<TouchEvent> getTouchEvents(){
+        ArrayList<TouchEvent> aux = new ArrayList<TouchEvent>();
+        aux.addAll(eventList_);
         eventList_.clear();
         return aux;
     }

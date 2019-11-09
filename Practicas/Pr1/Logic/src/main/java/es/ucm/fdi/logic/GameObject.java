@@ -2,6 +2,7 @@ package es.ucm.fdi.logic;
 
 import es.ucm.fdi.interfaces.GameInterface;
 import es.ucm.fdi.interfaces.ImageInterface;
+import es.ucm.fdi.interfaces.InputInterface;
 import es.ucm.fdi.interfaces.Sprite;
 import es.ucm.fdi.utils.Vector2;
 
@@ -9,25 +10,37 @@ public abstract class GameObject {
     protected GameInterface game_;
     protected Vector2 position_;
     protected Vector2 scale_;
-    protected Sprite image_;
+    protected Sprite sprite_;
     protected boolean active_;
+    protected String tag_;
 
-    public GameObject(GameInterface game){
+    public GameObject(GameInterface game, String tag){
         game_ = game;
         position_ = new Vector2(0.0f, 0.0f);
         scale_ = new Vector2(1.0f, 1.0f);
+        tag_ = tag;
+    }
+
+    public void init(){
+        setActive(true);
     }
 
     public abstract void render();
 
     public abstract void update(double deltaTime);
 
-    public void setSprite(String name){
-        image_ = new Sprite(game_.getGraphics(), name, scale_);
+    public abstract void handleEvent(InputInterface.TouchEvent event);
+
+    public Sprite loadSprite(String name){
+        return new Sprite(game_.getGraphics(), name, scale_);
     }
 
-    public void setSprite(String name, int rows, int cols, int frame, int alpha){
-        image_ = new Sprite(game_.getGraphics(), name, scale_, rows, cols, frame, alpha);
+    public Sprite loadSprite(String name, int rows, int cols, int frame, int alpha){
+        return new Sprite(game_.getGraphics(), name, scale_, rows, cols, frame, alpha);
+    }
+
+    public void setSprite(Sprite sprite){
+        sprite_ = sprite;
     }
 
     public void setPosition(float x, float y){
@@ -42,7 +55,7 @@ public abstract class GameObject {
     public void setScale(float x, float y){
         scale_.x = x;
         scale_.y = y;
-        if(image_ != null) image_.setScale(scale_);
+        if(sprite_ != null) sprite_.setScale(scale_);
     }
 
     public Vector2 getScale(){

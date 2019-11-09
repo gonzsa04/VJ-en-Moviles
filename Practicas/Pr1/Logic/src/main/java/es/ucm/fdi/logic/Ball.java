@@ -1,23 +1,38 @@
 package es.ucm.fdi.logic;
 
+import java.awt.Color;
+
 import es.ucm.fdi.interfaces.AbstractGraphics;
 import es.ucm.fdi.interfaces.GameInterface;
+import es.ucm.fdi.interfaces.InputInterface;
+import es.ucm.fdi.interfaces.Sprite;
+
+enum ColorType { WHITE, BLACK }
 
 public class Ball extends GameObject {
     private float vel_;
+    private Sprite spriteAux_;
+    private ColorType type;
 
-    public Ball(GameInterface game){
-        super(game);
+    public Ball(GameInterface game, String tag){
+        super(game, tag);
         init();
     }
 
     public void init(){
-        setActive(true);
+        super.init();
         vel_ = 0;
+        setScale(1.5f, 1.5f);
+        setPosition(game_.getGraphics().getDefaultWidth()/2, 0.0f);
+        setVelocity(500);
+        sprite_ = loadSprite("Sprites/balls.png", 2, 10, 0, 255);
+        spriteAux_ = loadSprite("Sprites/balls.png", 2, 10, 10, 255);
+        type = ColorType.WHITE;
     }
 
     public void render(){
-        image_.draw(position_);
+        if(type == ColorType.WHITE) sprite_.draw(position_);
+        else spriteAux_.draw(position_);
     }
 
     public void update(double deltaTime){
@@ -35,6 +50,13 @@ public class Ball extends GameObject {
                 vel_ *= -1;
             }
         } // while
+    }
+
+    public void handleEvent(InputInterface.TouchEvent event){
+        if(event.getEventType() == InputInterface.EventType.Pressed){
+            if(type == ColorType.WHITE) type = ColorType.BLACK;
+            else type = ColorType.WHITE;
+        }
     }
 
     public void setVelocity(float vel){

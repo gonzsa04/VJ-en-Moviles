@@ -2,13 +2,12 @@ package es.ucm.fdi.androidversion;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.util.Log;
 import android.view.SurfaceView;
 
 import es.ucm.fdi.interfaces.GameInterface;
-import es.ucm.fdi.interfaces.ImageInterface;
-import es.ucm.fdi.interfaces.Sprite;
+import es.ucm.fdi.interfaces.InputInterface;
 import es.ucm.fdi.interfaces.StateInterface;
-import es.ucm.fdi.utils.Vector2;
 
 public class AndroidGame implements GameInterface, Runnable{
     private AndroidGraphics graphicsInstance_ = null;
@@ -35,7 +34,13 @@ public class AndroidGame implements GameInterface, Runnable{
             graphicsInstance_ = new AndroidGraphics(context_);
         return graphicsInstance_;
     }
-    public AndroidInput getInput(){return null;}
+    public AndroidInput getInput(){
+        if(inputInstance_ == null) {
+            inputInstance_ = new AndroidInput();
+            surfaceView_.setOnTouchListener(inputInstance_);
+        }
+        return inputInstance_;
+    }
 
     public SurfaceView getSurfaceView(){return surfaceView_;}
 
@@ -48,6 +53,10 @@ public class AndroidGame implements GameInterface, Runnable{
         getGraphics().scaleCanvas();
 
         while(running_){
+
+            //--------------------------------------------INPUT-------------------------------------------------------
+            state_.handleInput();
+
             //--------------------------------------------UPDATE-------------------------------------------------------
             long currentTime = System.nanoTime();
             long nanoElapsedTime = currentTime - lastFrameTime;

@@ -1,7 +1,7 @@
 package es.ucm.fdi.pcversion;
 
 import es.ucm.fdi.interfaces.GameInterface;
-import es.ucm.fdi.interfaces.ImageInterface;
+import es.ucm.fdi.interfaces.InputInterface;
 import es.ucm.fdi.interfaces.StateInterface;
 
 import java.awt.Graphics2D;
@@ -57,13 +57,23 @@ public class PCGame implements GameInterface{
         return graphicsInstance_;
     }
 
-    public PCInput getInput(){return null;}
+    public PCInput getInput(){
+        if(inputInstance_ == null) {
+            inputInstance_ = new PCInput();
+            window_.addMouseListener(inputInstance_);
+            window_.addMouseMotionListener(inputInstance_);
+        }
+        return inputInstance_;
+    }
 
     public void run() {
         long lastFrameTime = System.nanoTime();
 
         while (running_) { // haremos bucles de renderizado y logica. SEPARAR METODOS DE RENDER Y UPDATE EN OTRA CLASE, no todo dentro de la clase que hereda de JFrame
             getGraphics().scaleCanvas();
+
+            //--------------------------------------------INPUT-------------------------------------------------------
+            state_.handleInput();
 
             //--------------------------------------------UPDATE-------------------------------------------------------
             long currentTime = System.nanoTime();
