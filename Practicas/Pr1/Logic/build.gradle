@@ -3,7 +3,7 @@ apply plugin: 'java-library'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     compile project(path: ':Utils')
-    compile project(path: ':Interfaces')
+    compile project(path: ':Engine')
 }
 
 sourceCompatibility = "7"
