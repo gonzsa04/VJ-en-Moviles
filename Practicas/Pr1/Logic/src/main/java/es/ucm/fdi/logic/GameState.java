@@ -5,13 +5,20 @@ import java.util.ArrayList;
 import es.ucm.fdi.interfaces.GameInterface;
 import es.ucm.fdi.interfaces.InputInterface;
 import es.ucm.fdi.interfaces.StateInterface;
-import es.ucm.fdi.utils.Vector2;
+
+enum ColorType { WHITE, BLACK }
 
 public class GameState implements StateInterface {
-    private Ball ball;
-    private ArrayList<GameObject> gameObjects_;
     private GameInterface game_;
     private int backgroundColor;
+
+    private Player player_;
+
+    private ArrayList<Ball> balls_;
+
+    private int score_;
+    private int scoreToNextLevel_;
+    private float gameVel_;
 
     public GameState(GameInterface game){
         game_ = game;
@@ -19,31 +26,56 @@ public class GameState implements StateInterface {
     }
 
     public void init(){
-        gameObjects_ = new ArrayList<GameObject>();
-        ball = new Ball(game_, "ball");
-        gameObjects_.add(ball);
+        score_ = 0;
+        scoreToNextLevel_ = 10;
+        gameVel_ = 1.0f;
+
+        int numBalls = 5;
+        int initialYPosition = 100;
+        int spaceBetwBalls = 300;
+
+        player_ = new Player(game_, "player");
+
+        balls_ = new ArrayList<Ball>();
+        for(int i = 0; i < numBalls; i++){
+            balls_.add(new Ball(game_, "ball"));
+            balls_.get(i).setInitialPosition(game_.getGraphics().getDefaultWidth()/2, initialYPosition);
+            balls_.get(i).setPosition(game_.getGraphics().getDefaultWidth()/2, initialYPosition - i * spaceBetwBalls);
+        }
     }
 
     public void render(){
         game_.getGraphics().clear(backgroundColor);
-        for(int i = 0; i < gameObjects_.size(); i++){
-            gameObjects_.get(i).render();
+
+        player_.render();
+
+        for(int i = 0; i < balls_.size(); i++){
+            balls_.get(i).render();
         }
     }
 
     public void update(double deltaTime){
-        for(int i = 0; i < gameObjects_.size(); i++){
-            gameObjects_.get(i).update(deltaTime);
+        if(score_ >= scoreToNextLevel_){
+            scoreToNextLevel_ += 5;
+            gameVel_ += 0.001f;
+        }
+
+        for(int i = 0; i < balls_.size(); i++) {
+            balls_.get(i).setVelocity(balls_.get(i).getVelocity() * gameVel_);
+            balls_.get(i).update(deltaTime);
         }
     }
 
     public void handleInput(){
         ArrayList<InputInterface.TouchEvent> events = game_.getInput().getTouchEvents();
+
         for(int i = 0; i < events.size(); i++){
-            for(int j = 0; j < gameObjects_.size(); j++){
-                gameObjects_.get(j).handleEvent(events.get(i));
-            }
+            player_.handleEvent(events.get(i));
         }
     }
 
+    private boolean collision(GameObject a, GameObject b){
+
+        return false;
+    }
 }
