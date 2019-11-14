@@ -45,6 +45,13 @@ public class Sprite {
                 scale_.x * WIDTH, scale_.y * HEIGHT, alpha_);
     }
 
+    public void draw(float x, float y) {
+        g_.drawImage(image_, sLeft_, sTop_, sRight_, sBottom_, x - scale_.x * WIDTH / 2,
+                y - scale_.y * HEIGHT / 2, scale_.x * WIDTH,
+                scale_.y * HEIGHT, alpha_);
+    }
+
+
     public void draw(Vector2 position) {
         g_.drawImage(image_, sLeft_, sTop_, sRight_, sBottom_, position.x - scale_.x * WIDTH / 2,
                 position.y - scale_.y * HEIGHT / 2, scale_.x * WIDTH,
@@ -54,4 +61,15 @@ public class Sprite {
     public void setScale(Vector2 scale) {
         scale_ = scale;
     }
+
+    public void setWidth(int width) {
+        WIDTH = width;
+
+    }
+    public void setHeight(int height) {
+        HEIGHT = height;
+    }
+
+    public int getWidth(){ return WIDTH; }
+    public int getHeight(){ return HEIGHT; }
 }

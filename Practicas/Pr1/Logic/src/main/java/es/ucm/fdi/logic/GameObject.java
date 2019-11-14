@@ -62,6 +62,13 @@ public abstract class GameObject {
         return scale_;
     }
 
+    public float getWidth(){
+        return scale_.x*sprite_.getWidth();
+    }
+    public float getHeight(){
+        return scale_.y*sprite_.getHeight();
+    }
+
     public void setActive(boolean active){
         active_ = active;
     }

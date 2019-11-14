@@ -5,34 +5,30 @@ import java.util.Random;
 import es.ucm.fdi.interfaces.GameInterface;
 import es.ucm.fdi.interfaces.InputInterface;
 import es.ucm.fdi.interfaces.Sprite;
-import es.ucm.fdi.utils.Vector2;
 
 public class Ball extends GameObject {
     private float vel_;
-    private Vector2 iniPos_;
     private Sprite spriteAux_;
     private ColorType type_;
 
     public Ball(GameInterface game, String tag){
         super(game, tag);
-        iniPos_ = new Vector2(0.0f, 0.0f);
         init();
     }
 
     public void init(){
         super.init();
-        setInitialPosition(game_.getGraphics().getDefaultWidth()/2, 0.0f);
         setPosition(game_.getGraphics().getDefaultWidth()/2, 0.0f);
         setVelocity(500);
         sprite_ = loadSprite("Sprites/balls.png", 2, 10, 0, 255);
         spriteAux_ = loadSprite("Sprites/balls.png", 2, 10, 10, 255);
-        configure();
+        reboot();
     }
 
-    private void configure(){
-        position_ = iniPos_;
+    public void reboot(){
         int newColor = new Random().nextInt(2);
         type_ = ColorType.values()[newColor];
+        setActive(true);
     }
 
     public void render(){
@@ -41,13 +37,7 @@ public class Ball extends GameObject {
     }
 
     public void update(double deltaTime){
-        float maxX = game_.getGraphics().getDefaultHeight() - scale_.y;
-
         position_.y += vel_ * deltaTime;
-
-        if (position_.y > maxX) {
-            configure();
-        }
     }
 
     public void handleEvent(InputInterface.TouchEvent event){
@@ -57,20 +47,15 @@ public class Ball extends GameObject {
         }
     }
 
-    public void setInitialPosition(float x, float y){
-        iniPos_.x = x;
-        iniPos_.y = y;
-    }
-
-    public Vector2 getInitialPosition(){
-        return iniPos_;
-    }
-
     public void setVelocity(float vel){
         vel_=vel;
     }
 
     public float getVelocity(){
         return vel_;
+    }
+
+    public ColorType getColorType() {
+        return type_;
     }
 }
