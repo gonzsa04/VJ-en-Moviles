@@ -9,6 +9,7 @@ public class Sprite {
     private int sRight_;
     private int sBottom_;
     private int alpha_;
+    private int totalCols_, totalRows_;
     private int WIDTH, HEIGHT;
     private Vector2 scale_;
     private GraphicsInterface g_;
@@ -33,8 +34,9 @@ public class Sprite {
         image_ = g_.newImage(name);
         WIDTH = image_.getWidth()/totalCols;
         HEIGHT = image_.getHeight()/totalRows;
-        sLeft_ = (frame%totalCols)*WIDTH;
-        sTop_ = (frame/totalCols)*HEIGHT;
+        totalRows_ = totalRows;
+        totalCols_ = totalCols;
+        setFrame(frame);
         sRight_ = WIDTH;
         sBottom_ = HEIGHT;
         alpha_ = alpha;
@@ -58,13 +60,17 @@ public class Sprite {
                 scale_.y * HEIGHT, alpha_);
     }
 
+    public void setFrame(int frame){
+        sLeft_ = (frame%totalCols_)*WIDTH;
+        sTop_ = (frame/totalCols_)*HEIGHT;
+    }
+
     public void setScale(Vector2 scale) {
         scale_ = scale;
     }
 
     public void setWidth(int width) {
         WIDTH = width;
-
     }
     public void setHeight(int height) {
         HEIGHT = height;

@@ -32,10 +32,8 @@ public class PCGraphics extends AbstractGraphics implements GraphicsInterface {
     }
 
     public void clear(int color){
-        g_.setColor(Color.BLACK);
-        g_.fillRect(0,0,getWindowWidth(),getWindowHeight());
         g_.setColor(new Color(color));
-        g_.fillRect(offsetX_, offsetY_, logicWidth_, logicHeight_);
+        g_.fillRect(0,0,getWindowWidth(),getWindowHeight());
     }
 
     public void drawImage(ImageInterface image, int srcLeft, int srcTop, int srcRight, int srcBottom,

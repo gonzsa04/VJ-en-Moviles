@@ -1,18 +1,22 @@
 package es.ucm.fdi.logic;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import es.ucm.fdi.interfaces.GameInterface;
 import es.ucm.fdi.interfaces.InputInterface;
 import es.ucm.fdi.interfaces.StateInterface;
+import es.ucm.fdi.utils.Vector2;
 
 enum ColorType { WHITE, BLACK }
 
 public class GameState implements StateInterface {
     private GameInterface game_;
     private int backgroundColor_;
+    private int[] possibleColors_;
 
     private Background background_;
+    private Text scoreText_;
 
     private Player player_;
 
@@ -25,7 +29,6 @@ public class GameState implements StateInterface {
 
     public GameState(GameInterface game){
         game_ = game;
-        backgroundColor_ = 0xFF00FFFF;
     }
 
     public void init(){
@@ -36,8 +39,15 @@ public class GameState implements StateInterface {
         int numBalls = 4;
         spaceBetwBalls_ = 400;
 
+        possibleColors_ = new int[]{0x41a85f, 0x00a885, 0x3d8eb9, 0x2969b0, 0x553982, 0x28324e, 0xf37934, 0xd14b41, 0x75706b};
+        backgroundColor_ = new Random().nextInt(possibleColors_.length);
+
         background_ = new Background(game_, "arrows");
-        background_.setBackground(0);
+        background_.setBackground(backgroundColor_);
+
+        scoreText_ = new Text(game_, "scoreText");
+        scoreText_.setPosition(game_.getGraphics().getDefaultWidth() - 100, 150);
+        scoreText_.setText(Integer.toString(score_));
 
         balls_ = new ArrayList<Ball>();
         for(int i = 0; i < numBalls; i++){
@@ -49,9 +59,10 @@ public class GameState implements StateInterface {
     }
 
     public void render(){
-        game_.getGraphics().clear(backgroundColor_);
+        game_.getGraphics().clear(possibleColors_[backgroundColor_]);
 
         background_.render();
+        scoreText_.render();
 
         for(int i = 0; i < balls_.size(); i++){
             if (balls_.get(i).isActive()) {
@@ -102,13 +113,14 @@ public class GameState implements StateInterface {
         for(int i = 0; i < balls_.size(); i++){
             Ball ball = balls_.get(i);
             if(collision(balls_.get(i), player_)){
-                //if(balls_.get(i).getColorType() == player_.getColorType()){
+                if(balls_.get(i).getColorType() == player_.getColorType()){
                     score_++;
+                    scoreText_.setText(Integer.toString(score_));
                     ball.reboot();
                     if(i - 1 < 0) i = balls_.size();
                     ball.setPosition(ball.getPosition().x, balls_.get(i-1).getPosition().y - spaceBetwBalls_);
-                //}
-                //else gameOver();
+                }
+                else gameOver();
                 break;
             }
         }

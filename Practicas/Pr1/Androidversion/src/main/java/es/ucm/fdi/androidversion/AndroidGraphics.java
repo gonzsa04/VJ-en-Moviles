@@ -2,6 +2,7 @@ package es.ucm.fdi.androidversion;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -51,11 +52,14 @@ public class AndroidGraphics extends AbstractGraphics implements GraphicsInterfa
         return image;
     }
 
+    private int addAlphaChannel(int myColor, int alpha){
+        myColor = myColor & 0x00ffffff;
+        return (alpha << 24) | myColor;
+    }
+
     public void clear(int color){
-        canvas_.drawColor(Color.BLACK);
-        Paint paint = new Paint();
-        paint.setColor(color);
-        canvas_.drawRect(offsetX_, offsetY_, logicWidth_ + offsetX_, logicHeight_ + offsetY_, paint);
+        color = addAlphaChannel(color, 0xff);
+        canvas_.drawColor(color);
     }
 
     public void drawImage(ImageInterface image, int srcLeft, int srcTop, int srcRight, int srcBottom,
@@ -78,7 +82,7 @@ public class AndroidGraphics extends AbstractGraphics implements GraphicsInterfa
 
     public void startFrame(){
         while(!surfaceView_.getHolder().getSurface().isValid());
-        canvas_ = surfaceView_.getHolder().lockCanvas();
+        canvas_ = surfaceView_.getHolder().lockHardwareCanvas();
     }
     public void endFrame(){ surfaceView_.getHolder().unlockCanvasAndPost(canvas_); }
 
