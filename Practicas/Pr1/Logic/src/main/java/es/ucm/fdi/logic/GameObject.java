@@ -29,7 +29,7 @@ public abstract class GameObject {
 
     public abstract void update(double deltaTime);
 
-    public abstract void handleEvent(InputInterface.TouchEvent event);
+    public abstract boolean handleEvent(InputInterface.TouchEvent event);
 
     public Sprite loadSprite(String name){
         return new Sprite(game_.getGraphics(), name, scale_);

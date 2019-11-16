@@ -18,7 +18,7 @@ public class Text extends GameObject {
     public void init(){
         super.init();
         sprites_ = new ArrayList<Sprite>();
-        setText("");
+        setText(tag_);
     }
 
     public void render(){
@@ -29,133 +29,141 @@ public class Text extends GameObject {
 
     public void update(double deltaTime){}
 
-    public void handleEvent(InputInterface.TouchEvent event){}
+    public boolean handleEvent(InputInterface.TouchEvent event){
+        return false;
+    }
 
     private void textToSprite(){
         sprites_.clear();
         for(int i = text_.length() - 1; i >= 0; i--) {
             char ch = text_.charAt(i);
             ch = Character.toUpperCase(ch);
-            Sprite character = new Sprite(game_.getGraphics(), "Sprites/scoreFont.png", scale_,
+            sprite_ = new Sprite(game_.getGraphics(), "Sprites/scoreFont.png", scale_,
                     7, 15, 0, 255);
 
             switch (ch) {
                 case 'A':
-                    character.setFrame(0);
+                    sprite_.setFrame(0);
                     break;
                 case 'B':
-                    character.setFrame(1);
+                    sprite_.setFrame(1);
                     break;
                 case 'C':
-                    character.setFrame(2);
+                    sprite_.setFrame(2);
                     break;
                 case 'D':
-                    character.setFrame(3);
+                    sprite_.setFrame(3);
                     break;
                 case 'E':
-                    character.setFrame(4);
+                    sprite_.setFrame(4);
                     break;
                 case 'F':
-                    character.setFrame(5);
+                    sprite_.setFrame(5);
                     break;
                 case 'G':
-                    character.setFrame(6);
+                    sprite_.setFrame(6);
                     break;
                 case 'H':
-                    character.setFrame(7);
+                    sprite_.setFrame(7);
                     break;
                 case 'I':
-                    character.setFrame(8);
+                    sprite_.setFrame(8);
                     break;
                 case 'J':
-                    character.setFrame(9);
+                    sprite_.setFrame(9);
                     break;
                 case 'K':
-                    character.setFrame(10);
+                    sprite_.setFrame(10);
                     break;
                 case 'L':
-                    character.setFrame(11);
+                    sprite_.setFrame(11);
                     break;
                 case 'M':
-                    character.setFrame(12);
+                    sprite_.setFrame(12);
                     break;
                 case 'N':
-                    character.setFrame(13);
+                    sprite_.setFrame(13);
                     break;
                 case 'O':
-                    character.setFrame(14);
+                    sprite_.setFrame(14);
                     break;
                 case 'P':
-                    character.setFrame(15);
+                    sprite_.setFrame(15);
                     break;
                 case 'Q':
-                    character.setFrame(16);
+                    sprite_.setFrame(16);
                     break;
                 case 'R':
-                    character.setFrame(17);
+                    sprite_.setFrame(17);
                     break;
                 case 'S':
-                    character.setFrame(18);
+                    sprite_.setFrame(18);
                     break;
                 case 'T':
-                    character.setFrame(19);
+                    sprite_.setFrame(19);
                     break;
                 case 'U':
-                    character.setFrame(20);
+                    sprite_.setFrame(20);
                     break;
                 case 'V':
-                    character.setFrame(21);
+                    sprite_.setFrame(21);
                     break;
                 case 'W':
-                    character.setFrame(22);
+                    sprite_.setFrame(22);
                     break;
                 case 'X':
-                    character.setFrame(23);
+                    sprite_.setFrame(23);
                     break;
                 case 'Y':
-                    character.setFrame(24);
+                    sprite_.setFrame(24);
                     break;
                 case 'Z':
-                    character.setFrame(25);
+                    sprite_.setFrame(25);
                     break;
 
                 case '0':
-                    character.setFrame(52);
+                    sprite_.setFrame(52);
                     break;
                 case '1':
-                    character.setFrame(53);
+                    sprite_.setFrame(53);
                     break;
                 case '2':
-                    character.setFrame(54);
+                    sprite_.setFrame(54);
                     break;
                 case '3':
-                    character.setFrame(55);
+                    sprite_.setFrame(55);
                     break;
                 case '4':
-                    character.setFrame(56);
+                    sprite_.setFrame(56);
                     break;
                 case '5':
-                    character.setFrame(57);
+                    sprite_.setFrame(57);
                     break;
                 case '6':
-                    character.setFrame(58);
+                    sprite_.setFrame(58);
                     break;
                 case '7':
-                    character.setFrame(59);
+                    sprite_.setFrame(59);
                     break;
                 case '8':
-                    character.setFrame(60);
+                    sprite_.setFrame(60);
                     break;
                 case '9':
-                    character.setFrame(61);
+                    sprite_.setFrame(61);
                     break;
             }
-            sprites_.add(character);
+            sprites_.add(sprite_);
         }
     }
 
     public void setText(String text){
         text_ = text;
         textToSprite();
+    }
+
+
+    public float getWidth(){
+        float kk =  scale_.x*((sprite_.getWidth()*(sprites_.size() - 1)) + sprite_.getWidth()/2);
+        return kk;
     }
 }

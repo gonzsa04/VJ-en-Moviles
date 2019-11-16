@@ -21,8 +21,8 @@ public class Background extends GameObject {
 
     public void init(){
         super.init();
-        sprite_ = loadSprite("Sprites/arrowsBackground.png", 1, 1, 0, 255);
-        sprite2_ = loadSprite("Sprites/arrowsBackground.png", 1, 1, 0, 255);
+        sprite_ = loadSprite("Sprites/arrowsBackground.png", 1, 1, 0, 200);
+        sprite2_ = loadSprite("Sprites/arrowsBackground.png", 1, 1, 0, 200);
 
         arrowsIniposY = Math.round(-getHeight()/2 - (getHeight()-game_.getGraphics().getDefaultHeight()));
         sprite1Y_ = arrowsIniposY;
@@ -50,7 +50,8 @@ public class Background extends GameObject {
         }
     }
 
-    public void handleEvent(InputInterface.TouchEvent event){
+    public boolean handleEvent(InputInterface.TouchEvent event){
+        return false;
     }
 
     public void setBackground(int numOfColor){

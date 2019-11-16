@@ -65,6 +65,10 @@ public class Sprite {
         sTop_ = (frame/totalCols_)*HEIGHT;
     }
 
+    public void setAlpha(int alpha){
+        alpha_ = alpha;
+    }
+
     public void setScale(Vector2 scale) {
         scale_ = scale;
     }

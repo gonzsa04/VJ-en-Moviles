@@ -28,11 +28,13 @@ public class Player extends GameObject {
 
     public void update(double deltaTime){}
 
-    public void handleEvent(InputInterface.TouchEvent event){
+    public boolean handleEvent(InputInterface.TouchEvent event){
         if(event.getEventType() == InputInterface.EventType.Pressed){
             if(type_ == ColorType.WHITE) type_ = ColorType.BLACK;
             else type_ = ColorType.WHITE;
+            return true;
         }
+        return false;
     }
 
     public ColorType getColorType() {

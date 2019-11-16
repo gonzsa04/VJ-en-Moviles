@@ -40,11 +40,8 @@ public class Ball extends GameObject {
         position_.y += vel_ * deltaTime;
     }
 
-    public void handleEvent(InputInterface.TouchEvent event){
-        if(event.getEventType() == InputInterface.EventType.Pressed){
-            if(type_ == ColorType.WHITE) type_ = ColorType.BLACK;
-            else type_ = ColorType.WHITE;
-        }
+    public boolean handleEvent(InputInterface.TouchEvent event){
+        return false;
     }
 
     public void setVelocity(float vel){

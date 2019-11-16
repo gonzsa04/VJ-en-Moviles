@@ -6,7 +6,6 @@ import java.util.Random;
 import es.ucm.fdi.interfaces.GameInterface;
 import es.ucm.fdi.interfaces.InputInterface;
 import es.ucm.fdi.interfaces.StateInterface;
-import es.ucm.fdi.utils.Vector2;
 
 enum ColorType { WHITE, BLACK }
 
@@ -76,7 +75,7 @@ public class GameState implements StateInterface {
     public void update(double deltaTime){
         if(score_ >= scoreToNextLevel_){
             scoreToNextLevel_ += 5;
-            gameVel_ += 0.001f;
+            gameVel_ += 0.01f;
             for(int i = 0; i < balls_.size(); i++) {
                 balls_.get(i).setVelocity(balls_.get(i).getVelocity() * gameVel_);
             }
@@ -97,8 +96,10 @@ public class GameState implements StateInterface {
     public void handleInput(){
         ArrayList<InputInterface.TouchEvent> events = game_.getInput().getTouchEvents();
 
-        for(int i = 0; i < events.size(); i++){
-            player_.handleEvent(events.get(i));
+        if(player_.isActive()) {
+            for (int i = 0; i < events.size(); i++) {
+                player_.handleEvent(events.get(i));
+            }
         }
     }
 
@@ -112,7 +113,7 @@ public class GameState implements StateInterface {
     private void playerBallsCollision(){
         for(int i = 0; i < balls_.size(); i++){
             Ball ball = balls_.get(i);
-            if(collision(balls_.get(i), player_)){
+            if(collision(balls_.get(i), player_) && player_.isActive() && balls_.get(i).isActive()){
                 if(balls_.get(i).getColorType() == player_.getColorType()){
                     score_++;
                     scoreText_.setText(Integer.toString(score_));
@@ -127,10 +128,11 @@ public class GameState implements StateInterface {
     }
 
     private void gameOver(){
-        for(int i = 0; i < balls_.size(); i++){
-            balls_.get(i).setActive(false);
-        }
-        score_ = 0;
-        player_.setActive(false);
+        GameOverState gOState = new GameOverState(game_);
+        gOState.init();
+        gOState.setScoreText(score_);
+        gOState.setBackground(background_);
+        gOState.setBackgroundColor(possibleColors_[backgroundColor_]);
+        game_.setState(gOState);
     }
 }
