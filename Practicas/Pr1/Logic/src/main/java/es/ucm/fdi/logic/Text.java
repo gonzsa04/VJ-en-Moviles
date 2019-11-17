@@ -162,6 +162,7 @@ public class Text extends GameObject {
 
 
     public float getWidth(){
-        return (scale_.x*(sprite_.getFactorWidth()/2)) * (sprites_.size() - 1);
+        float kk = (scale_.x*(sprite_.getWidth()/2)) * (sprites_.size() - 1);
+        return (scale_.x*(sprite_.getWidth()/2)) * (sprites_.size() - 1);
     }
 }

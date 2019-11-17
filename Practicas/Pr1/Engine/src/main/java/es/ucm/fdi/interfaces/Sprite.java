@@ -87,7 +87,4 @@ public class Sprite {
 
     public int getWidth(){ return WIDTH; }
     public int getHeight(){ return HEIGHT; }
-
-    public float getFactorWidth(){return WIDTH * AbstractGraphics.factor_; }
-    public float getFactorHeight(){return HEIGHT * AbstractGraphics.factor_; }
 }
