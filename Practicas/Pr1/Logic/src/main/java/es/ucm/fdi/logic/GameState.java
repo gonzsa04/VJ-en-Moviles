@@ -171,8 +171,8 @@ public class GameState implements StateInterface {
     }
 
     private void gameOver(){
-        gameOverState_.reset();
         gameOverState_.setScoreText(score_);
+        gameOverState_.reset();
         game_.setState(gameOverState_);
     }
 }

@@ -46,12 +46,10 @@ public class GameOverState implements StateInterface {
 
         scoreText_ = new Text(game_, "scoreText");
         scoreText_.init();
-        scoreText_.setPosition(game_.getGraphics().getDefaultWidth()/2, game_.getGraphics().getDefaultHeight()/2);
 
         pointsText_ = new Text(game_, "pointsText");
         pointsText_.init();
         pointsText_.setText("points");
-        pointsText_.setPosition(game_.getGraphics().getDefaultWidth()/2 + 155, game_.getGraphics().getDefaultHeight()/2 + pointsText_.getHeight());
 
         playAgain_ = new Sprite(game_.getGraphics(), "Sprites/playAgain.png", new Vector2(1.0f, 1.0f));
         gameOver_ = new Sprite(game_.getGraphics(), "Sprites/gameOver.png", new Vector2(1.0f, 1.0f));
@@ -62,6 +60,8 @@ public class GameOverState implements StateInterface {
     public void reset(){
         playAgainAlpha_ = 255;
         increaseAlpha_ = false;
+        scoreText_.setPosition(game_.getGraphics().getDefaultWidth()/2 + scoreText_.getWidth()/2, game_.getGraphics().getDefaultHeight()/2);
+        pointsText_.setPosition(game_.getGraphics().getDefaultWidth()/2 + pointsText_.getWidth()/2, game_.getGraphics().getDefaultHeight()/2 + pointsText_.getHeight());
     }
 
     public void render(){
