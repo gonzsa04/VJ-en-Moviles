@@ -65,12 +65,14 @@ public class AndroidGraphics extends AbstractGraphics implements GraphicsInterfa
     public void drawImage(ImageInterface image, int srcLeft, int srcTop, int srcRight, int srcBottom,
                           float dstLeft, float dstTop, float dstRight, float dstBottom, int alpha){
 
-        Vector2 position = transalteImage(dstLeft, dstTop);
+        Vector2 position = logicToPhysic(dstLeft, dstTop);
         Vector2 scale = scaleImage(dstRight, dstBottom);
 
         Rect src = new Rect(srcLeft, srcTop, srcRight + srcLeft, srcBottom + srcTop);
         RectF dst = new RectF(position.x, position.y, scale.x + position.x, scale.y + position.y);
 
+        if(alpha < 0) alpha = 0;
+        else if (alpha > 255) alpha = 255;
         Paint paint = new Paint(); paint.setAlpha(alpha);
         if(image != null)
             canvas_.drawBitmap(((AndroidImage)image).getBitmap(), src, dst, paint);

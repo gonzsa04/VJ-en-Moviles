@@ -3,12 +3,14 @@ package es.ucm.fdi.interfaces;
 import es.ucm.fdi.utils.Vector2;
 
 public abstract class AbstractGraphics implements GraphicsInterface {
-    private float PROPORTION_ = 9.0f/16.0f;
-    private float factor_;
-    protected int offsetX_, offsetY_, logicWidth_, logicHeight_;
-    protected int DEFAULT_WIDTH_ = 1080, DEFAULT_HEIGHT_ = 1920;
+    public static float PROPORTION_ = 9.0f/16.0f;
+    public static float factor_;
 
-    protected void scaleCanvas(int winWidth, int winHeight){
+    protected static int offsetX_, offsetY_;
+    protected static int logicWidth_, logicHeight_;
+    protected static int DEFAULT_WIDTH_ = 1080, DEFAULT_HEIGHT_ = 1920;
+
+    protected static void scaleCanvas(int winWidth, int winHeight){
         float myProportion = (float)winWidth/ (float)winHeight;
         if(PROPORTION_ > myProportion){
             logicWidth_ = winWidth;
@@ -24,16 +26,21 @@ public abstract class AbstractGraphics implements GraphicsInterface {
             offsetX_ = (winWidth/2) - (logicWidth_/2);
             factor_ = (float)logicWidth_/(float)DEFAULT_WIDTH_;
         }
-
     }
 
-    protected Vector2 transalteImage(float left, float top){
-        left = left * factor_ + offsetX_;
-        top = top * factor_ + offsetY_;
-        return new Vector2(left, top);
+    public static Vector2 physicToLogic(float x, float y){
+        x = (x - offsetX_)/factor_;
+        y = (y - offsetY_)/factor_;
+        return new Vector2(x, y);
     }
 
-    protected Vector2 scaleImage(float right, float bottom){
+    protected static Vector2 logicToPhysic(float x, float y){
+        x = x * factor_ + offsetX_;
+        y = y * factor_ + offsetY_;
+        return new Vector2(x, y);
+    }
+
+    protected static Vector2 scaleImage(float right, float bottom){
         right *= factor_;
         bottom *= factor_;
         return new Vector2(right, bottom);

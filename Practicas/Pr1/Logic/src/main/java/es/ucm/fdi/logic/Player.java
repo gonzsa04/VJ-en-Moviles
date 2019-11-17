@@ -10,7 +10,6 @@ public class Player extends GameObject {
 
     public Player(GameInterface game, String tag){
         super(game, tag);
-        init();
     }
 
     public void init(){

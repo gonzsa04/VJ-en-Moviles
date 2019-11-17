@@ -73,6 +73,11 @@ public class Sprite {
         scale_ = scale;
     }
 
+    public void setScale(float x, float y){
+        scale_.x = x;
+        scale_.y = y;
+    }
+
     public void setWidth(int width) {
         WIDTH = width;
     }
@@ -82,4 +87,7 @@ public class Sprite {
 
     public int getWidth(){ return WIDTH; }
     public int getHeight(){ return HEIGHT; }
+
+    public float getFactorWidth(){return WIDTH * AbstractGraphics.factor_; }
+    public float getFactorHeight(){return HEIGHT * AbstractGraphics.factor_; }
 }

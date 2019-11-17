@@ -7,13 +7,12 @@ import es.ucm.fdi.interfaces.InputInterface;
 import es.ucm.fdi.interfaces.Sprite;
 
 public class Ball extends GameObject {
-    private float vel_;
-    private Sprite spriteAux_;
-    private ColorType type_;
+    protected float velY_;
+    protected Sprite spriteAux_;
+    protected ColorType type_;
 
     public Ball(GameInterface game, String tag){
         super(game, tag);
-        init();
     }
 
     public void init(){
@@ -22,6 +21,7 @@ public class Ball extends GameObject {
         setVelocity(500);
         sprite_ = loadSprite("Sprites/balls.png", 2, 10, 0, 255);
         spriteAux_ = loadSprite("Sprites/balls.png", 2, 10, 10, 255);
+        type_ = ColorType.WHITE;
         reboot();
     }
 
@@ -37,7 +37,7 @@ public class Ball extends GameObject {
     }
 
     public void update(double deltaTime){
-        position_.y += vel_ * deltaTime;
+        position_.y += velY_ * deltaTime;
     }
 
     public boolean handleEvent(InputInterface.TouchEvent event){
@@ -45,11 +45,11 @@ public class Ball extends GameObject {
     }
 
     public void setVelocity(float vel){
-        vel_=vel;
+        velY_=vel;
     }
 
     public float getVelocity(){
-        return vel_;
+        return velY_;
     }
 
     public ColorType getColorType() {

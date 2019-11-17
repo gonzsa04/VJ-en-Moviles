@@ -12,7 +12,6 @@ public class Text extends GameObject {
 
     public Text(GameInterface game, String tag){
         super(game, tag);
-        init();
     }
 
     public void init(){

@@ -39,12 +39,17 @@ public class PCGraphics extends AbstractGraphics implements GraphicsInterface {
     public void drawImage(ImageInterface image, int srcLeft, int srcTop, int srcRight, int srcBottom,
                           float dstLeft, float dstTop, float dstRight, float dstBottom, int alpha){
 
-        Vector2 position = transalteImage(dstLeft, dstTop);
+        Vector2 position = logicToPhysic(dstLeft, dstTop);
         Vector2 scale = scaleImage(dstRight, dstBottom);
 
         float a = (float)alpha/255.0f;
-        Composite comp = AlphaComposite.getInstance(AlphaComposite.SRC_OVER , a);
-        g_.setComposite(comp);
+        try{
+            Composite comp = AlphaComposite.getInstance(AlphaComposite.SRC_OVER , a);
+            g_.setComposite(comp);
+        }
+        catch(Exception e){
+            System.err.println("Error setting alpha");
+        }
 
         if(image != null)
             g_.drawImage(((PCImage)image).getImage(), (int)position.x, (int)position.y, (int)scale.x + (int)position.x,

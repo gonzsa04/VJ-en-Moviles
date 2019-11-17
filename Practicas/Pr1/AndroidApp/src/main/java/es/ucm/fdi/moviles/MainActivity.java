@@ -2,10 +2,9 @@ package es.ucm.fdi.moviles;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.SurfaceView;
 
 import es.ucm.fdi.androidversion.AndroidGame;
-import es.ucm.fdi.logic.GameState;
+import es.ucm.fdi.logic.GameInitializer;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,9 +15,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         game = new AndroidGame(this);
-        GameState gameState = new GameState(game);
-        gameState.init();
-        game.setState(gameState);
+        GameInitializer gameInitializer = new GameInitializer(game);
+        gameInitializer.init();
         setContentView(game.getSurfaceView());
     }
 

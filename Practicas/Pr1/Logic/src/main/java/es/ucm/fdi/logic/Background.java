@@ -12,17 +12,22 @@ public class Background extends GameObject {
     private float sprite1Y_, sprite2Y_;
     private float arrowsIniposY;
 
+    private int colorIndex_;
+    private int[] possibleColors_;
+
     private float vel_;
 
     public Background(GameInterface game, String tag){
         super(game, tag);
-        init();
     }
 
     public void init(){
         super.init();
-        sprite_ = loadSprite("Sprites/arrowsBackground.png", 1, 1, 0, 200);
-        sprite2_ = loadSprite("Sprites/arrowsBackground.png", 1, 1, 0, 200);
+        sprite_ = loadSprite("Sprites/arrowsBackground.png", 1, 1, 0, 70);
+        sprite2_ = loadSprite("Sprites/arrowsBackground.png", 1, 1, 0, 70);
+
+        possibleColors_ = new int[]{0x41a85f, 0x00a885, 0x3d8eb9, 0x2969b0, 0x553982, 0x28324e, 0xf37934, 0xd14b41, 0x75706b};
+        setColor(0);
 
         arrowsIniposY = Math.round(-getHeight()/2 - (getHeight()-game_.getGraphics().getDefaultHeight()));
         sprite1Y_ = arrowsIniposY;
@@ -54,10 +59,19 @@ public class Background extends GameObject {
         return false;
     }
 
-    public void setBackground(int numOfColor){
-        arrowBackground_ = loadSprite("Sprites/backgrounds.png", 1, 9, numOfColor, 255);
+    public void setColor(int colorIndex){
+        colorIndex_ = colorIndex;
+        arrowBackground_ = loadSprite("Sprites/backgrounds.png", 1, 9, colorIndex_, 255);
         arrowBackground_.setWidth(sprite_.getWidth());
         arrowBackground_.setHeight(sprite_.getHeight());
+    }
+
+    public int getColor(){
+        return possibleColors_[colorIndex_];
+    }
+
+    public int getNumOfPossibleColors(){
+        return possibleColors_.length;
     }
 
     public void setVelocity(float vel){

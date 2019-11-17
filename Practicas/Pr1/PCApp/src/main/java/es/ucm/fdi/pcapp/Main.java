@@ -1,15 +1,14 @@
 package es.ucm.fdi.pcapp;
 
-import es.ucm.fdi.logic.GameState;
+import es.ucm.fdi.logic.GameInitializer;
 import es.ucm.fdi.pcversion.PCGame;
 
 public class Main {
 
     public static void main(String[] args) {
-        PCGame game = new PCGame("Pr1", 800, 800);
-        GameState gameState = new GameState(game);
-        gameState.init();
-        game.setState(gameState);
+        PCGame game = new PCGame("Pr1", 720, 1280);
+        GameInitializer gameInitializer = new GameInitializer(game);
+        gameInitializer.init();
         game.run();
     }
 }

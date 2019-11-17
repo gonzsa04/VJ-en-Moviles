@@ -5,18 +5,26 @@ import es.ucm.fdi.interfaces.StateInterface;
 
 public class NextStateButton extends Button {
     private StateInterface nextState_;
+    private int numFrame_;
 
-    NextStateButton(GameInterface game, String tag, StateInterface state){
+    NextStateButton(GameInterface game, String tag, int numFrame){
         super(game, tag);
-        nextState_ = state;
+        nextState_ = null;
+        numFrame_ = numFrame;
     }
 
     public void init(){
         super.init();
-        sprite_ = loadSprite("Sprites/buttons.png", 1, 10, 0, 255);
+        sprite_ = loadSprite("Sprites/buttons.png", 1, 10, numFrame_, 255);
     }
 
+    public void setNextState(StateInterface nextState){
+        nextState_ = nextState;
+    }
     protected void onPressed(){
-        game_.setState(nextState_);
+        if(nextState_ != null){
+            nextState_.reset();
+            game_.setState(nextState_);
+        }
     }
 }

@@ -1,7 +1,6 @@
 package es.ucm.fdi.logic;
 
 import es.ucm.fdi.interfaces.GameInterface;
-import es.ucm.fdi.interfaces.ImageInterface;
 import es.ucm.fdi.interfaces.InputInterface;
 import es.ucm.fdi.interfaces.Sprite;
 import es.ucm.fdi.utils.Vector2;

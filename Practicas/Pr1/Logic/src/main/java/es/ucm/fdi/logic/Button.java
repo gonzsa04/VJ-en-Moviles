@@ -7,7 +7,6 @@ import es.ucm.fdi.interfaces.Sprite;
 public abstract class Button extends GameObject {
     public Button(GameInterface game, String tag){
         super(game, tag);
-        init();
     }
 
     public void init(){

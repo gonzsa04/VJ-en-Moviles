@@ -1,9 +1,7 @@
 package es.ucm.fdi.logic;
 
 import es.ucm.fdi.interfaces.GameInterface;
-import es.ucm.fdi.interfaces.InputInterface;
 import es.ucm.fdi.interfaces.Sprite;
-import es.ucm.fdi.interfaces.StateInterface;
 
 public class MuteButton extends Button {
     private Sprite spriteAux_;
@@ -11,7 +9,6 @@ public class MuteButton extends Button {
 
     public MuteButton(GameInterface game, String tag){
         super(game, tag);
-        init();
     }
 
     public void init(){

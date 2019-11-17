@@ -3,7 +3,9 @@ package es.ucm.fdi.androidversion;
 import android.view.MotionEvent;
 import android.view.View;
 
+import es.ucm.fdi.interfaces.AbstractGraphics;
 import es.ucm.fdi.interfaces.AbstractInput;
+import es.ucm.fdi.utils.Vector2;
 
 public class AndroidInput extends AbstractInput implements View.OnTouchListener {
 
@@ -23,19 +25,22 @@ public class AndroidInput extends AbstractInput implements View.OnTouchListener 
     }
 
     synchronized public void mousePressed(MotionEvent e){
-        TouchEvent event = new TouchEvent(EventType.Pressed, e.getPointerId(e.getActionIndex()), (int)e.getX(), (int)e.getY());
+        Vector2 translatedPosition = AbstractGraphics.physicToLogic(e.getX(), e.getY());
+        TouchEvent event = new TouchEvent(EventType.Pressed, e.getPointerId(e.getActionIndex()), (int)translatedPosition.x, (int)translatedPosition.y);
         event.setMessage("mouse pressed on position: " + e.getX() + ", " + e.getY() + " by ID: " + 0);
         eventList_.add(event);
     }
 
     synchronized public void mouseReleased(MotionEvent e){
-        TouchEvent event = new TouchEvent(EventType.Released, e.getPointerId(e.getActionIndex()), (int)e.getX(), (int)e.getY());
+        Vector2 translatedPosition = AbstractGraphics.physicToLogic(e.getX(), e.getY());
+        TouchEvent event = new TouchEvent(EventType.Released, e.getPointerId(e.getActionIndex()), (int)translatedPosition.x, (int)translatedPosition.y);
         event.setMessage("mouse released on position: " + e.getX() + ", " + e.getY() + " by ID: " + 0);
         eventList_.add(event);
     }
 
     synchronized public void mouseDragged(MotionEvent e){
-        TouchEvent event = new TouchEvent(EventType.Dragged, e.getPointerId(e.getActionIndex()), (int)e.getX(), (int)e.getY());
+        Vector2 translatedPosition = AbstractGraphics.physicToLogic(e.getX(), e.getY());
+        TouchEvent event = new TouchEvent(EventType.Dragged, e.getPointerId(e.getActionIndex()), (int)translatedPosition.x, (int)translatedPosition.y);
         event.setMessage("mouse dragged on position: " + e.getX() + ", " + e.getY() + " by ID: " + 0);
         eventList_.add(event);
     }
