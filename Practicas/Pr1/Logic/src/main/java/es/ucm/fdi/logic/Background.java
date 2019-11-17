@@ -23,8 +23,8 @@ public class Background extends GameObject {
 
     public void init(){
         super.init();
-        sprite_ = loadSprite("Sprites/arrowsBackground.png", 1, 1, 0, 255);
-        sprite2_ = loadSprite("Sprites/arrowsBackground.png", 1, 1, 0, 255);
+        sprite_ = loadSprite("Sprites/arrowsBackground.png", 1, 1, 0, 70);
+        sprite2_ = loadSprite("Sprites/arrowsBackground.png", 1, 1, 0, 70);
 
         possibleColors_ = new int[]{0x41a85f, 0x00a885, 0x3d8eb9, 0x2969b0, 0x553982, 0x28324e, 0xf37934, 0xd14b41, 0x75706b};
         setColor(0);
@@ -32,13 +32,11 @@ public class Background extends GameObject {
         arrowsIniposY = Math.round(-getHeight()/2 - (getHeight()-game_.getGraphics().getDefaultHeight()));
         sprite1Y_ = arrowsIniposY;
         sprite2Y_ = arrowsIniposY + getHeight();
-        setVelocity(400);
-
-        setScale(0.9f, 0.5f);
+        setVelocity(500);
     }
 
     public void render(){
-        //arrowBackground_.draw();
+        arrowBackground_.draw();
         sprite_.draw(game_.getGraphics().getDefaultWidth()/2, sprite1Y_);
         sprite2_.draw(game_.getGraphics().getDefaultWidth()/2, sprite2Y_);
     }
