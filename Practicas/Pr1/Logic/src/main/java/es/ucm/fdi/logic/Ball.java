@@ -17,11 +17,11 @@ public class Ball extends GameObject {
 
     public void init(){
         super.init();
-        setPosition(game_.getGraphics().getDefaultWidth()/2, 0.0f);
+        setPosition(game_.getGraphics().getGameWidth()/2, 0.0f);
         setVelocity(500);
         sprite_ = loadSprite("Sprites/balls.png", 2, 10, 0, 255);
         spriteAux_ = loadSprite("Sprites/balls.png", 2, 10, 10, 255);
-        type_ = ColorType.WHITE;
+
         reboot();
     }
 
@@ -29,6 +29,11 @@ public class Ball extends GameObject {
         int newColor = new Random().nextInt(2);
         type_ = ColorType.values()[newColor];
         setActive(true);
+    }
+
+    public void reset(){
+        setVelocity(500);
+        reboot();
     }
 
     public void render(){

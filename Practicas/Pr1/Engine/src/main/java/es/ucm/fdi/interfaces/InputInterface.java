@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 import es.ucm.fdi.utils.Vector2;
 
+/**
+ * Interfaz que encapsula la informacion de los eventos recibidos, almacenandolos
+ * en una lista de eventos
+ */
 public interface InputInterface {
 
     enum EventType { Clicked, Entered, Exited, Pressed, Released, Dragged, Moved }
@@ -22,16 +26,11 @@ public interface InputInterface {
         }
 
         public void setMessage(String message){ message_ = message; }
+
         public String getMessage(){ return message_; }
-        public EventType getEventType(){
-            return event_;
-        }
-        public int getID(){
-            return id_;
-        }
-        public Vector2 getPosition(){
-            return position_;
-        }
+        public EventType getEventType(){ return event_; }
+        public int getID(){ return id_; }
+        public Vector2 getPosition(){ return position_; }
     }
 
     public ArrayList<TouchEvent> getTouchEvents();

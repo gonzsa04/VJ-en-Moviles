@@ -40,7 +40,7 @@ public class MenuState implements StateInterface {
 
         instrButton_ = new NextStateButton(game_, "muteButton", 0);
         instrButton_.init();
-        instrButton_.setPosition(game_.getGraphics().getDefaultWidth() - 100, 75 + instrButton_.getHeight()/2);
+        instrButton_.setPosition(game_.getGraphics().getGameWidth() - 100, 75 + instrButton_.getHeight()/2);
         buttons_.add(instrButton_);
 
         title_ = new Sprite(game_.getGraphics(), "Sprites/switchDashLogo.png", new Vector2(1.0f, 1.0f));
@@ -60,8 +60,8 @@ public class MenuState implements StateInterface {
         game_.getGraphics().clear(background_.getColor());
         background_.render();
         tapToPlay_.setAlpha((int)tapToPlayAlpha_);
-        tapToPlay_.draw(game_.getGraphics().getDefaultWidth()/2, 950);
-        title_.draw(game_.getGraphics().getDefaultWidth()/2, 356);
+        tapToPlay_.draw(game_.getGraphics().getGameWidth()/2, 950);
+        title_.draw(game_.getGraphics().getGameWidth()/2, 356);
 
         for(int i = 0; i < buttons_.size(); i++){
             buttons_.get(i).render();

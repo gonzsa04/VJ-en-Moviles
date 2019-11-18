@@ -7,10 +7,16 @@ import es.ucm.fdi.interfaces.AbstractGraphics;
 import es.ucm.fdi.interfaces.AbstractInput;
 import es.ucm.fdi.utils.Vector2;
 
+/**
+ * Implementacion de la interfac de input para la plataforma Android
+ */
 public class AndroidInput extends AbstractInput implements View.OnTouchListener {
 
     public AndroidInput(){super();}
 
+    /**
+     * Callback llamado al ocurrir un evento en surfaceView, rellena la lista de eventos
+     */
     public boolean onTouch(View v, MotionEvent event){
         if(event.getActionMasked() == MotionEvent.ACTION_DOWN || event.getActionMasked() == MotionEvent.ACTION_POINTER_DOWN){
             mousePressed(event);
@@ -23,6 +29,8 @@ public class AndroidInput extends AbstractInput implements View.OnTouchListener 
         }
         return true;
     }
+
+    // synchronized para la proteccion de la lista de eventos entre hebras
 
     synchronized public void mousePressed(MotionEvent e){
         Vector2 translatedPosition = AbstractGraphics.physicToLogic(e.getX(), e.getY());

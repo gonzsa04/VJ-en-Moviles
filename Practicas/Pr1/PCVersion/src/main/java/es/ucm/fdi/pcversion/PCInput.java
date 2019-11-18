@@ -8,9 +8,14 @@ import es.ucm.fdi.interfaces.AbstractGraphics;
 import es.ucm.fdi.interfaces.AbstractInput;
 import es.ucm.fdi.utils.Vector2;
 
+/**
+ * Implementacion de la interfaz de input para la plataforma PC
+ */
 public class PCInput extends AbstractInput implements MouseListener, MouseMotionListener {
 
     public PCInput(){super();}
+
+    // synchronized para la proteccion de la lista de eventos entre hebras
 
     synchronized public void mouseClicked(MouseEvent e){
         Vector2 translatedPosition = AbstractGraphics.physicToLogic(e.getX(), e.getY());

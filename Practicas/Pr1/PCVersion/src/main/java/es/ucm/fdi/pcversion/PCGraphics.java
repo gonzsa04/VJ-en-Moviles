@@ -12,6 +12,9 @@ import es.ucm.fdi.interfaces.GraphicsInterface;
 import es.ucm.fdi.interfaces.ImageInterface;
 import es.ucm.fdi.utils.Vector2;
 
+/**
+ * Implementacion de la interfaz grafica para la plataforma PC
+ */
 public class PCGraphics extends AbstractGraphics implements GraphicsInterface {
     private Graphics2D g_;
     private JFrame window_;
@@ -39,10 +42,11 @@ public class PCGraphics extends AbstractGraphics implements GraphicsInterface {
     public void drawImage(ImageInterface image, int srcLeft, int srcTop, int srcRight, int srcBottom,
                           float dstLeft, float dstTop, float dstRight, float dstBottom, int alpha){
 
+        // reposicionamiento y reescalado -> ASPECT-RATIO
         Vector2 position = logicToPhysic(dstLeft, dstTop);
         Vector2 scale = scaleImage(dstRight, dstBottom);
 
-        float a = (float)alpha/255.0f;
+        float a = (float)alpha/255.0f;  // en PC el alpha va de 0 a 1
         try{
             Composite comp = AlphaComposite.getInstance(AlphaComposite.SRC_OVER , a);
             g_.setComposite(comp);
@@ -58,13 +62,11 @@ public class PCGraphics extends AbstractGraphics implements GraphicsInterface {
 
     public void setGraphics(Graphics2D g){g_ = g;}
 
+    // ASPECT-RATIO
     public void scaleCanvas(){
         super.scaleCanvas(getWindowWidth(), getWindowHeight());
     }
 
-
     public int getWindowWidth(){return window_.getWidth();}
     public int getWindowHeight(){return window_.getHeight();}
-    public int getDefaultWidth(){return DEFAULT_WIDTH_;}
-    public int getDefaultHeight(){return DEFAULT_HEIGHT_;}
 }

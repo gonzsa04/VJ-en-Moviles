@@ -41,7 +41,7 @@ public class GameOverState implements StateInterface {
 
         instrButton_ = new NextStateButton(game_, "muteButton", 0);
         instrButton_.init();
-        instrButton_.setPosition(game_.getGraphics().getDefaultWidth() - 100, 75 + instrButton_.getHeight()/2);
+        instrButton_.setPosition(game_.getGraphics().getGameWidth() - 100, 75 + instrButton_.getHeight()/2);
         buttons_.add(instrButton_);
 
         scoreText_ = new Text(game_, "scoreText");
@@ -60,8 +60,8 @@ public class GameOverState implements StateInterface {
     public void reset(){
         playAgainAlpha_ = 255;
         increaseAlpha_ = false;
-        scoreText_.setPosition(game_.getGraphics().getDefaultWidth()/2 + scoreText_.getWidth()/2, game_.getGraphics().getDefaultHeight()/2);
-        pointsText_.setPosition(game_.getGraphics().getDefaultWidth()/2 + pointsText_.getWidth()/2, game_.getGraphics().getDefaultHeight()/2 + pointsText_.getHeight());
+        scoreText_.setPosition(game_.getGraphics().getGameWidth()/2 + scoreText_.getWidth()/2, game_.getGraphics().getGameHeight()/2);
+        pointsText_.setPosition(game_.getGraphics().getGameWidth()/2 + pointsText_.getWidth()/2, game_.getGraphics().getGameHeight()/2 + pointsText_.getHeight());
     }
 
     public void render(){
@@ -70,8 +70,8 @@ public class GameOverState implements StateInterface {
         scoreText_.render();
         pointsText_.render();
         playAgain_.setAlpha((int)playAgainAlpha_);
-        playAgain_.draw(game_.getGraphics().getDefaultWidth()/2, 1396);
-        gameOver_.draw(game_.getGraphics().getDefaultWidth()/2, 364);
+        playAgain_.draw(game_.getGraphics().getGameWidth()/2, 1396);
+        gameOver_.draw(game_.getGraphics().getGameWidth()/2, 364);
 
         for(int i = 0; i < buttons_.size(); i++){
             buttons_.get(i).render();

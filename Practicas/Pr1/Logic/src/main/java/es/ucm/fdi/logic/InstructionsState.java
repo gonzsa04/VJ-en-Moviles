@@ -37,12 +37,12 @@ public class InstructionsState implements StateInterface {
 
         exitButton_ = new NextStateButton(game_, "exitButton", 1);
         exitButton_.init();
-        exitButton_.setPosition(game_.getGraphics().getDefaultWidth() - 100, 75 + exitButton_.getHeight()/2);
+        exitButton_.setPosition(game_.getGraphics().getGameWidth() - 100, 75 + exitButton_.getHeight()/2);
         buttons_.add(exitButton_);
 
         whiteTransition_ = new Sprite(game_.getGraphics(), "Sprites/white.png", new Vector2(1.0f, 1.0f));
-        whiteTransition_.setScale(game_.getGraphics().getDefaultWidth()/whiteTransition_.getWidth(),
-                game_.getGraphics().getDefaultHeight()/whiteTransition_.getHeight());
+        whiteTransition_.setScale(game_.getGraphics().getGameWidth()/whiteTransition_.getWidth(),
+                game_.getGraphics().getGameHeight()/whiteTransition_.getHeight());
 
         howToPlay_ = new Sprite(game_.getGraphics(), "Sprites/howToPlay.png", new Vector2(1.0f, 1.0f));
         instructions_ = new Sprite(game_.getGraphics(), "Sprites/instructions.png", new Vector2(1.0f, 1.0f));
@@ -60,9 +60,9 @@ public class InstructionsState implements StateInterface {
         game_.getGraphics().clear(background_.getColor());
         background_.render();
         tapToPlay_.setAlpha((int)tapToPlayAlpha_);
-        tapToPlay_.draw(game_.getGraphics().getDefaultWidth()/2, 1464);
-        howToPlay_.draw(game_.getGraphics().getDefaultWidth()/2, 290);
-        instructions_.draw(game_.getGraphics().getDefaultWidth()/2, 900);
+        tapToPlay_.draw(game_.getGraphics().getGameWidth()/2, 1464);
+        howToPlay_.draw(game_.getGraphics().getGameWidth()/2, 290);
+        instructions_.draw(game_.getGraphics().getGameWidth()/2, 900);
 
         for(int i = 0; i < buttons_.size(); i++){
             buttons_.get(i).render();

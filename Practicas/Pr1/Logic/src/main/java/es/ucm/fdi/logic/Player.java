@@ -14,10 +14,11 @@ public class Player extends GameObject {
 
     public void init(){
         super.init();
-        setPosition(game_.getGraphics().getDefaultWidth()/2, 1200.0f);
+        setPosition(game_.getGraphics().getGameWidth()/2, 1200.0f);
         sprite_ = loadSprite("Sprites/players.png", 2, 1, 0, 255);
         spriteAux_ = loadSprite("Sprites/players.png", 2, 1, 1, 255);
-        type_ = ColorType.WHITE;
+
+        reset();
     }
 
     public void render(){
@@ -34,6 +35,10 @@ public class Player extends GameObject {
             return true;
         }
         return false;
+    }
+
+    public void reset(){
+        type_ = ColorType.WHITE;
     }
 
     public ColorType getColorType() {

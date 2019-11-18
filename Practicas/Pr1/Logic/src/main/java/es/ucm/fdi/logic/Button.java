@@ -29,6 +29,8 @@ public abstract class Button extends GameObject {
         return false;
     }
 
+    public void reset(){}
+
     private boolean onBounds(float x, float y){
         return (x >= position_.x - sprite_.getWidth()/2 && x <= position_.x + sprite_.getWidth()/2 &&
                 y >= position_.y - sprite_.getHeight()/2 && y <= position_.y + sprite_.getHeight()/2);

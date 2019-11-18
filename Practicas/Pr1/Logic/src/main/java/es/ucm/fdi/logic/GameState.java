@@ -45,11 +45,11 @@ public class GameState implements StateInterface {
 
         scoreText_ = new Text(game_, "scoreText");
         scoreText_.init();
-        scoreText_.setPosition(game_.getGraphics().getDefaultWidth() - 100, 150);
+        scoreText_.setPosition(game_.getGraphics().getGameWidth() - 100, 150);
 
         whiteTransition_ = new Sprite(game_.getGraphics(), "Sprites/white.png", new Vector2(1.0f, 1.0f));
-        whiteTransition_.setScale(game_.getGraphics().getDefaultWidth()/whiteTransition_.getWidth(),
-                game_.getGraphics().getDefaultHeight()/whiteTransition_.getHeight());
+        whiteTransition_.setScale(game_.getGraphics().getGameWidth()/whiteTransition_.getWidth(),
+                game_.getGraphics().getGameHeight()/whiteTransition_.getHeight());
 
         balls_ = new ArrayList<Ball>();
         for(int i = 0; i < numBalls_; i++){
@@ -77,8 +77,11 @@ public class GameState implements StateInterface {
 
         background_.setColor(new Random().nextInt(background_.getNumOfPossibleColors()));
 
+        player_.reset();
+
         for(int i = 0; i < numBalls_; i++){
-            balls_.get(i).setPosition(game_.getGraphics().getDefaultWidth()/2, balls_.get(i).getHeight() - i * spaceBetwBalls_);
+            balls_.get(i).setPosition(game_.getGraphics().getGameWidth()/2, balls_.get(i).getHeight() - i * spaceBetwBalls_);
+            balls_.get(i).reset();
         }
 
         particleManager_.reset();

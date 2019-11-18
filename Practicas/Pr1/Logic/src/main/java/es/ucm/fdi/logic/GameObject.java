@@ -30,6 +30,8 @@ public abstract class GameObject {
 
     public abstract boolean handleEvent(InputInterface.TouchEvent event);
 
+    public abstract void reset();
+
     public Sprite loadSprite(String name){
         return new Sprite(game_.getGraphics(), name, scale_);
     }

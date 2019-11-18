@@ -32,6 +32,8 @@ public class Text extends GameObject {
         return false;
     }
 
+    public void reset(){}
+
     private void textToSprite(){
         sprites_.clear();
         for(int i = text_.length() - 1; i >= 0; i--) {
