@@ -53,7 +53,7 @@ public class Background extends GameObject {
         colorIndex_ = colorIndex;
         arrowBackground_ = loadSprite("Sprites/backgrounds.png", 1, 9, colorIndex_, 255);
         arrowBackground_.setWidth(sprite_.getWidth());
-        arrowBackground_.setHeight(game_.getGraphics().getWindowHeight());
+        arrowBackground_.setHeight(sprite_.getHeight());
     }
 
     public void reset(){
