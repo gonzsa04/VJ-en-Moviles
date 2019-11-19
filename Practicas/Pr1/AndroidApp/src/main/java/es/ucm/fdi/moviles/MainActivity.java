@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
         game = new AndroidGame(this);
         GameInitializer gameInitializer = new GameInitializer(game);
-        gameInitializer.init();
+        game.setState(gameInitializer);
         setContentView(game.getSurfaceView());
     }
 

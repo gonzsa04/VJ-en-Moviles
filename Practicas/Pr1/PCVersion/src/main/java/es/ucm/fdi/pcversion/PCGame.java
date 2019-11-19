@@ -97,6 +97,8 @@ public class PCGame implements GameInterface{
                         getGraphics().setGraphics(g_); // pedimos el buffer de dibujado a la strategy (donde puedo pintar)
                         state_.render();
                     }
+                    catch(Exception e){}
+
                     // nos asegurmos de que esto se ejecute siempre -> libera la variable graphics de ventana
                     finally {
                         if(g_ != null)

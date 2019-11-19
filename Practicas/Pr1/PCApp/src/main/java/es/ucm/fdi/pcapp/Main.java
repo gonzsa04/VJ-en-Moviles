@@ -8,7 +8,7 @@ public class Main {
     public static void main(String[] args) {
         PCGame game = new PCGame("Pr1", 720, 1280);
         GameInitializer gameInitializer = new GameInitializer(game);
-        gameInitializer.init();
+        game.setState(gameInitializer);
         game.run();
     }
 }

@@ -4,11 +4,9 @@ import java.util.Random;
 
 import es.ucm.fdi.interfaces.GameInterface;
 import es.ucm.fdi.interfaces.InputInterface;
-import es.ucm.fdi.interfaces.Sprite;
 
 public class Ball extends GameObject {
     protected float velY_;
-    protected Sprite spriteAux_;
     protected ColorType type_;
 
     public Ball(GameInterface game, String tag){
@@ -20,25 +18,18 @@ public class Ball extends GameObject {
         setPosition(game_.getGraphics().getGameWidth()/2, 0.0f);
         setVelocity(500);
         sprite_ = loadSprite("Sprites/balls.png", 2, 10, 0, 255);
-        spriteAux_ = loadSprite("Sprites/balls.png", 2, 10, 10, 255);
 
-        reboot();
-    }
-
-    public void reboot(){
-        int newColor = new Random().nextInt(2);
-        type_ = ColorType.values()[newColor];
+        setRandomColorFrom(ColorType.WHITE);
         setActive(true);
     }
 
     public void reset(){
         setVelocity(500);
-        reboot();
+        setActive(true);
     }
 
     public void render(){
-        if(type_ == ColorType.WHITE) sprite_.draw(position_);
-        else spriteAux_.draw(position_);
+        sprite_.draw(position_);
     }
 
     public void update(double deltaTime){
@@ -55,6 +46,21 @@ public class Ball extends GameObject {
 
     public float getVelocity(){
         return velY_;
+    }
+
+    public void setRandomColorFrom(ColorType color){
+        int newColor = new Random().nextInt(11);
+
+        if(newColor < 7) type_ = color;
+        else {
+            if (color == ColorType.WHITE) type_ = ColorType.BLACK;
+            else type_ = ColorType.WHITE;
+        }
+
+        if(type_ == ColorType.WHITE)
+            sprite_.setFrame(0);
+        else
+            sprite_.setFrame(10);
     }
 
     public ColorType getColorType() {

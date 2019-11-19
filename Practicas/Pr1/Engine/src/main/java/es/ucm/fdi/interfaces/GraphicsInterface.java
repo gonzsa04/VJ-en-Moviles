@@ -6,7 +6,12 @@ package es.ucm.fdi.interfaces;
 public interface GraphicsInterface {
     public ImageInterface newImage(String name);
     public void clear(int color);
+
+    /**dibuja transformando y escalando a coordenadas logicas*/
     public void drawImage(ImageInterface image, int srcLeft, int srcTop, int srcRight, int srcBottom,
+                          float dstLeft, float dstTop, float dstRight, float dstBottom, int alpha);
+    /**dibuja en posiciones y escalas fisicas de la ventana*/
+    public void drawImageRaw(ImageInterface image, int srcLeft, int srcTop, int srcRight, int srcBottom,
                           float dstLeft, float dstTop, float dstRight, float dstBottom, int alpha);
 
     /** @return ancho real de la ventana */

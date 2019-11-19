@@ -34,6 +34,9 @@ public class GameState implements StateInterface {
 
     private ParticleManager particleManager_;
 
+    private boolean gameOver_;
+    private double timeToGameOver_;
+
     public GameState(GameInterface game, Background background){
         game_ = game;
         background_ = background;
@@ -48,8 +51,8 @@ public class GameState implements StateInterface {
         scoreText_.setPosition(game_.getGraphics().getGameWidth() - 100, 150);
 
         whiteTransition_ = new Sprite(game_.getGraphics(), "Sprites/white.png", new Vector2(1.0f, 1.0f));
-        whiteTransition_.setScale(game_.getGraphics().getGameWidth()/whiteTransition_.getWidth(),
-                game_.getGraphics().getGameHeight()/whiteTransition_.getHeight());
+        whiteTransition_.setWidth(game_.getGraphics().getWindowWidth());
+        whiteTransition_.setHeight(game_.getGraphics().getWindowHeight());
 
         balls_ = new ArrayList<Ball>();
         for(int i = 0; i < numBalls_; i++){
@@ -73,9 +76,13 @@ public class GameState implements StateInterface {
         gameVel_ = 1.0f;
         transitionAlpha = 255;
 
+        gameOver_ = false;
+        timeToGameOver_ = 1.5f;
+
         scoreText_.setText(Integer.toString(score_));
 
         background_.setColor(new Random().nextInt(background_.getNumOfPossibleColors()));
+        background_.reset();
 
         player_.reset();
 
@@ -103,18 +110,23 @@ public class GameState implements StateInterface {
 
         particleManager_.render();
 
-        whiteTransition_.draw();
+        whiteTransition_.drawRaw();
     }
 
     public void update(double deltaTime){
+        if(gameOver_){
+            timeToGameOver_ -= deltaTime;
+            if(timeToGameOver_ <= 0) gameOver();
+        }
+
         if(transitionAlpha > 0) {
             transitionAlpha -= 1000 * deltaTime;
             whiteTransition_.setAlpha((int)transitionAlpha);
         }
 
         if(score_ >= scoreToNextLevel_){
-            scoreToNextLevel_ += 5;
-            gameVel_ += 0.01f;
+            scoreToNextLevel_ += 5 + score_/2;
+            gameVel_ += 0.035f;
             for(int i = 0; i < balls_.size(); i++) {
                 balls_.get(i).setVelocity(balls_.get(i).getVelocity() * gameVel_);
             }
@@ -158,12 +170,19 @@ public class GameState implements StateInterface {
                 if(ball.getColorType() == player_.getColorType()){
                     score_++;
                     scoreText_.setText(Integer.toString(score_));
-                    particleManager_.spawnParticles(ball.getColorType());
-                    ball.reboot();
-                    if(i - 1 < 0) i = balls_.size();
-                    ball.setPosition(ball.getPosition().x, balls_.get(i-1).getPosition().y - spaceBetwBalls_);
                 }
-                else gameOver();
+                else {
+                    player_.setActive(false);
+                    gameOver_ = true;
+                }
+
+                particleManager_.spawnParticles(ball.getColorType());
+
+                if(i - 1 < 0) i = balls_.size();
+                ball.setPosition(ball.getPosition().x, balls_.get(i-1).getPosition().y - spaceBetwBalls_);
+                ball.setRandomColorFrom(balls_.get(i - 1).getColorType());
+                ball.setActive(true);
+
                 break;
             }
         }

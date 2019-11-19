@@ -41,8 +41,8 @@ public class InstructionsState implements StateInterface {
         buttons_.add(exitButton_);
 
         whiteTransition_ = new Sprite(game_.getGraphics(), "Sprites/white.png", new Vector2(1.0f, 1.0f));
-        whiteTransition_.setScale(game_.getGraphics().getGameWidth()/whiteTransition_.getWidth(),
-                game_.getGraphics().getGameHeight()/whiteTransition_.getHeight());
+        whiteTransition_.setWidth(game_.getGraphics().getWindowWidth());
+        whiteTransition_.setHeight(game_.getGraphics().getWindowHeight());
 
         howToPlay_ = new Sprite(game_.getGraphics(), "Sprites/howToPlay.png", new Vector2(1.0f, 1.0f));
         instructions_ = new Sprite(game_.getGraphics(), "Sprites/instructions.png", new Vector2(1.0f, 1.0f));
@@ -68,7 +68,7 @@ public class InstructionsState implements StateInterface {
             buttons_.get(i).render();
         }
 
-        whiteTransition_.draw();
+        whiteTransition_.drawRaw();
     }
 
     public void update(double deltaTime){

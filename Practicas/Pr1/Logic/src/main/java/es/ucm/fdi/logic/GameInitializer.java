@@ -1,8 +1,9 @@
 package es.ucm.fdi.logic;
 
 import es.ucm.fdi.interfaces.GameInterface;
+import es.ucm.fdi.interfaces.StateInterface;
 
-public class GameInitializer {
+public class GameInitializer implements StateInterface {
     private GameInterface game_;
 
     private MenuState menuState_;
@@ -16,7 +17,7 @@ public class GameInitializer {
         game_ = game;
     }
 
-    public void init(){
+    private void load(){
         backGround_ = new Background(game_, "arrows");
         backGround_.init();
 
@@ -51,4 +52,12 @@ public class GameInitializer {
 
         instructionsState_.setGameState(gameState_);
     }
+
+    public void update(double deltaTime) {
+        load();
+    }
+
+    public void render() {}
+    public void handleInput() {}
+    public void reset() {}
 }

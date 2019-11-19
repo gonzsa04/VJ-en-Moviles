@@ -52,24 +52,81 @@ public class Sprite {
         alpha_ = alpha;
     }
 
+    // constructora sin recibir la ruta -> image = null
+    public Sprite(GraphicsInterface g, Vector2 scale, int totalRows, int totalCols, int frame, int alpha) {
+        g_ = g;
+        scale_ = scale;
+        image_ = null;
+        WIDTH = 0;
+        HEIGHT = 0;
+        totalRows_ = totalRows;
+        totalCols_ = totalCols;
+        setFrame(frame);
+        sRight_ = WIDTH;
+        sBottom_ = HEIGHT;
+        alpha_ = alpha;
+    }
+
+    // DIBUJA TENIENDO EN CUENTA EL ASPECT-RATIO -> COORDENADAS Y ESCALA LOGICAS
     /** dibuja el sprite en el medio de la pantalla */
     public void draw() {
-        g_.drawImage(image_, sLeft_, sTop_, sRight_, sBottom_, g_.getGameWidth()/2 - WIDTH*scale_.x/2, g_.getGameHeight()/2 - HEIGHT*scale_.y/2,
+        if(image_ != null)
+            g_.drawImage(image_, sLeft_, sTop_, sRight_, sBottom_, g_.getGameWidth()/2 -
+                            WIDTH*scale_.x/2, g_.getGameHeight()/2 - HEIGHT*scale_.y/2,
                 scale_.x * WIDTH, scale_.y * HEIGHT, alpha_);
     }
 
     /** dibuja el sprite en una posicion dada */
     public void draw(float x, float y) {
-        g_.drawImage(image_, sLeft_, sTop_, sRight_, sBottom_, x - scale_.x * WIDTH / 2,
+        if(image_ != null)
+            g_.drawImage(image_, sLeft_, sTop_, sRight_, sBottom_, x - scale_.x * WIDTH / 2,
                 y - scale_.y * HEIGHT / 2, scale_.x * WIDTH,
                 scale_.y * HEIGHT, alpha_);
     }
 
     /** dibuja el sprite en una posicion dada */
     public void draw(Vector2 position) {
-        g_.drawImage(image_, sLeft_, sTop_, sRight_, sBottom_, position.x - scale_.x * WIDTH / 2,
+        if(image_ != null)
+            g_.drawImage(image_, sLeft_, sTop_, sRight_, sBottom_, position.x - scale_.x * WIDTH / 2,
                 position.y - scale_.y * HEIGHT / 2, scale_.x * WIDTH,
                 scale_.y * HEIGHT, alpha_);
+    }
+
+    // DIBUJA SIN TENER EN CUENTA EL ASPECT-RATIO -> COORDENADAS Y ESCALA FISICAS
+    /** dibuja el sprite en el medio de la pantalla */
+    public void drawRaw() {
+        if(image_ != null)
+            g_.drawImageRaw(image_, sLeft_, sTop_, sRight_, sBottom_, g_.getWindowWidth()/2 -
+                            WIDTH*scale_.x/2, g_.getWindowHeight()/2 - HEIGHT*scale_.y/2,
+                    scale_.x * WIDTH, scale_.y * HEIGHT, alpha_);
+    }
+
+    /** dibuja el sprite en una posicion dada */
+    public void drawRaw(float x, float y) {
+        if(image_ != null)
+            g_.drawImageRaw(image_, sLeft_, sTop_, sRight_, sBottom_, x - scale_.x * WIDTH / 2,
+                    y - scale_.y * HEIGHT / 2, scale_.x * WIDTH,
+                    scale_.y * HEIGHT, alpha_);
+    }
+
+    /** dibuja el sprite en una posicion dada */
+    public void drawRaw(Vector2 position) {
+        if(image_ != null)
+            g_.drawImageRaw(image_, sLeft_, sTop_, sRight_, sBottom_, position.x - scale_.x * WIDTH / 2,
+                    position.y - scale_.y * HEIGHT / 2, scale_.x * WIDTH,
+                    scale_.y * HEIGHT, alpha_);
+    }
+
+    public void setImage(ImageInterface image){
+        image_ = image;
+        WIDTH = image_.getWidth()/totalCols_;
+        HEIGHT = image_.getHeight()/totalRows_;
+        sRight_ = WIDTH;
+        sBottom_ = HEIGHT;
+    }
+
+    public ImageInterface getImage(){
+        return image_;
     }
 
     public void setFrame(int frame){
