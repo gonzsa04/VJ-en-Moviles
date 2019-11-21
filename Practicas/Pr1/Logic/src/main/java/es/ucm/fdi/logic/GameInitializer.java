@@ -3,20 +3,29 @@ package es.ucm.fdi.logic;
 import es.ucm.fdi.interfaces.GameInterface;
 import es.ucm.fdi.interfaces.StateInterface;
 
+/**
+ * Estado que inicializa todos los demas estados
+ * Se creara el primero, cargara todos los estados,
+ * y le dira a Engine que empiece a ejecutar el primero de ellos
+ */
 public class GameInitializer implements StateInterface {
     private GameInterface game_;
 
+    // estados a inicializar
     private MenuState menuState_;
     private GameState gameState_;
     private GameOverState gameOverState_;
     private InstructionsState instructionsState_;
 
-    private Background backGround_;
+    private Background backGround_; // mismo fondo compartido entre todos los estados
 
     public GameInitializer(GameInterface game){
         game_ = game;
     }
 
+    /**Carga el fondo (compartido) y todos los estados, estableciendo sus parametros
+     * Y le dice a game que empiece a ejecutar el menu
+     * */
     private void load(){
         backGround_ = new Background(game_, "arrows");
         backGround_.init();
@@ -60,4 +69,5 @@ public class GameInitializer implements StateInterface {
     public void render() {}
     public void handleInput() {}
     public void reset() {}
+    public void init() {}
 }

@@ -1,7 +1,6 @@
 package es.ucm.fdi.logic;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import es.ucm.fdi.interfaces.GameInterface;
 import es.ucm.fdi.interfaces.InputInterface;
@@ -9,21 +8,28 @@ import es.ucm.fdi.interfaces.Sprite;
 import es.ucm.fdi.interfaces.StateInterface;
 import es.ucm.fdi.utils.Vector2;
 
+/**
+ * Menu de instrucciones
+ */
 public class InstructionsState implements StateInterface {
     private GameInterface game_;
 
-    private GameState gameState_;
+    private StateInterface gameState_;
 
     private Background background_;
 
+    // params
     private float tapToPlayAlpha_;
     private boolean increaseAlpha_;
 
+    // imagenes mostradas
     private Sprite howToPlay_, instructions_, tapToPlay_;
 
+    // transicion blanca
     private float transitionAlpha;
     private Sprite whiteTransition_;
 
+    // botones
     NextStateButton exitButton_;
     private ArrayList<Button> buttons_;
 
@@ -32,9 +38,11 @@ public class InstructionsState implements StateInterface {
         background_ = background;
     }
 
+    /**Crea los objetos del estado*/
     public void init(){
         buttons_ = new ArrayList<Button>();
 
+        // nex state llevara al estado que le indiques -> en el inicializador de estados
         exitButton_ = new NextStateButton(game_, "exitButton", 1);
         exitButton_.init();
         exitButton_.setPosition(game_.getGraphics().getGameWidth() - 100, 75 + exitButton_.getHeight()/2);
@@ -55,10 +63,11 @@ public class InstructionsState implements StateInterface {
         increaseAlpha_ = false;
     }
 
-
     public void render(){
         game_.getGraphics().clear(background_.getColor());
+
         background_.render();
+
         tapToPlay_.setAlpha((int)tapToPlayAlpha_);
         tapToPlay_.draw(game_.getGraphics().getGameWidth()/2, 1464);
         howToPlay_.draw(game_.getGraphics().getGameWidth()/2, 290);
@@ -91,11 +100,13 @@ public class InstructionsState implements StateInterface {
         ArrayList<InputInterface.TouchEvent> events = game_.getInput().getTouchEvents();
 
         for (int j = 0; j < events.size(); j++) {
+            // si el evento lo detecta algun boton -> se ha pulsado sobre el
             for (int i = 0; i < buttons_.size(); i++) {
                 if (buttons_.get(i).isActive()) {
                     if (buttons_.get(i).handleEvent(events.get(j))) return;
                 }
             }
+            // si no, se ha pulsado en la pantalla -> siguiente estado
             if (events.get(j).getEventType() == InputInterface.EventType.Pressed) {
                 gameState_.reset();
                 game_.setState(gameState_);
@@ -103,7 +114,7 @@ public class InstructionsState implements StateInterface {
         }
     }
 
-    public void setGameState(GameState gameState){
+    public void setGameState(StateInterface gameState){
         gameState_ = gameState;
         exitButton_.setNextState(gameState_);
     }

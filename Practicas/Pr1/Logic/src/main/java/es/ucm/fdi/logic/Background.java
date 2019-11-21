@@ -3,14 +3,18 @@ package es.ucm.fdi.logic;
 import es.ucm.fdi.interfaces.GameInterface;
 import es.ucm.fdi.interfaces.InputInterface;
 import es.ucm.fdi.interfaces.Sprite;
-import es.ucm.fdi.utils.Vector2;
 
+/**
+ * Fondo con las flechas que bajan
+ */
 public class Background extends GameObject {
     private Sprite arrowBackground_;
 
+    // params
     private float posY_;
     private float arrowsIniposY;
 
+    // posibles colores del fondo
     private int colorIndex_;
     private int[] possibleColors_;
 
@@ -33,13 +37,14 @@ public class Background extends GameObject {
     }
 
     public void render(){
-        arrowBackground_.draw();
-        sprite_.draw(game_.getGraphics().getGameWidth()/2, posY_);
+        arrowBackground_.draw(); // flechas
+        sprite_.draw(game_.getGraphics().getGameWidth()/2, posY_); // color de fondo
     }
 
     public void update(double deltaTime) {
         posY_ += vel_ * deltaTime;
 
+        // reset de la posicion de las flechas -> scroll continuo
         if (posY_ > arrowsIniposY * 2) {
             posY_ = arrowsIniposY;
         }

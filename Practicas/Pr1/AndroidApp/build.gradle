@@ -1,5 +1,14 @@
 apply plugin: 'com.android.application'
 
+task copyPNGs(type:Copy){
+    description = "Copying images into assets folder..."
+
+    from(rootDir){
+        include "Sprites/**"
+    }
+    into "src/main/assets"
+}
+
 android {
     compileSdkVersion 28
     buildToolsVersion "29.0.1"

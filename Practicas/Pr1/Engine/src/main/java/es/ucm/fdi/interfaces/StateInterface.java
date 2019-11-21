@@ -10,6 +10,7 @@ package es.ucm.fdi.interfaces;
  * deberan implementar esta interfaz
  */
 public interface StateInterface {
+    public void init();
     public void update(double deltaTime);
     public void render();
     public void handleInput();

@@ -5,6 +5,9 @@ import java.util.Random;
 import es.ucm.fdi.interfaces.GameInterface;
 import es.ucm.fdi.interfaces.InputInterface;
 
+/**
+ * Bolas que caen con un color y chocan con el jugador
+ */
 public class Ball extends GameObject {
     protected float velY_;
     protected ColorType type_;
@@ -48,6 +51,9 @@ public class Ball extends GameObject {
         return velY_;
     }
 
+    /**Recibe el color de la bola anterior, y sobre el decide de que color ser
+     * 70 % de ser igual - 30 % de tener el color contrario
+     * */
     public void setRandomColorFrom(ColorType color){
         int newColor = new Random().nextInt(11);
 

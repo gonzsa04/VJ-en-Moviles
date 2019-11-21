@@ -3,6 +3,9 @@ package es.ucm.fdi.logic;
 import es.ucm.fdi.interfaces.GameInterface;
 import es.ucm.fdi.interfaces.StateInterface;
 
+/**
+ * Boton que al ser pulsado, cambia de estado
+ */
 public class NextStateButton extends Button {
     private StateInterface nextState_;
     private int numFrame_;

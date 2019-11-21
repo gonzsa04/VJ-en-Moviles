@@ -2,8 +2,10 @@ package es.ucm.fdi.logic;
 
 import es.ucm.fdi.interfaces.GameInterface;
 import es.ucm.fdi.interfaces.InputInterface;
-import es.ucm.fdi.interfaces.Sprite;
 
+/**
+ * Boton generico del que heredaran el resto de botones
+ */
 public abstract class Button extends GameObject {
     public Button(GameInterface game, String tag){
         super(game, tag);
@@ -19,6 +21,7 @@ public abstract class Button extends GameObject {
 
     public void update(double deltaTime){}
 
+    /**Si recibe un evento de pulsacion dentro de sus limites -> ha sido pulsado*/
     public boolean handleEvent(InputInterface.TouchEvent event){
         if(event.getEventType() == InputInterface.EventType.Pressed){
             if(onBounds(event.getPosition().x, event.getPosition().y)) {
@@ -36,5 +39,6 @@ public abstract class Button extends GameObject {
                 y >= position_.y - sprite_.getHeight()/2 && y <= position_.y + sprite_.getHeight()/2);
     }
 
+    /**Que hacer al haber sido pulsado -> redefinido segun conveniencia*/
     protected abstract void onPressed();
 }

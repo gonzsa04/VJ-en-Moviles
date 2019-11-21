@@ -8,19 +8,25 @@ import es.ucm.fdi.interfaces.Sprite;
 import es.ucm.fdi.interfaces.StateInterface;
 import es.ucm.fdi.utils.Vector2;
 
+/**
+ * Estado de game over
+ */
 public class GameOverState implements StateInterface {
     private GameInterface game_;
 
-    private GameState gameState_;
+    private StateInterface gameState_;
 
     private Background background_;
 
+    // params
     private float playAgainAlpha_;
     private boolean increaseAlpha_;
 
+    // imagenes / textos
     private Text scoreText_, pointsText_;
     private Sprite playAgain_, gameOver_;
 
+    // botones
     private MuteButton muteButton_;
     private NextStateButton instrButton_;
     private ArrayList<Button> buttons_;
@@ -31,14 +37,17 @@ public class GameOverState implements StateInterface {
         background_ = background;
     }
 
+    /**Crea los objetos del estado*/
     public void init(){
         buttons_ = new ArrayList<Button>();
 
+        // mute no hara nada -> solo cambiar de sprite
         muteButton_ = new MuteButton(game_, "muteButton");
         muteButton_.init();
         muteButton_.setPosition(100, 75 + muteButton_.getHeight()/2);
         buttons_.add(muteButton_);
 
+        // next state llevara al estado que le indiques -> en el inicializador de estados
         instrButton_ = new NextStateButton(game_, "muteButton", 0);
         instrButton_.init();
         instrButton_.setPosition(game_.getGraphics().getGameWidth() - 100, 75 + instrButton_.getHeight()/2);
@@ -60,13 +69,18 @@ public class GameOverState implements StateInterface {
     public void reset(){
         playAgainAlpha_ = 255;
         increaseAlpha_ = false;
-        scoreText_.setPosition(game_.getGraphics().getGameWidth()/2 + scoreText_.getWidth()/2, game_.getGraphics().getGameHeight()/2);
-        pointsText_.setPosition(game_.getGraphics().getGameWidth()/2 + pointsText_.getWidth()/2, game_.getGraphics().getGameHeight()/2 + pointsText_.getHeight());
+        // centramos los textos en pantalla
+        scoreText_.setPosition(game_.getGraphics().getGameWidth()/2 + scoreText_.getWidth()/2,
+                game_.getGraphics().getGameHeight()/2);
+        pointsText_.setPosition(game_.getGraphics().getGameWidth()/2 + pointsText_.getWidth()/2,
+                game_.getGraphics().getGameHeight()/2 + pointsText_.getHeight());
     }
 
     public void render(){
         game_.getGraphics().clear(background_.getColor());
+
         background_.render();
+
         scoreText_.render();
         pointsText_.render();
         playAgain_.setAlpha((int)playAgainAlpha_);
@@ -93,11 +107,13 @@ public class GameOverState implements StateInterface {
         ArrayList<InputInterface.TouchEvent> events = game_.getInput().getTouchEvents();
 
         for (int j = 0; j < events.size(); j++) {
+            // si el evento lo detecta algun boton -> se ha pulsado sobre el
             for (int i = 0; i < buttons_.size(); i++) {
                 if (buttons_.get(i).isActive()) {
                     if (buttons_.get(i).handleEvent(events.get(j))) return;
                 }
             }
+            // si no, se ha pulsado en la pantalla -> siguiente estado
             if (events.get(j).getEventType() == InputInterface.EventType.Pressed){
                 gameState_.reset();
                 game_.setState(gameState_);
@@ -105,11 +121,11 @@ public class GameOverState implements StateInterface {
         }
     }
 
-    public void setGameState(GameState gameState){
+    public void setGameState(StateInterface gameState){
         gameState_ = gameState;
     }
 
-    public void setInstructionsState(InstructionsState instrState){
+    public void setInstructionsState(StateInterface instrState){
         instrButton_.setNextState(instrState);
     }
 

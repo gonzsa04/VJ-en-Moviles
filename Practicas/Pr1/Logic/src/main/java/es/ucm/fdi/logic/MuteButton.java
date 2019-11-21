@@ -1,10 +1,11 @@
 package es.ucm.fdi.logic;
 
 import es.ucm.fdi.interfaces.GameInterface;
-import es.ucm.fdi.interfaces.Sprite;
 
+/**
+ * Boton que al ser pulsado, cambia la imagen que pinta
+ */
 public class MuteButton extends Button {
-    private Sprite spriteAux_;
     private boolean pressed_;
 
     public MuteButton(GameInterface game, String tag){
@@ -14,16 +15,16 @@ public class MuteButton extends Button {
     public void init(){
         super.init();
         sprite_ = loadSprite("Sprites/buttons.png", 1, 10, 2, 255);
-        spriteAux_ = loadSprite("Sprites/buttons.png", 1, 10, 3, 255);
         pressed_ = false;
     }
 
     public void render(){
-        if(!pressed_) sprite_.draw(position_);
-        else spriteAux_.draw(position_);
+        sprite_.draw(position_);
     }
 
     protected void onPressed(){
         pressed_ = !pressed_;
+        if(!pressed_) sprite_.setFrame(2);
+        else sprite_.setFrame(3);
     }
 }

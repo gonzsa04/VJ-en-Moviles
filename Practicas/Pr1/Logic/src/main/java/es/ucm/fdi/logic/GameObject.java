@@ -5,10 +5,17 @@ import es.ucm.fdi.interfaces.InputInterface;
 import es.ucm.fdi.interfaces.Sprite;
 import es.ucm.fdi.utils.Vector2;
 
+/**
+ * Clase de la que heredaran todas las entidades del juego
+ * Tiene posicion, escala y una imagen que pintar
+ * Con metodos para inicio, pintado, actualizado, recibo de eventos y demas
+ */
 public abstract class GameObject {
     protected GameInterface game_;
+
     protected Vector2 position_;
     protected Vector2 scale_;
+
     protected Sprite sprite_;
     protected boolean active_;
     protected String tag_;
