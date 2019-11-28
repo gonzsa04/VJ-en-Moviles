@@ -1,0 +1,1 @@
+{"package":"com.sencatech.game.oneline","versionCode":1,"versionName":"1.0","application":{"icon":"icon","label":"app_name","activities":[{"name":"src/main.js","launch":"ApplicationMain","screenOrientation":"portrait","action":"MAIN"}]},"uses_sdk":{"minSdkVersion":3,"maxSdkVersion":3,"targetSdkVersion":3}}
