@@ -5,6 +5,9 @@ using UnityEngine;
 public class BoardManager : MonoBehaviour
 {
     private List<GameObject> board_;
+    private List<bool> boolBoard_;
+    private List<int> path_;
+
     private float tileWidth_, tileHeight_;
     private bool pressed_;
 
@@ -16,6 +19,9 @@ public class BoardManager : MonoBehaviour
     void Start()
     {
         board_ = new List<GameObject>();
+        boolBoard_ = new List<bool>();
+        path_ = new List<int>();
+
         tileWidth_ = tilePrefab_.transform.localScale.x;
         tileHeight_ = tilePrefab_.transform.localScale.y;
         pressed_ = false;
@@ -29,43 +35,96 @@ public class BoardManager : MonoBehaviour
         {
             for (int j = 0; j < cols; j++)
             {
-                Vector2 tilePosition = new Vector2(transform.position.x + j * tileWidth_,
-                    transform.position.y - i *tileHeight_);
 
-                GameObject newTile = Instantiate(tilePrefab_);
+                GameObject newTile = Instantiate(tilePrefab_, transform);
+
+                Vector2 tilePosition = new Vector2(newTile.transform.position.x + j * tileWidth_,
+                   newTile.transform.position.y + i * tileHeight_);
+
                 newTile.transform.position = tilePosition;
 
                 board_.Add(newTile);
+                boolBoard_.Add(false);
             }
         }
+        pressTile(0, true); // inicial
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            pressed_ = true;
-        }
-        else if (Input.GetMouseButtonUp(0))
-        {
-            pressed_ = false;
-        }
+        handleInput();
+    }
 
-        if(pressed_)
+    private void handleInput()
+    {
+#if !UNITY_EDITOR && (UNITY_ANDROID || UNITY_IOS)
+        MobileInput();
+#else
+        PCInput();
+#endif
+    }
+
+    private void PCInput()
+    {
+        if (Input.GetMouseButton(0))
         {
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            float difx = Mathf.Abs(transform.position.x - mousePos.x);
-            float dify = Mathf.Abs(transform.position.y - mousePos.y);
-            int row = Mathf.RoundToInt(difx / tileWidth_);
-            int col = Mathf.RoundToInt(dify / tileHeight_);
 
-            if (row >= 0 && row < rows && col >= 0 && col < cols)
+            if (isInsideBoard(mousePos))
             {
-                Tile tileComponent = board_[col * rows + row].GetComponent<Tile>();
-                if(!tileComponent.isPressed())
-                    tileComponent.setPressed(true);
+                float difx = Mathf.Abs(transform.position.x - mousePos.x);
+                float dify = Mathf.Abs(transform.position.y - mousePos.y);
+                int col = Mathf.RoundToInt(difx / tileWidth_);
+                int row = Mathf.RoundToInt(dify / tileHeight_);
+
+                int i = row * cols + col;
+                if (!boolBoard_[i] && isAdyacentToPath(i))
+                {
+                    pressTile(i, true);
+                }
+                else if (boolBoard_[i])
+                {
+                    int indexInPath = path_.IndexOf(i);
+                    for (int currentCount = path_.Count - 1; indexInPath == -1 || currentCount > indexInPath; currentCount--)
+                    {
+                        pressTile(path_[currentCount], false);
+                    }
+                }
             }
         }
+
+        else if (Input.GetMouseButtonUp(0))
+        {
+            // mirar si ha ganado
+        }
+    }
+
+    private void MobileInput()
+    {
+
+    }
+
+    private void pressTile(int boardIndex, bool pressed)
+    {
+        Tile tileComponent = board_[boardIndex].GetComponent<Tile>();
+        boolBoard_[boardIndex] = pressed;
+        tileComponent.setPressed(pressed);
+        if (pressed)
+            path_.Add(boardIndex);
+        else path_.Remove(boardIndex);
+
+    }
+
+    private bool isInsideBoard(Vector2 pos)
+    {
+        return (pos.x >= transform.position.x - tileWidth_ / 2 && pos.x < transform.position.x + cols * tileWidth_ - tileWidth_ / 2
+                && pos.y >= transform.position.y - tileHeight_ / 2 && pos.y < transform.position.y + cols * tileHeight_ - tileHeight_ / 2);
+    }
+
+    private bool isAdyacentToPath(int index)
+    {
+        return (index + 1 == path_[path_.Count - 1] || index - 1 == path_[path_.Count - 1] ||  // izq-der
+            index + cols == path_[path_.Count - 1] || index - cols == path_[path_.Count - 1]); // arriba-abajo
     }
 }
