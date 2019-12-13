@@ -11,6 +11,7 @@ public class BoardManager : MonoBehaviour
     private float tileWidth_, tileHeight_;
     private bool pressed_;
 
+    public SpriteRenderer tracker_;
     public int rows = 3, cols = 3;
 
     public GameObject tilePrefab_;
@@ -21,6 +22,8 @@ public class BoardManager : MonoBehaviour
         board_ = new List<GameObject>();
         boolBoard_ = new List<bool>();
         path_ = new List<int>();
+
+        tracker_.gameObject.SetActive(false);
 
         tileWidth_ = tilePrefab_.transform.localScale.x;
         tileHeight_ = tilePrefab_.transform.localScale.y;
@@ -47,7 +50,7 @@ public class BoardManager : MonoBehaviour
                 boolBoard_.Add(false);
             }
         }
-        pressTile(0, true); // inicial
+        pressTile(12, true); // inicial
     }
 
     // Update is called once per frame
@@ -70,6 +73,13 @@ public class BoardManager : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mousePos = transform.InverseTransformPoint(mousePos);
+            mousePos += transform.position;
+
+            mousePos.z = -1;
+            tracker_.transform.position = mousePos;
+
+            tracker_.gameObject.SetActive(false);
 
             if (isInsideBoard(mousePos))
             {
@@ -77,6 +87,8 @@ public class BoardManager : MonoBehaviour
                 float dify = Mathf.Abs(transform.position.y - mousePos.y);
                 int col = Mathf.RoundToInt(difx / tileWidth_);
                 int row = Mathf.RoundToInt(dify / tileHeight_);
+
+                tracker_.gameObject.SetActive(true);
 
                 int i = row * cols + col;
                 if (!boolBoard_[i] && isAdyacentToPath(i))
@@ -96,6 +108,7 @@ public class BoardManager : MonoBehaviour
 
         else if (Input.GetMouseButtonUp(0))
         {
+            tracker_.gameObject.SetActive(false);
             // mirar si ha ganado
         }
     }
@@ -110,8 +123,22 @@ public class BoardManager : MonoBehaviour
         Tile tileComponent = board_[boardIndex].GetComponent<Tile>();
         boolBoard_[boardIndex] = pressed;
         tileComponent.setPressed(pressed);
+
         if (pressed)
+        {
+            if (path_.Count > 0)
+            {
+                int lastTileIndex = path_[path_.Count - 1];
+                Tile.Direction dir = Tile.Direction.UNDEFINED;
+                if (boardIndex == lastTileIndex + 1) dir = Tile.Direction.LEFT;
+                else if (boardIndex == lastTileIndex - 1) dir = Tile.Direction.RIGHT;
+                else if (boardIndex == lastTileIndex - cols) dir = Tile.Direction.UP;
+                else if (boardIndex == lastTileIndex + cols) dir = Tile.Direction.DOWN;
+                tileComponent.addPath(dir);
+            }
+
             path_.Add(boardIndex);
+        }
         else path_.Remove(boardIndex);
 
     }
