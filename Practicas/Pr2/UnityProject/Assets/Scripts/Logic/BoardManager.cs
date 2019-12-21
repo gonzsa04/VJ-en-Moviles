@@ -9,7 +9,6 @@ public class BoardManager : MonoBehaviour
     private List<int> path_;
 
     private float tileWidth_, tileHeight_;
-    private bool pressed_;
 
     public SpriteRenderer tracker_;
     public int rows = 3, cols = 3;
@@ -27,7 +26,6 @@ public class BoardManager : MonoBehaviour
 
         tileWidth_ = tilePrefab_.transform.localScale.x;
         tileHeight_ = tilePrefab_.transform.localScale.y;
-        pressed_ = false;
 
         loadTiles();
     }
