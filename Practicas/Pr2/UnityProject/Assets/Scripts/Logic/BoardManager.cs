@@ -8,6 +8,8 @@ public class BoardManager : MonoBehaviour
     private List<bool> boolBoard_;   // tabla (lista) auxiliar de bool (Tile pulsado o no)
     private List<int> path_;         // lista con los indices de la tabla que forman parte del camino
     private float tileWidth_, tileHeight_;
+    private int baseWidth_ = 250;
+    private float factor_;
 
     public int rows = 3, cols = 3;
     public SpriteRenderer tracker_;  // huella que deja el dedo al pulsar
@@ -21,10 +23,16 @@ public class BoardManager : MonoBehaviour
 
         tracker_.gameObject.SetActive(false);
 
-        tileWidth_ = tilePrefab_.transform.localScale.x;
-        tileHeight_ = tilePrefab_.transform.localScale.y;
+        tileWidth_ = transform.localScale.x;
+        tileHeight_ = transform.localScale.y;
 
         LoadTiles();
+
+        factor_ = (float)Camera.main.scaledPixelWidth / (float)baseWidth_;
+        Vector3 aux = transform.localScale * factor_;
+        transform.localScale = aux;
+        aux = transform.position * factor_;
+        transform.position = aux;
     }
 
     /// <summary>
@@ -123,7 +131,6 @@ public class BoardManager : MonoBehaviour
                 ProcessInput(col, row);
             }
         }
-
         else if (Input.GetMouseButtonUp(0))
         {
             tracker_.gameObject.SetActive(false);
