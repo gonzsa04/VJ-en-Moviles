@@ -53,8 +53,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e11b5c568961af4ba92db1378624049, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprite0_: {fileID: 6234241485723443946}
-  sprite1_: {fileID: 6234241485795858766}
+  unselected_: {fileID: 6234241485723443946}
+  selected_: {fileID: 6234241485795858766}
   right_: {fileID: 6234241485137159456}
   rightHint_: {fileID: 6234241486336084627}
   up_: {fileID: 6234241485741031758}

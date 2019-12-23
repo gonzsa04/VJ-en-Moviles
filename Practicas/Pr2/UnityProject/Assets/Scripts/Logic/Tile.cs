@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class Tile : MonoBehaviour
 {
+    /// <summary>
+    /// Posibles direcciones del Tile respecto al camino actual
+    /// </summary>
     public enum Direction
     {
         RIGHT,
@@ -14,9 +16,10 @@ public class Tile : MonoBehaviour
         UNDEFINED
     }
 
-    public SpriteRenderer sprite0_;
-    public SpriteRenderer sprite1_;
+    public SpriteRenderer unselected_;  // bloque no seleccionado
+    public SpriteRenderer selected_;    // bloque seleccionado (piel)
 
+    // camino y pistas
     public SpriteRenderer right_;
     public SpriteRenderer rightHint_;
     public SpriteRenderer up_;
@@ -26,14 +29,22 @@ public class Tile : MonoBehaviour
     public SpriteRenderer down_;
     public SpriteRenderer downHint_;
 
+    /// <summary>
+    /// Pulsa o no el Tile
+    /// Pulsado: activa sprite de seleccionado / desactiva sprite de no seleccionado
+    /// No pulsado: activa el sprite de no seleccionado / desactiva el sprite de seleccionado y desactiva el posible camino sobre el
+    /// </summary>
     public void setPressed(bool pressed)
     {
-        sprite0_.gameObject.SetActive(!pressed);
-        sprite1_.gameObject.SetActive(pressed);
+        unselected_.gameObject.SetActive(!pressed);
+        selected_.gameObject.SetActive(pressed);
 
         if (!pressed) quitPath();
     }
 
+    /// <summary>
+    /// Anyade camino sobre el Tile, dependiendo de la direccion indicada
+    /// </summary>
     public void addPath(Direction dir)
     {
         switch (dir)
@@ -55,6 +66,9 @@ public class Tile : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Desactiva todos los caminos que pudiera haber sobre el Tile
+    /// </summary>
     private void quitPath()
     {
         right_.gameObject.SetActive(false);
