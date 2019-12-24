@@ -8,13 +8,14 @@ public class BoardManager : MonoBehaviour
     private List<bool> boolBoard_;   // tabla (lista) auxiliar de bool (Tile pulsado o no)
     private List<int> path_;         // lista con los indices de la tabla que forman parte del camino
     private float tileWidth_, tileHeight_;
-    private int baseWidth_ = 250;
+    private const int baseWidth_ = 250;
     private float factor_;
+    private LevelLoader levelLoader_;
+    private int rows = 3, cols = 3;
 
-    public int rows = 3, cols = 3;
     public SpriteRenderer tracker_;  // huella que deja el dedo al pulsar
     public GameObject tilePrefab_;   // modelo de tile a instanciar
-    
+
     void Start()
     {
         board_ = new List<GameObject>();
@@ -23,24 +24,31 @@ public class BoardManager : MonoBehaviour
 
         tracker_.gameObject.SetActive(false);
 
+        factor_ = (float)Camera.main.scaledPixelWidth / (float)baseWidth_;
+
         tileWidth_ = transform.localScale.x;
         tileHeight_ = transform.localScale.y;
 
-        LoadTiles();
+        levelLoader_ = new LevelLoader();
+        levelLoader_.LoadAllLevels();
 
-        factor_ = (float)Camera.main.scaledPixelWidth / (float)baseWidth_;
-        Vector3 aux = transform.localScale * factor_;
-        transform.localScale = aux;
-        aux = transform.position * factor_;
-        transform.position = aux;
+        LoadLevel(3);
+
+        FitToAspectRatio();
     }
 
     /// <summary>
-    /// Carga rows * cols Tiles, los instancia en posiciones consecutivas y los añade a board_, formando una matriz de Tiles
-    /// de dimensiones rows * cols. Establece el punto de inicio del camino (marca el primer Tile)
+    /// Carga un nivel a partir de los leidos de json.
+    /// Actualiza rows y cols, crea e instancia los tiles en posiciones consecutivas y los añade a board_, formando una matriz de Tiles
+    /// de dimensiones rows * cols. 2 es inicio del camino, 1 es tile normal y 0 es inactivo.
     /// </summary>
-    private void LoadTiles()
+    private void LoadLevel(int number)
     {
+        LevelLoader.LevelInfo levelInfo = levelLoader_.LoadByNumber(number);
+
+        rows = levelInfo.layout_.Length;
+        cols = levelInfo.layout_[0].Length;
+
         for (int i = 0; i < rows; i++)
         {
             for (int j = 0; j < cols; j++)
@@ -54,11 +62,30 @@ public class BoardManager : MonoBehaviour
 
                 board_.Add(newTile);
                 boolBoard_.Add(false);
+
+                if (levelInfo.layout_[Mathf.Abs(i - (rows - 1))][j] == '2')
+                    PressTile(i * cols + j, true); // inicial
+                if (levelInfo.layout_[Mathf.Abs(i - (rows - 1))][j] == '0')
+                    newTile.SetActive(false);
             }
         }
-        PressTile(12, true); // inicial
     }
-    
+
+    /// <summary>
+    /// Ajusta la escala y posicion del tablero (y todos sus hijos / llamar despues de loadLevel()) al aspect ratio
+    /// </summary>
+    private void FitToAspectRatio()
+    {
+        Vector3 aux = transform.localScale * factor_;
+        tileWidth_ = aux.x;
+        tileHeight_ = aux.y;
+        transform.localScale = aux;
+
+        aux.x = -cols * tileWidth_ / 2 + tileWidth_/2;
+        aux.y = -rows * tileHeight_ / 2 + tileHeight_/2;
+        transform.position = aux;
+    }
+
     void Update()
     {
         HandleInput();
@@ -147,7 +174,7 @@ public class BoardManager : MonoBehaviour
     private Vector3 PositionToWorldCoordinates(Vector3 pos)
     {
         Vector3 processedPos = Camera.main.ScreenToWorldPoint(pos);
-        processedPos = transform.InverseTransformPoint(processedPos);
+        processedPos = transform.InverseTransformPoint(processedPos) * transform.localScale.x;
         processedPos += transform.position;
 
         processedPos.z = -1;
@@ -170,7 +197,7 @@ public class BoardManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Dada la posicion del tablero que se ha pulsado: si el Tile no estaba pulsado y es adyacente al camino actual,
+    /// Dada la posicion del tablero que se ha pulsado: si el Tile no estaba pulsado, es adyacente al camino actual y esta activo,
     /// lo selecciona. Si el Tile estaba ya pulsado, deselecciona todos los Tiles que formaban parte del camino actual hasta
     /// este Tile, sin incluirle.
     /// </summary>
@@ -179,7 +206,7 @@ public class BoardManager : MonoBehaviour
     private void ProcessInput(int col, int row)
     {
         int i = row * cols + col;
-        if (!boolBoard_[i] && IsAdyacentToPath(i))
+        if (!boolBoard_[i] && IsAdyacentToPath(i) && board_[i].activeSelf)
         {
             PressTile(i, true);
         }
@@ -230,7 +257,7 @@ public class BoardManager : MonoBehaviour
     private bool IsInsideBoard(Vector2 pos)
     {
         return (pos.x >= transform.position.x - tileWidth_ / 2 && pos.x < transform.position.x + cols * tileWidth_ - tileWidth_ / 2
-                && pos.y >= transform.position.y - tileHeight_ / 2 && pos.y < transform.position.y + cols * tileHeight_ - tileHeight_ / 2);
+                && pos.y >= transform.position.y - tileHeight_ / 2 && pos.y < transform.position.y + rows * tileHeight_ - tileHeight_ / 2);
     }
 
     /// <summary>
