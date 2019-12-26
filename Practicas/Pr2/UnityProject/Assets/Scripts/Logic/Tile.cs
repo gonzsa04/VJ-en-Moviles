@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Objeto seleccionable que puede anyadir camino o pistas sobre el
+/// </summary>
 public class Tile : MonoBehaviour
 {
     /// <summary>
@@ -29,23 +32,34 @@ public class Tile : MonoBehaviour
     public SpriteRenderer down_;
     public SpriteRenderer downHint_;
 
+    //public void kk()
+    //{
+    //    selected_.transform.position.Set(selected_.transform.position.x, selected_.transform.position.y, -2);
+
+    //    right_.transform.position.Set(right_.transform.position.x, right_.transform.position.y, -3);
+    //    rightHint_.transform.position.Set(rightHint_.transform.position.x, rightHint_.transform.position.y, -1);
+
+    //    left_.transform.position.Set(left_.transform.position.x, left_.transform.position.y, -3);
+    //    leftHint_.transform.position.Set(leftHint_.transform.position.x, leftHint_.transform.position.y, -1);
+    //}
+
     /// <summary>
     /// Pulsa o no el Tile
     /// Pulsado: activa sprite de seleccionado / desactiva sprite de no seleccionado
     /// No pulsado: activa el sprite de no seleccionado / desactiva el sprite de seleccionado y desactiva el posible camino sobre el
     /// </summary>
-    public void setPressed(bool pressed)
+    public void SetPressed(bool pressed)
     {
         unselected_.gameObject.SetActive(!pressed);
         selected_.gameObject.SetActive(pressed);
 
-        if (!pressed) quitPath();
+        if (!pressed) QuitPath();
     }
 
     /// <summary>
     /// Anyade camino sobre el Tile, dependiendo de la direccion indicada
     /// </summary>
-    public void addPath(Direction dir)
+    public void AddPath(Direction dir)
     {
         switch (dir)
         {
@@ -67,9 +81,33 @@ public class Tile : MonoBehaviour
     }
 
     /// <summary>
+    /// Anyade pista sobre el Tile, dependiendo de la direccion indicada
+    /// </summary>
+    public void AddHint(Direction dir)
+    {
+        switch (dir)
+        {
+            case Direction.RIGHT:
+                rightHint_.gameObject.SetActive(true);
+                break;
+            case Direction.UP:
+                upHint_.gameObject.SetActive(true);
+                break;
+            case Direction.LEFT:
+                leftHint_.gameObject.SetActive(true);
+                break;
+            case Direction.DOWN:
+                downHint_.gameObject.SetActive(true);
+                break;
+            default:
+                break;
+        }
+    }
+
+    /// <summary>
     /// Desactiva todos los caminos que pudiera haber sobre el Tile
     /// </summary>
-    private void quitPath()
+    private void QuitPath()
     {
         right_.gameObject.SetActive(false);
         up_.gameObject.SetActive(false);
