@@ -12,21 +12,26 @@ public class BoardManager : MonoBehaviour
     private List<GameObject> board_; // tabla (lista) de Tiles
     private List<bool> boolBoard_;   // tabla (lista) auxiliar de bool (Tile pulsado o no)
     private List<int> path_;         // lista con los indices de la tabla que forman parte del camino
+
     private float tileWidth_, tileHeight_;
-    private const int baseWidth_ = 250;
+    private const int baseWidth_ = 275;    // ancho jugable estandar (1080:1920)
+    private const int baseHeight_ = 300;   // alto jugable estandar (1080:1920)
     private float factor_;
     private int rows = 3, cols = 3;
     private int[,] hints_;
     private int lastHint_ = 1;
-
+    
     public SpriteRenderer tracker_;  // huella que deja el dedo al pulsar
     public GameObject tilePrefab_;   // modelo de tile a instanciar
+    public Sprite topLimit_;         // sprite que determina el limite de juego por arriba
+    public Sprite bottomLimit_;      // sprite que determina el limite de juego por abajo
+
     public float smallScale = 0.8f;  // resolucion para tableros de 6x5
     public float bigScale = 0.6f;    // resolucion para tableros de 6x8
     public int numHintsGiven_ = 5;   // numero de pistas que da "comprar pista"
 
     /// <summary>
-    /// Inicializa los campos de boardManager y carga todos los niveles
+    /// Inicializa los campos de boardManager, establece el factor de escala que usara el tablero y carga todos los niveles
     /// </summary>
     void Awake()
     {
@@ -36,7 +41,7 @@ public class BoardManager : MonoBehaviour
         
         tracker_.gameObject.SetActive(false);
 
-        factor_ = (float)Camera.main.scaledPixelWidth / (float)baseWidth_;
+        SetFactor();
 
         levelLoader_ = new LevelLoader();
         levelLoader_.LoadAllLevels();
@@ -104,6 +109,25 @@ public class BoardManager : MonoBehaviour
         path_.Clear();
 
         lastHint_ = 1;
+    }
+
+    /// <summary>
+    /// Establece el factor de escala que usara el tablero para ocupar el mayor hueco posible dentro del area de juego,
+    /// usando como referencia el area estandar para la que esta preparada su escala por defecto
+    /// </summary>
+    private void SetFactor()
+    {
+        float topFactor = topLimit_.rect.width / topLimit_.rect.height;
+        float bottomFactor = bottomLimit_.rect.width / bottomLimit_.rect.height;
+        float topHeight = Camera.main.scaledPixelWidth / topFactor;
+        float bottomHeight = Camera.main.scaledPixelWidth / bottomFactor;
+        float xFactor_ = (float)Camera.main.scaledPixelWidth / (float)baseWidth_;
+        float yFactor_ = (float)(Camera.main.scaledPixelHeight - (topHeight + bottomHeight)) / (float)baseHeight_;
+
+        if (yFactor_ < xFactor_)
+            factor_ = yFactor_;
+        else
+            factor_ = xFactor_;
     }
 
     /// <summary>

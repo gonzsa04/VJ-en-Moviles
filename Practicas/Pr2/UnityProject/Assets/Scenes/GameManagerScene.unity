@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 184514770}
   m_Layer: 5
   m_Name: downBackGround
-  m_TagString: Untagged
+  m_TagString: BottomLimit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -564,8 +564,10 @@ MonoBehaviour:
   tracker_: {fileID: 1727233903}
   tilePrefab_: {fileID: 6234241484989539724, guid: 1e30a7be28012414eacba3be44270423,
     type: 3}
-  smallScale: 0.8
-  bigScale: 0.6
+  topLimit_: {fileID: 21300000, guid: bb3ea2b63cadd814cbd837ee7b0d74dd, type: 3}
+  bottomLimit_: {fileID: 21300000, guid: 91266e097b8e3af429afecabc804e8fb, type: 3}
+  smallScale: 0.9
+  bigScale: 0.7
   numHintsGiven_: 5
 --- !u!4 &1267688097
 Transform:
@@ -1159,7 +1161,7 @@ GameObject:
   - component: {fileID: 2104435703}
   m_Layer: 5
   m_Name: upBackGround
-  m_TagString: Untagged
+  m_TagString: TopLimit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
