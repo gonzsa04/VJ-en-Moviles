@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     public BoardManager boardManager_;
 
-    private int level_ = 1;
+    private int level_ = 25;
 
     private void Awake()
     {
@@ -34,6 +34,6 @@ public class GameManager : MonoBehaviour
 
     public void ShowHints()
     {
-        boardManager_.ShowHint();
+        StartCoroutine(boardManager_.ShowHint());
     }
 }

@@ -132,7 +132,7 @@ public class BoardManager : MonoBehaviour
     /// <summary>
     /// Muestra las numHintsGiven_ siguientes pistas
     /// </summary>
-    public void ShowHint()
+    public IEnumerator ShowHint()
     {
         for(int i = lastHint_; i < lastHint_ + numHintsGiven_; i++)
         {
@@ -145,6 +145,8 @@ public class BoardManager : MonoBehaviour
 
             Tile.Direction dir = TileDirection(hintIndex, lasthintIndex);
             tileComponent.AddHint(dir);
+
+            yield return new WaitForSeconds(.2f);
         }
 
         lastHint_ += numHintsGiven_;
