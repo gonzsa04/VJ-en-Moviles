@@ -665,8 +665,9 @@ MonoBehaviour:
   - {fileID: 6304854242245697133, guid: 70bb56b9d4e2ed842aabb010437401a1, type: 3}
   - {fileID: 5696740823501507245, guid: 42a55cc516218db479bbce77ae6abd52, type: 3}
   - {fileID: 686705334361358050, guid: 1a28424274c5c3148a4664c397af451c, type: 3}
-  smallScale: 0.9
-  bigScale: 0.7
+  rawJson: {fileID: 4900000, guid: ca89c19411d72d74487e60d09a6c8916, type: 3}
+  smallBoardScale: 0.9
+  bigBoardScale: 0.7
   numHintsGiven: 5
 --- !u!4 &1267688097
 Transform:
@@ -1355,6 +1356,7 @@ MonoBehaviour:
   hintText: {fileID: 9534822}
   moneyIncrement: 20
   hintCost: 25
+  debugText: {fileID: 0}
 --- !u!4 &2047741265
 Transform:
   m_ObjectHideFlags: 0

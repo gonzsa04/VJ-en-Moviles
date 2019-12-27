@@ -12,7 +12,7 @@ public class BackGroundFitter : MonoBehaviour
 {
     public Sprite background;
 
-    void Awake()
+    void Start()
     {
         RectTransform canvasRect = GetComponent<RectTransform>();
         float currentHeight = 0;

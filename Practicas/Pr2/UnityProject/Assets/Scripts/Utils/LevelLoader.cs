@@ -56,9 +56,8 @@ public class LevelLoader
     /// <summary>
     /// Carga todos los niveles, que se anyadiran al diccionario de niveles
     /// </summary>
-    public void LoadAllLevels()
+    public void LoadAllLevels(string json)
     {
-        string json = File.ReadAllText(Application.dataPath + routeName_);
         JSONNode rawLevels = JSON.Parse(json);
         for (int i = 0; i < rawLevels["levels"].Count; i++)
         {

@@ -14,8 +14,8 @@ public class GameManager : MonoBehaviour
     public int hintCost = 25;
 
     private int money_ = 0;
-    private int level_ = 25;
-
+    private int level_ = 450;
+    
     private void Awake()
     {
         instance = this;

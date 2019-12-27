@@ -14,8 +14,8 @@ public class BoardManager : MonoBehaviour
     private List<int> path_;         // lista con los indices de la tabla que forman parte del camino
 
     private float tileWidth_, tileHeight_;
-    private const int baseWidth_ = 275;    // ancho jugable estandar (1080:1920)
-    private const int baseHeight_ = 300;   // alto jugable estandar (1080:1920)
+    private const float baseWidth_ = 5.62f;    // ancho jugable estandar (1080:1920)
+    private const float baseHeight_ = 6.21f;   // alto jugable estandar (1080:1920)
     private float factor_;
     private int rows = 3, cols = 3;
     private int[,] hints_;
@@ -31,10 +31,13 @@ public class BoardManager : MonoBehaviour
     [Tooltip("Posibles skins. Se elegira una alearoria")]
     public List<Skin> skins;
 
+    [Tooltip("Json del que leer todos los niveles")]
+    public TextAsset rawJson;
+
     [Tooltip("Resolucion para tableros de 6x5")]
-    public float smallScale = 0.8f;
+    public float smallBoardScale = 0.8f;
     [Tooltip("Resolucion para tableros de 6x8")]
-    public float bigScale = 0.6f;
+    public float bigBoardScale = 0.6f;
     public int numHintsGiven = 5;   // numero de pistas que da "comprar pista"
 
     /// <summary>
@@ -51,7 +54,7 @@ public class BoardManager : MonoBehaviour
         SetFactor();
 
         levelLoader_ = new LevelLoader();
-        levelLoader_.LoadAllLevels();
+        levelLoader_.LoadAllLevels(rawJson.text);
     }
 
     /// <summary>
@@ -71,8 +74,8 @@ public class BoardManager : MonoBehaviour
         cols = levelInfo.layout_[0].Length;
         hints_ = levelInfo.path_;
 
-        if (cols <= 5) transform.localScale = new Vector2(smallScale, smallScale);
-        else transform.localScale = new Vector2(bigScale, bigScale);
+        if (rows <= 5) transform.localScale = new Vector2(smallBoardScale, smallBoardScale);
+        else transform.localScale = new Vector2(bigBoardScale, bigBoardScale);
 
         tileWidth_ = transform.localScale.x;
         tileHeight_ = transform.localScale.y;
@@ -137,13 +140,16 @@ public class BoardManager : MonoBehaviour
     /// </summary>
     private void SetFactor()
     {
+        float height = Camera.main.orthographicSize * 2;
+        float width = Camera.main.aspect * height;
+
         float topFactor = topLimit.rect.width / topLimit.rect.height;
         float bottomFactor = bottomLimit.rect.width / bottomLimit.rect.height;
-        float topHeight = Camera.main.scaledPixelWidth / topFactor;
-        float bottomHeight = Camera.main.scaledPixelWidth / bottomFactor;
-        float xFactor_ = (float)Camera.main.scaledPixelWidth / (float)baseWidth_;
-        float yFactor_ = (float)(Camera.main.scaledPixelHeight - (topHeight + bottomHeight)) / (float)baseHeight_;
-
+        float topHeight = width / topFactor;
+        float bottomHeight = width / bottomFactor;
+        float xFactor_ = (float)width / (float)baseWidth_;
+        float yFactor_ = (float)(height - (topHeight + bottomHeight)) / (float)baseHeight_;
+        
         if (yFactor_ < xFactor_)
             factor_ = yFactor_;
         else
