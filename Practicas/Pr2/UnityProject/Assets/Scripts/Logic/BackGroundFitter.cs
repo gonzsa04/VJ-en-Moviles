@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Componente del canvas que ajusta la imagen de fondo. Instancia las copias que sean necesarias
+/// para cubrir todo el alto de la pantalla, ajustando el ancho de cada una de ellas al ancho de la
+/// pantalla y reescalando su altura en la misma medida para evitar deformaciones
+/// </summary>
 public class BackGroundFitter : MonoBehaviour
 {
     public Sprite background;
@@ -10,7 +15,6 @@ public class BackGroundFitter : MonoBehaviour
     void Awake()
     {
         RectTransform canvasRect = GetComponent<RectTransform>();
-
         float currentHeight = 0;
 
         do

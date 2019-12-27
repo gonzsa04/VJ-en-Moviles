@@ -5,10 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/TouchScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/AspectRatioScene.unity
     guid: d3584334a35056642afc72a1d0a4fa16
+  - enabled: 1
+    path: Assets/Scenes/GameManagerScene.unity
+    guid: b67d851a28b059944ad1b80947f0c70c
   m_configObjects: {}

@@ -19,8 +19,10 @@ public class Tile : MonoBehaviour
         UNDEFINED
     }
 
-    public SpriteRenderer unselected_;  // bloque no seleccionado
-    public SpriteRenderer selected_;    // bloque seleccionado (piel)
+    [Tooltip("SpriteRenderer usado cuando el bloque no esta seleccionado")]
+    public SpriteRenderer unselected_;
+    [Tooltip("SpriteRenderer usado cuando el bloque esta seleccionado (piel)")]
+    public SpriteRenderer selected_;
 
     // camino y pistas
     public SpriteRenderer right_;
@@ -102,6 +104,12 @@ public class Tile : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    public void SetSkin(Skin skin)
+    {
+        selected_.sprite = skin.selected;
+        leftHint_.sprite = upHint_.sprite = rightHint_.sprite = downHint_.sprite = skin.hint;
     }
 
     /// <summary>

@@ -20,15 +20,22 @@ public class BoardManager : MonoBehaviour
     private int rows = 3, cols = 3;
     private int[,] hints_;
     private int lastHint_ = 1;
+    private int skinIndex_;
     
-    public SpriteRenderer tracker_;  // huella que deja el dedo al pulsar
-    public GameObject tilePrefab_;   // modelo de tile a instanciar
-    public Sprite topLimit_;         // sprite que determina el limite de juego por arriba
-    public Sprite bottomLimit_;      // sprite que determina el limite de juego por abajo
+    public SpriteRenderer tracker;  // huella que deja el dedo al pulsar
+    public GameObject tilePrefab;   // modelo de tile a instanciar
+    [Tooltip("Sprite que determina el limite de juego por arriba")]
+    public Sprite topLimit;
+    [Tooltip("Sprite que determina el limite de juego por abajo")]
+    public Sprite bottomLimit;
+    [Tooltip("Posibles skins. Se elegira una alearoria")]
+    public List<Skin> skins;
 
-    public float smallScale = 0.8f;  // resolucion para tableros de 6x5
-    public float bigScale = 0.6f;    // resolucion para tableros de 6x8
-    public int numHintsGiven_ = 5;   // numero de pistas que da "comprar pista"
+    [Tooltip("Resolucion para tableros de 6x5")]
+    public float smallScale = 0.8f;
+    [Tooltip("Resolucion para tableros de 6x8")]
+    public float bigScale = 0.6f;
+    public int numHintsGiven = 5;   // numero de pistas que da "comprar pista"
 
     /// <summary>
     /// Inicializa los campos de boardManager, establece el factor de escala que usara el tablero y carga todos los niveles
@@ -38,8 +45,8 @@ public class BoardManager : MonoBehaviour
         board_ = new List<GameObject>();
         boolBoard_ = new List<bool>();
         path_ = new List<int>();
-        
-        tracker_.gameObject.SetActive(false);
+
+        tracker.gameObject.SetActive(false);
 
         SetFactor();
 
@@ -74,7 +81,8 @@ public class BoardManager : MonoBehaviour
         {
             for (int j = 0; j < cols; j++)
             {
-                GameObject newTile = Instantiate(tilePrefab_, transform);
+                GameObject newTile = Instantiate(tilePrefab, transform);
+                newTile.GetComponent<Tile>().SetSkin(skins[skinIndex_]);
 
                 Vector2 tilePosition = new Vector2(newTile.transform.position.x + j * tileWidth_,
                    newTile.transform.position.y + i * tileHeight_);
@@ -97,10 +105,14 @@ public class BoardManager : MonoBehaviour
 
     /// <summary>
     /// Restablece la tabla de Tiles, el camino recorrido y la ultima pista mostrada
+    /// Elige la nueva skin aleatoria
     /// </summary>
     private void Reset()
     {
-        for(int i = 0; i < board_.Count; i++)
+        skinIndex_ = Random.Range(0, 7);
+        tracker.GetComponent<SpriteRenderer>().sprite = skins[skinIndex_].tracker;
+
+        for (int i = 0; i < board_.Count; i++)
         {
             Destroy(board_[i].gameObject);
         }
@@ -111,14 +123,22 @@ public class BoardManager : MonoBehaviour
         lastHint_ = 1;
     }
 
+    public void Restart()
+    {
+        for(int i = path_.Count - 1; i >= 1; i--)
+        {
+            PressTile(path_[i], false);
+        }
+    }
+
     /// <summary>
     /// Establece el factor de escala que usara el tablero para ocupar el mayor hueco posible dentro del area de juego,
     /// usando como referencia el area estandar para la que esta preparada su escala por defecto
     /// </summary>
     private void SetFactor()
     {
-        float topFactor = topLimit_.rect.width / topLimit_.rect.height;
-        float bottomFactor = bottomLimit_.rect.width / bottomLimit_.rect.height;
+        float topFactor = topLimit.rect.width / topLimit.rect.height;
+        float bottomFactor = bottomLimit.rect.width / bottomLimit.rect.height;
         float topHeight = Camera.main.scaledPixelWidth / topFactor;
         float bottomHeight = Camera.main.scaledPixelWidth / bottomFactor;
         float xFactor_ = (float)Camera.main.scaledPixelWidth / (float)baseWidth_;
@@ -158,7 +178,7 @@ public class BoardManager : MonoBehaviour
     /// </summary>
     public IEnumerator ShowHint()
     {
-        for(int i = lastHint_; i < lastHint_ + numHintsGiven_; i++)
+        for(int i = lastHint_; i < lastHint_ + numHintsGiven; i++)
         {
             if(i >= hints_.GetLength(0)) break;
 
@@ -173,7 +193,7 @@ public class BoardManager : MonoBehaviour
             yield return new WaitForSeconds(.2f);
         }
 
-        lastHint_ += numHintsGiven_;
+        lastHint_ += numHintsGiven;
     }
 
     void Update()
@@ -235,22 +255,22 @@ public class BoardManager : MonoBehaviour
         {
             Vector3 mousePos = PositionToWorldCoordinates(Input.mousePosition);
 
-            tracker_.transform.position = mousePos;
-            tracker_.gameObject.SetActive(false);
+            tracker.transform.position = mousePos;
+            tracker.gameObject.SetActive(false);
 
             if (IsInsideBoard(mousePos))
             {
                 int col, row;
                 ParseToBoardPosition(mousePos, out col, out row);
 
-                tracker_.gameObject.SetActive(true);
+                tracker.gameObject.SetActive(true);
 
                 ProcessInput(col, row);
             }
         }
         else if (Input.GetMouseButtonUp(0))
         {
-            tracker_.gameObject.SetActive(false);
+            tracker.gameObject.SetActive(false);
             if (LevelCompleted()) GameManager.instance.ToNextLevel();
         }
     }
