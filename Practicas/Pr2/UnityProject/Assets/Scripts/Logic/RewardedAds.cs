@@ -5,12 +5,7 @@ using UnityEngine.Advertisements;
 [RequireComponent(typeof(Button))]
 public class RewardedAds : MonoBehaviour, IUnityAdsListener
 {
-
-#if UNITY_IOS
-    private string gameId = "1486551";
-#elif UNITY_ANDROID
-    private string gameId = "1486550";
-#endif
+    private string gameId = "1234567";
 
     Button myButton;
     public string myPlacementId = "rewardedVideo";

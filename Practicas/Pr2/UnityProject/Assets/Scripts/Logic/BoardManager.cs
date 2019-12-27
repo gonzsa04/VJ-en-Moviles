@@ -219,22 +219,22 @@ public class BoardManager : MonoBehaviour
                     {
                         Vector3 touchPos = PositionToWorldCoordinates(touch.position);
 
-                        tracker_.transform.position = touchPos;
-                        tracker_.gameObject.SetActive(false);
+                        tracker.transform.position = touchPos;
+                        tracker.gameObject.SetActive(false);
 
                         if (IsInsideBoard(touchPos))
                         {
                             int col, row;
                             ParseToBoardPosition(touchPos, out col, out row);
 
-                            tracker_.gameObject.SetActive(true);
+                            tracker.gameObject.SetActive(true);
 
                             ProcessInput(col, row);
                         }
                     }
                     else // dedo levantado
                     {
-                        tracker_.gameObject.SetActive(false);
+                        tracker.gameObject.SetActive(false);
                         if (LevelCompleted()) GameManager.instance.ToNextLevel();
                     }
                     break;

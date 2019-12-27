@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameManagerScene.unity
     guid: b67d851a28b059944ad1b80947f0c70c
+  - enabled: 0
+    path: Assets/Scenes/ReadMapScene.unity
+    guid: 4d05fbdbe4f9a2a4a943abd025cd5ddf
   m_configObjects: {}
