@@ -89,15 +89,15 @@ public class LevelSelectorManager : MonoBehaviour
             for (int j = 0; j < cols; j++)
             {
                 GameObject newButton = Instantiate(buttonPrefab, parent);
-                
-                float rowWidth = buttonWidth_ * cols;
-                float rowHeight = buttonHeight_ * rows;
 
-                Vector2 tilePosition = new Vector2(parent.position.x - (rowWidth/2) + (buttonWidth_/2) + (buttonWidth_*j),
-                   parent.position.y - (rowHeight/2) + (buttonHeight_/2) + (buttonHeight_ * i));
+                //float rowWidth = buttonWidth_ * cols;
+                //float rowHeight = buttonHeight_ * rows;
 
-                newButton.transform.position = tilePosition;
-                newButton.transform.localScale /= factor_;
+                //Vector2 tilePosition = new Vector2(parent.position.x - (rowWidth / 2) + (buttonWidth_ / 2) + (buttonWidth_ * j),
+                //   parent.position.y - (rowHeight / 2) + (buttonHeight_ / 2) + (buttonHeight_ * i));
+
+                //newButton.transform.position = tilePosition;
+                //newButton.transform.localScale /= factor_;
             }
         }
     }
