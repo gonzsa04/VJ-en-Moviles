@@ -5,7 +5,7 @@ using UnityEngine.Advertisements;
 [RequireComponent(typeof(Button))]
 public class RewardedAds : MonoBehaviour, IUnityAdsListener
 {
-    private string gameId = "1234567";
+    private string gameId = "1486550";
 
     Button myButton;
     public string myPlacementId = "rewardedVideo";
@@ -22,7 +22,7 @@ public class RewardedAds : MonoBehaviour, IUnityAdsListener
 
         // Initialize the Ads listener and service:
         Advertisement.AddListener(this);
-        Advertisement.Initialize(gameId, false);
+        Advertisement.Initialize(gameId, true);
     }
 
     // Implement a function for showing a rewarded video ad:

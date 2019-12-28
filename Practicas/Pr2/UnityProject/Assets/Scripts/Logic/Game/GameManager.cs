@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     public int hintCost = 25;
 
     private int money_ = 0;
-    private int level_ = 450;
+    private int level_ = 150;
     
     private void Awake()
     {
@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
 
     public void ShowHints()
     {
-        if (money_ >= hintCost)
+        if (money_ >= hintCost && !boardManager.AllHintsGiven())
         {
             money_ -= hintCost;
             moneyText.text = money_.ToString();
@@ -53,6 +53,6 @@ public class GameManager : MonoBehaviour
 
     public void RestartLevel()
     {
-        boardManager.Restart();
+        boardManager.RestartFrom(0);
     }
 }

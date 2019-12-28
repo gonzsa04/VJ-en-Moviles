@@ -12,7 +12,6 @@ using SimpleJSON;
 public class LevelLoader
 {
     private Dictionary<int, LevelInfo> levels_;
-    private const string routeName_ = "/Levels/levels.json";
 
     /// <summary>
     /// Informacion de cada nivel: casillas que lo forman y el camino a seguir para resolverlo

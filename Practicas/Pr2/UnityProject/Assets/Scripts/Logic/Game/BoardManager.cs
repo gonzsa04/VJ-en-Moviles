@@ -126,11 +126,11 @@ public class BoardManager : MonoBehaviour
         lastHint_ = 1;
     }
 
-    public void Restart()
+    public void RestartFrom(int indexInPath)
     {
-        for(int i = path_.Count - 1; i >= 1; i--)
+        for (int currentCount = path_.Count - 1; indexInPath == -1 || currentCount > indexInPath; currentCount--)
         {
-            PressTile(path_[i], false);
+            PressTile(path_[currentCount], false);
         }
     }
 
@@ -200,6 +200,11 @@ public class BoardManager : MonoBehaviour
         }
 
         lastHint_ += numHintsGiven;
+    }
+
+    public bool AllHintsGiven()
+    {
+        return (lastHint_ >= hints_.GetLength(0));
     }
 
     void Update()
@@ -358,10 +363,7 @@ public class BoardManager : MonoBehaviour
         else if (boolBoard_[i])
         {
             int indexInPath = path_.IndexOf(i);
-            for (int currentCount = path_.Count - 1; indexInPath == -1 || currentCount > indexInPath; currentCount--)
-            {
-                PressTile(path_[currentCount], false);
-            }
+            RestartFrom(indexInPath);
         }
     }
 
