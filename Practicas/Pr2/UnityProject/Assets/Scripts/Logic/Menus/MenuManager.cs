@@ -1,19 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public int[] numLevelsPerDifficulty;
+    public Text moneyText;
+
+    void Awake()
     {
-        
+        SceneComunicator.instance.numLevels = numLevelsPerDifficulty;
     }
 
-
-    public void GoToLevelSelector(int mode)
+    void Start()
     {
+        moneyText.text = SceneComunicator.instance.money.ToString();
+    }
+
+    public void GoToLevelSelector(int difficulty)
+    {
+        SceneComunicator.instance.difficultyLevel = difficulty;
         SceneManager.LoadScene("LevelSelectorScene");
     }
 

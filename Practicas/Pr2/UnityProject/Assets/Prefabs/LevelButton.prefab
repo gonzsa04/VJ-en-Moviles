@@ -167,6 +167,7 @@ GameObject:
   - component: {fileID: 4784611455407678353}
   - component: {fileID: 6648144818927054253}
   - component: {fileID: 4269674556923726065}
+  - component: {fileID: 7483752668960607605}
   m_Layer: 5
   m_Name: LevelButton
   m_TagString: Untagged
@@ -181,7 +182,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7555988377522995345}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -6.915726e+10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -292,3 +293,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_AspectMode: 1
   m_AspectRatio: 1.0738255
+--- !u!114 &7483752668960607605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7555988377522995345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d149e1fd4a11d8141a64f5ac392f6509, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textComponent: {fileID: 2650834447721192756}
