@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SceneComunicator : MonoBehaviour
 {
@@ -37,5 +38,6 @@ public class SceneComunicator : MonoBehaviour
             numLevelsUnLocked[i] = 1; // leer
             totalNumLevels += numLevels[i];
         }
+        SceneManager.LoadScene("MenuScene");
     }
 }
