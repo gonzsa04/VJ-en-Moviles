@@ -32,11 +32,11 @@ public class SceneComunicator : MonoBehaviour
     void Start()
     {
         totalNumLevels = 0;
-        numLevelsUnLocked = new int[numLevels.Length];
-        for (int i = 0; i < numLevels.Length; i++)
+        numLevelsUnLocked = new int[5];
+        for (int i = 0; i < 5; i++)
         {
             numLevelsUnLocked[i] = 1; // leer
-            totalNumLevels += numLevels[i];
+            totalNumLevels += 100;
         }
         SceneManager.LoadScene("MenuScene");
     }

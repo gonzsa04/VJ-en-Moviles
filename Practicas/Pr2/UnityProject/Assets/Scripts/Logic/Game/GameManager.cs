@@ -28,6 +28,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         money_ = SceneComunicator.instance.money;
+        moneyText.text = money_.ToString();
+
         level_ = SceneComunicator.instance.numLevel;
 
         SetLevelName();
@@ -59,8 +61,9 @@ public class GameManager : MonoBehaviour
         SceneComunicator.instance.numLevelsUnLocked[SceneComunicator.instance.difficultyLevel]++;
 
         int lastLevel = 0;
-        for (int i = 0; i < SceneComunicator.instance.difficultyLevel; i++)
+        for (int i = 0; i < SceneComunicator.instance.difficultyLevel + 1; i++)
             lastLevel += SceneComunicator.instance.numLevels[i];
+
 
         if (level_ > lastLevel)
         {

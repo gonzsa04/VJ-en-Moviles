@@ -6,6 +6,7 @@ using UnityEngine.Advertisements;
 public class RewardedAds : MonoBehaviour, IUnityAdsListener
 {
     private string gameId = "1486550";
+    private bool rewarded = false;
 
     Button myButton;
     public string myPlacementId = "rewardedVideo";
@@ -28,6 +29,7 @@ public class RewardedAds : MonoBehaviour, IUnityAdsListener
     // Implement a function for showing a rewarded video ad:
     void ShowRewardedVideo()
     {
+        rewarded = false;
         Advertisement.Show(myPlacementId);
     }
 
@@ -44,8 +46,9 @@ public class RewardedAds : MonoBehaviour, IUnityAdsListener
     public void OnUnityAdsDidFinish(string placementId, ShowResult showResult)
     {
         // Define conditional logic for each ad completion status:
-        if (showResult == ShowResult.Finished)
+        if (showResult == ShowResult.Finished && !rewarded)
         {
+            rewarded = true;
             GameManager.instance.Reward();
         }
         else if (showResult == ShowResult.Skipped)

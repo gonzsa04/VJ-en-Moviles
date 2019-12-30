@@ -20,7 +20,6 @@ public class ChallengeManager : MonoBehaviour
 
     void Start()
     {
-        Debug.Log(SceneComunicator.instance.totalNumLevels + 1);
         level_ = Random.Range(1, SceneComunicator.instance.totalNumLevels + 1);
         timerComponent_ = gameObject.GetComponent<Timer>();
         

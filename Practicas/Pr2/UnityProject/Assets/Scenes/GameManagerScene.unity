@@ -669,6 +669,7 @@ MonoBehaviour:
   smallBoardScale: 0.8
   bigBoardScale: 0.7
   numHintsGiven: 5
+  isButtonDown: 0
 --- !u!4 &1267688097
 Transform:
   m_ObjectHideFlags: 0
@@ -1317,7 +1318,7 @@ Transform:
   m_GameObject: {fileID: 1727233902}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -4}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -1356,6 +1357,9 @@ MonoBehaviour:
   hintText: {fileID: 9534822}
   moneyIncrement: 20
   hintCost: 25
+  currentDifficultySprite: {fileID: 0}
+  currentDifficultyText: {fileID: 0}
+  difficultySprites: []
 --- !u!4 &2047741265
 Transform:
   m_ObjectHideFlags: 0
