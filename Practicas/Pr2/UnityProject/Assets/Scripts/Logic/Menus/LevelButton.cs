@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class LevelButton : MonoBehaviour
 {
     public Text textComponent;
+    public Sprite blockedSprite;
 
     private int level_;
 
@@ -13,6 +14,16 @@ public class LevelButton : MonoBehaviour
     {
         Button btn = gameObject.GetComponent<Button>(); //or just drag-n-drop the button in the CustomButton field
         btn.onClick.AddListener(Click);  //subscribe to the onClick event
+
+        if (SceneComunicator.instance.numLevelsUnLocked[SceneComunicator.instance.difficultyLevel] <= level_ - 1)
+        {
+            btn.enabled = false;
+            gameObject.GetComponent<Image>().sprite = blockedSprite;
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                transform.GetChild(i).gameObject.SetActive(false);
+            }
+        }
     }
 
     private void Click()

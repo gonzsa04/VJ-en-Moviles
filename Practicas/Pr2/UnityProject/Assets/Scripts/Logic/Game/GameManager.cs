@@ -13,6 +13,9 @@ public class GameManager : MonoBehaviour
     public Text hintText;
     public int moneyIncrement = 20;
     public int hintCost = 25;
+    public Image currentDifficultySprite;
+    public Text currentDifficultyText;
+    public Sprite[] difficultySprites;
 
     private int money_;
     private int level_;
@@ -27,10 +30,24 @@ public class GameManager : MonoBehaviour
         money_ = SceneComunicator.instance.money;
         level_ = SceneComunicator.instance.numLevel;
 
+        SetLevelName();
+
         hintText.text = hintCost.ToString();
         boardManager.LoadLevel(level_);
 
         Advertisement.Initialize("OneLine");
+    }
+
+    void Update()
+    {
+        if (boardManager.LevelCompleted() && !boardManager.isButtonDown)
+            ToNextLevel();
+    }
+
+    private void SetLevelName()
+    {
+        currentDifficultySprite.sprite = difficultySprites[SceneComunicator.instance.difficultyLevel];
+        currentDifficultyText.text = (SceneComunicator.instance.numLevelInCurrentDifficulty).ToString();
     }
 
     public void ToNextLevel()
@@ -38,10 +55,20 @@ public class GameManager : MonoBehaviour
         level_++;
         boardManager.LoadLevel(level_);
         SceneComunicator.instance.numLevel = level_;
-        int lastLevel = SceneComunicator.instance.difficultyLevel *
-            SceneComunicator.instance.numLevels[SceneComunicator.instance.difficultyLevel];
+        SceneComunicator.instance.numLevelInCurrentDifficulty++;
+        SceneComunicator.instance.numLevelsUnLocked[SceneComunicator.instance.difficultyLevel]++;
+
+        int lastLevel = 0;
+        for (int i = 0; i < SceneComunicator.instance.difficultyLevel; i++)
+            lastLevel += SceneComunicator.instance.numLevels[i];
+
         if (level_ > lastLevel)
+        {
             SceneComunicator.instance.difficultyLevel++;
+            SceneComunicator.instance.numLevelInCurrentDifficulty = 1;
+        }
+
+        SetLevelName();
     }
 
     public void ShowHints()

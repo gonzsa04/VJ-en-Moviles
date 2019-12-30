@@ -306,3 +306,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textComponent: {fileID: 2650834447721192756}
+  blockedSprite: {fileID: 21300000, guid: 1b790063eebf1e14d89e96b4053d89d1, type: 3}

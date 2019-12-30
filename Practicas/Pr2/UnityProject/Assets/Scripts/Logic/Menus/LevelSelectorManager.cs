@@ -6,13 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class LevelSelectorManager : MonoBehaviour
 {
-    public int rows = 20;
-    public int cols = 5;
-
     public static LevelSelectorManager instance;
     public RectTransform targetTrans;
     public RectTransform buttonPanelTrans;
-    public Canvas canvas;
     public GameObject buttonPrefab;
     public Image currentDifficultySprite;
     public Sprite[] difficultySprites;
@@ -20,13 +16,9 @@ public class LevelSelectorManager : MonoBehaviour
     private int difficultyLevel_;
     private int numLevels_;
 
-    private void Awake()
+    void Awake()
     {
         instance = this;
-    }
-
-    void Start()
-    {
         difficultyLevel_ = SceneComunicator.instance.difficultyLevel;
         numLevels_ = SceneComunicator.instance.numLevels[difficultyLevel_];
 
@@ -44,7 +36,12 @@ public class LevelSelectorManager : MonoBehaviour
 
     public void GoToLevel(int level)
     {
-        SceneComunicator.instance.numLevel = difficultyLevel_ * numLevels_ + level;
+        int numLevelInTotal = 0;
+        for(int i = 0; i < difficultyLevel_; i++)
+            numLevelInTotal += SceneComunicator.instance.numLevels[i];
+
+        SceneComunicator.instance.numLevelInCurrentDifficulty = level;
+        SceneComunicator.instance.numLevel = numLevelInTotal + level;
         SceneManager.LoadScene("GameScene");
     }
 
@@ -65,13 +62,10 @@ public class LevelSelectorManager : MonoBehaviour
 
     public void InitButtons()
     {
-        for (int i = 0; i < rows; i++)
+        for (int i = 0; i < numLevels_; i++)
         {
-            for (int j = 0; j < cols; j++)
-            {
-                GameObject newButton = Instantiate(buttonPrefab, buttonPanelTrans);
-                newButton.GetComponent<LevelButton>().SetLevel((i * cols + j) + 1);
-            }
+            GameObject newButton = Instantiate(buttonPrefab, buttonPanelTrans);
+            newButton.GetComponent<LevelButton>().SetLevel(i + 1);
         }
     }
 }

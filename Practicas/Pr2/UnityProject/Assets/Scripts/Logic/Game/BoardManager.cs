@@ -40,6 +40,9 @@ public class BoardManager : MonoBehaviour
     public float bigBoardScale = 0.6f;
     public int numHintsGiven = 5;   // numero de pistas que da "comprar pista"
 
+    [HideInInspector]
+    public bool isButtonDown;
+
     /// <summary>
     /// Inicializa los campos de boardManager, establece el factor de escala que usara el tablero y carga todos los niveles
     /// </summary>
@@ -48,6 +51,7 @@ public class BoardManager : MonoBehaviour
         board_ = new List<GameObject>();
         boolBoard_ = new List<bool>();
         path_ = new List<int>();
+        isButtonDown = false;
 
         tracker.gameObject.SetActive(false);
 
@@ -177,6 +181,16 @@ public class BoardManager : MonoBehaviour
         aux.x = -cols * tileWidth_ / 2 + tileWidth_ / 2;
         aux.y = -rows * tileHeight_ / 2 + tileHeight_ / 2;
         transform.position = aux;
+
+        //Vector2 aux = new Vector2(0, 0);
+
+        //float kk = Mathf.Abs(topLimit.rect.height - bottomLimit.rect.height);
+        //Vector3 kkota = new Vector3(0, topLimit.rect.height + (kk / 2), 0);
+        //Debug.Log(Camera.main.ScreenToWorldPoint(kkota).y);
+
+        //aux.x = -cols * tileWidth_ / 2 + tileWidth_ / 2;
+        //aux.y = Camera.main.ScreenToWorldPoint(kkota).y;
+        //transform.position = aux;
     }
 
     /// <summary>
@@ -228,6 +242,7 @@ public class BoardManager : MonoBehaviour
                 {
                     if (touch.phase != TouchPhase.Ended) // dedo pulsado
                     {
+                        isButtonDown = true;
                         Vector3 touchPos = PositionToWorldCoordinates(touch.position);
 
                         tracker.transform.position = touchPos;
@@ -245,8 +260,8 @@ public class BoardManager : MonoBehaviour
                     }
                     else // dedo levantado
                     {
+                        isButtonDown = false;
                         tracker.gameObject.SetActive(false);
-                        if (LevelCompleted()) GameManager.instance.ToNextLevel();
                     }
                     break;
                 }
@@ -264,6 +279,7 @@ public class BoardManager : MonoBehaviour
     {
         if (Input.GetMouseButton(0))
         {
+            isButtonDown = true;
             Vector3 mousePos = PositionToWorldCoordinates(Input.mousePosition);
 
             tracker.transform.position = mousePos;
@@ -281,8 +297,8 @@ public class BoardManager : MonoBehaviour
         }
         else if (Input.GetMouseButtonUp(0))
         {
+            isButtonDown = false;
             tracker.gameObject.SetActive(false);
-            if (LevelCompleted()) GameManager.instance.ToNextLevel();
         }
     }
 #endif
@@ -291,7 +307,7 @@ public class BoardManager : MonoBehaviour
     /// Indica si el nivel actual ha sido completado: todas sus casillas han sido seleccionadas
     /// </summary>
     /// <returns></returns>
-    private bool LevelCompleted()
+    public bool LevelCompleted()
     {
         int selected = 0;
         for(int i = 0; i < boolBoard_.Count; i++)
