@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 343018763}
   - component: {fileID: 343018762}
   m_Layer: 0
-  m_Name: InfoBetwScenes
+  m_Name: LoadManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -149,13 +149,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cea85f927e015504ebe614c13b576613, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  difficultyLevel: 0
-  numLevels: 
-  numLevelsUnLocked: 
-  numLevel: 0
-  numLevelInCurrentDifficulty: 0
-  totalNumLevels: 0
   money: 0
+  medals: 0
+  difficultyLevel: 0
+  numLevel: 0
+  totalNumLevels: 0
+  rawJsonLevels: {fileID: 4900000, guid: ca89c19411d72d74487e60d09a6c8916, type: 3}
 --- !u!4 &343018763
 Transform:
   m_ObjectHideFlags: 0

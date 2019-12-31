@@ -15,12 +15,14 @@ public class LevelSelectorManager : MonoBehaviour
 
     private int difficultyLevel_;
     private int numLevels_;
+    private static LoadManager loadManager_;
 
     void Awake()
     {
         instance = this;
-        difficultyLevel_ = SceneComunicator.instance.difficultyLevel;
-        numLevels_ = SceneComunicator.instance.numLevels[difficultyLevel_];
+        loadManager_ = LoadManager.instance;
+        difficultyLevel_ = loadManager_.difficultyLevel;
+        numLevels_ = loadManager_.difficultiesInfo[difficultyLevel_].numLevels;
 
         currentDifficultySprite.sprite = difficultySprites[difficultyLevel_];
 
@@ -37,11 +39,11 @@ public class LevelSelectorManager : MonoBehaviour
     public void GoToLevel(int level)
     {
         int numLevelInTotal = 0;
-        for(int i = 0; i < difficultyLevel_; i++)
-            numLevelInTotal += SceneComunicator.instance.numLevels[i];
+        for (int i = 0; i < difficultyLevel_; i++)
+            numLevelInTotal += loadManager_.difficultiesInfo[i].numLevels;
 
-        SceneComunicator.instance.numLevelInCurrentDifficulty = level;
-        SceneComunicator.instance.numLevel = numLevelInTotal + level;
+        loadManager_.difficultiesInfo[difficultyLevel_].currentLevel = level;
+        loadManager_.numLevel = numLevelInTotal + level;
         SceneManager.LoadScene("GameScene");
     }
 

@@ -15,7 +15,7 @@ public class LevelButton : MonoBehaviour
         Button btn = gameObject.GetComponent<Button>(); //or just drag-n-drop the button in the CustomButton field
         btn.onClick.AddListener(Click);  //subscribe to the onClick event
 
-        if (SceneComunicator.instance.numLevelsUnLocked[SceneComunicator.instance.difficultyLevel] <= level_ - 1)
+        if (LoadManager.instance.difficultiesInfo[LoadManager.instance.difficultyLevel].numLevelsUnLocked <= level_ - 1)
         {
             btn.enabled = false;
             gameObject.GetComponent<Image>().sprite = blockedSprite;

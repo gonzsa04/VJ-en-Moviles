@@ -1,4 +1,15 @@
 {
+	"header":{
+		"numDifficulties": 5,
+		"levelsPerDifficulty": [
+			100,
+			100,
+			100,
+			100,
+			100
+		]
+	},
+	
 	"levels": [ {
 				"index": 1,
 				"layout": [ "211" ],

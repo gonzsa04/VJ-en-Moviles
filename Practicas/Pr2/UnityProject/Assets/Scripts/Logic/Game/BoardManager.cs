@@ -8,7 +8,6 @@ using UnityEngine;
 /// </summary>
 public class BoardManager : MonoBehaviour
 {
-    private LevelLoader levelLoader_;
     private List<GameObject> board_; // tabla (lista) de Tiles
     private List<bool> boolBoard_;   // tabla (lista) auxiliar de bool (Tile pulsado o no)
     private List<int> path_;         // lista con los indices de la tabla que forman parte del camino
@@ -30,9 +29,6 @@ public class BoardManager : MonoBehaviour
     public Sprite bottomLimit;
     [Tooltip("Posibles skins. Se elegira una alearoria")]
     public List<Skin> skins;
-
-    [Tooltip("Json del que leer todos los niveles")]
-    public TextAsset rawJson;
 
     [Tooltip("Resolucion para tableros de 6x5")]
     public float smallBoardScale = 0.8f;
@@ -56,9 +52,6 @@ public class BoardManager : MonoBehaviour
         tracker.gameObject.SetActive(false);
 
         SetFactor();
-
-        levelLoader_ = new LevelLoader();
-        levelLoader_.LoadAllLevels(rawJson.text);
     }
 
     /// <summary>
@@ -73,7 +66,7 @@ public class BoardManager : MonoBehaviour
     {
         Reset();
 
-        LevelLoader.LevelInfo levelInfo = levelLoader_.LoadByNumber(number);
+        JsonLoader.LevelInfo levelInfo = LoadManager.instance.jsonLoader.LoadByNumber(number);
         rows = levelInfo.layout_.Length;
         cols = levelInfo.layout_[0].Length;
         hints_ = levelInfo.path_;

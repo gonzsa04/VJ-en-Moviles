@@ -9,9 +9,25 @@ using SimpleJSON;
 /// Los carga y guarda su informacion en un dicionario, cuyas claves seran el numero de cada nivel
 /// Devolvera la informacion de un nivel dada su clave
 /// </summary>
-public class LevelLoader
+public class JsonLoader
 {
     private Dictionary<int, LevelInfo> levels_;
+    private JSONNode rawJson_;
+
+
+    [System.Serializable]
+    public struct SaveInfo
+    {
+        public int money;
+        public int medals;
+        public int[] levelsUnlocked;
+    }
+
+    public struct HeaderInfo
+    {
+        public int numDifficulties;
+        public int[] numLevels;
+    }
 
     /// <summary>
     /// Informacion de cada nivel: casillas que lo forman y el camino a seguir para resolverlo
@@ -48,19 +64,23 @@ public class LevelLoader
         levels_.Add(level["index"], levelInfo);
     }
 
-    public LevelLoader() {
+    public JsonLoader() {
         levels_ = new Dictionary<int, LevelInfo>();
+    }
+
+    public void SetJson(string json)
+    {
+        rawJson_ = JSON.Parse(json);
     }
 
     /// <summary>
     /// Carga todos los niveles, que se anyadiran al diccionario de niveles
     /// </summary>
-    public void LoadAllLevels(string json)
+    public void LoadAllLevels()
     {
-        JSONNode rawLevels = JSON.Parse(json);
-        for (int i = 0; i < rawLevels["levels"].Count; i++)
+        for (int i = 0; i < rawJson_["levels"].Count; i++)
         {
-            LoadLevel(rawLevels["levels"][i]);
+            LoadLevel(rawJson_["levels"][i]);
         }
     }
 
@@ -72,5 +92,31 @@ public class LevelLoader
     public LevelInfo LoadByNumber(int number)
     {
         return levels_[number]; 
+    }
+
+    public HeaderInfo LoadHeader()
+    {
+        HeaderInfo headerInfo;
+        headerInfo.numDifficulties = rawJson_["header"]["numDifficulties"];
+        headerInfo.numLevels = new int[headerInfo.numDifficulties];
+        for (int i = 0; i < headerInfo.numDifficulties; i++)
+        {
+            headerInfo.numLevels[i] = rawJson_["header"]["levelsPerDifficulty"][i];
+        }
+        return headerInfo;
+    }
+
+    public SaveInfo LoadSaveInfo()
+    {
+        SaveInfo saveInfo;
+        saveInfo.money = rawJson_["money"];
+        saveInfo.medals = rawJson_["medals"];
+        saveInfo.levelsUnlocked = new int[rawJson_["levelsUnlocked"].Count];
+        for (int i = 0; i < saveInfo.levelsUnlocked.Length; i++)
+        {
+            saveInfo.levelsUnlocked[i] = rawJson_["levelsUnlocked"][i];
+        }
+
+        return saveInfo;
     }
 }

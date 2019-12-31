@@ -17,20 +17,23 @@ public class GameManager : MonoBehaviour
     public Text currentDifficultyText;
     public Sprite[] difficultySprites;
 
+    private static LoadManager loadManager_;
     private int money_;
     private int level_;
 
     private void Awake()
     {
         instance = this;
+        loadManager_ = LoadManager.instance;
     }
     
     void Start()
     {
-        money_ = SceneComunicator.instance.money;
+
+        money_ = loadManager_.money;
         moneyText.text = money_.ToString();
 
-        level_ = SceneComunicator.instance.numLevel;
+        level_ = loadManager_.numLevel;
 
         SetLevelName();
 
@@ -48,27 +51,33 @@ public class GameManager : MonoBehaviour
 
     private void SetLevelName()
     {
-        currentDifficultySprite.sprite = difficultySprites[SceneComunicator.instance.difficultyLevel];
-        currentDifficultyText.text = (SceneComunicator.instance.numLevelInCurrentDifficulty).ToString();
+        currentDifficultySprite.sprite = difficultySprites[loadManager_.difficultyLevel];
+        currentDifficultyText.text = (loadManager_.difficultiesInfo[loadManager_.difficultyLevel].currentLevel).ToString();
     }
 
     public void ToNextLevel()
     {
         level_++;
         boardManager.LoadLevel(level_);
-        SceneComunicator.instance.numLevel = level_;
-        SceneComunicator.instance.numLevelInCurrentDifficulty++;
-        SceneComunicator.instance.numLevelsUnLocked[SceneComunicator.instance.difficultyLevel]++;
+        loadManager_.numLevel = level_;
+        if (loadManager_.difficultiesInfo[loadManager_.difficultyLevel].currentLevel ==
+            loadManager_.difficultiesInfo[loadManager_.difficultyLevel].numLevelsUnLocked)
+        {
+            loadManager_.difficultiesInfo[loadManager_.difficultyLevel].numLevelsUnLocked++;
+            LoadManager.instance.Save();
+        }
+
+        loadManager_.difficultiesInfo[loadManager_.difficultyLevel].currentLevel++;
 
         int lastLevel = 0;
-        for (int i = 0; i < SceneComunicator.instance.difficultyLevel + 1; i++)
-            lastLevel += SceneComunicator.instance.numLevels[i];
+        for (int i = 0; i < loadManager_.difficultyLevel + 1; i++)
+            lastLevel += loadManager_.difficultiesInfo[i].numLevels;
 
 
         if (level_ > lastLevel)
         {
-            SceneComunicator.instance.difficultyLevel++;
-            SceneComunicator.instance.numLevelInCurrentDifficulty = 1;
+            loadManager_.difficultyLevel++;
+            loadManager_.difficultiesInfo[loadManager_.difficultyLevel].currentLevel = 1;
         }
 
         SetLevelName();
@@ -79,7 +88,8 @@ public class GameManager : MonoBehaviour
         if (money_ >= hintCost && !boardManager.AllHintsGiven())
         {
             money_ -= hintCost;
-            SceneComunicator.instance.money = money_;
+            loadManager_.money = money_;
+            LoadManager.instance.Save();
             moneyText.text = money_.ToString();
             StartCoroutine(boardManager.ShowHint());
         }
@@ -88,7 +98,8 @@ public class GameManager : MonoBehaviour
     public void Reward()
     {
         money_ += moneyIncrement;
-        SceneComunicator.instance.money = money_;
+        loadManager_.money = money_;
+        LoadManager.instance.Save();
         moneyText.text = money_.ToString();
     }
 
