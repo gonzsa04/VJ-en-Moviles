@@ -23,6 +23,7 @@ public class ChallengeManager : MonoBehaviour
     {
         level_ = Random.Range(1, LoadManager.instance.totalNumLevels + 1);
         timerComponent_ = gameObject.GetComponent<Timer>();
+        timerComponent_.SetMethod(GameOver);
         
         boardManager.LoadLevel(level_);
 
@@ -31,14 +32,13 @@ public class ChallengeManager : MonoBehaviour
 
     void Update()
     {
-        if (timerComponent_.IsTimerFinished())
-            GameOver();
-        else if (boardManager.LevelCompleted() && !boardManager.isButtonDown)
-            Win();
+        if (boardManager.LevelCompleted() && !boardManager.isButtonDown)
+           Win();
     }
 
     private void BackToMenu()
     {
+       LoadManager.instance.fromChallenge = true;
        SceneManager.LoadScene("MenuScene");
     }
 

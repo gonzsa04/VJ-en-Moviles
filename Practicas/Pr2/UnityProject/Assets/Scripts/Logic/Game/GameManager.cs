@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     public Image currentDifficultySprite;
     public Text currentDifficultyText;
     public Sprite[] difficultySprites;
+    public RewardedAds rewardedComp;
 
     private static LoadManager loadManager_;
     private int money_;
@@ -29,7 +30,7 @@ public class GameManager : MonoBehaviour
     
     void Start()
     {
-
+        rewardedComp.SetRewardMethod(Reward);
         money_ = loadManager_.money;
         moneyText.text = money_.ToString();
 

@@ -22,6 +22,8 @@ public class LoadManager : MonoBehaviour
     public int money;
     [HideInInspector]
     public int medals;
+    [HideInInspector]
+    public bool fromChallenge;
 
     [HideInInspector]
     public int difficultyLevel;
@@ -38,7 +40,7 @@ public class LoadManager : MonoBehaviour
 
     private JsonLoader.SaveInfo saveInfo_;
     private string saveInfoRoute_ = "/saveInfo.json";
-    //"D:/Users/Gonzalo/Desktop/UCM/MOVILES/VJ-en-Moviles/Practicas/Pr2/UnityProject/Assets/Levels/saveInfo.json"
+    private string hashHeader = "JorGaloOneLine1998-UCM-GDV-2019-2020";
 
     void Awake()
     {
@@ -49,6 +51,7 @@ public class LoadManager : MonoBehaviour
 
         money = 0;
         medals = 0;
+        fromChallenge = false;
         DontDestroyOnLoad(this.gameObject);
     }
 
@@ -70,7 +73,14 @@ public class LoadManager : MonoBehaviour
                 saveInfo_.levelsUnlocked[i] = difficultiesInfo[i].numLevelsUnLocked;
             }
 
+            saveInfo_.hash = "";
+
             string json = JsonUtility.ToJson(saveInfo_);
+
+            saveInfo_.hash = Encrypt(json);
+
+            json = JsonUtility.ToJson(saveInfo_);
+
             stream.Write(json);
         }
     }
@@ -93,7 +103,6 @@ public class LoadManager : MonoBehaviour
             difficultiesInfo[i].numLevels = headerInfo.numLevels[i];
             totalNumLevels += difficultiesInfo[i].numLevels;
         }
-
     }
 
     private void LoadFromFile(string route)
@@ -103,17 +112,43 @@ public class LoadManager : MonoBehaviour
             jsonLoader.SetJson(stream.ReadToEnd());
             saveInfo_ = jsonLoader.LoadSaveInfo();
         }
+
+        if (HasInfoChanged())
+        {
+            LoadDefault();
+            Save();
+        }
     }
 
     private void LoadDefault()
     {
-        saveInfo_.money = 0;
-        saveInfo_.medals = 0;
+        saveInfo_.money = money = 0;
+        saveInfo_.medals = medals = 0;
         saveInfo_.levelsUnlocked = new int[difficultiesInfo.Length];
+        saveInfo_.hash = "";
 
         for (int i = 0; i < saveInfo_.levelsUnlocked.Length; i++)
         {
             saveInfo_.levelsUnlocked[i] = 1;
+            difficultiesInfo[i].numLevelsUnLocked = 1;
         }
+    }
+
+    private string Encrypt(string file)
+    {
+        string firstHash = MD5Encrypter.Md5Sum(file);
+        return MD5Encrypter.Md5Sum(hashHeader + firstHash);
+    }
+
+    private bool HasInfoChanged()
+    {
+        JsonLoader.SaveInfo aux = saveInfo_;
+        aux.hash = "";
+
+        string json = JsonUtility.ToJson(aux);
+
+        aux.hash = Encrypt(json);
+
+        return (aux.hash != saveInfo_.hash);
     }
 }

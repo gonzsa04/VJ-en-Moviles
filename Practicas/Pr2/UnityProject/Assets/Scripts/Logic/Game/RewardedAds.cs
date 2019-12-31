@@ -11,6 +11,9 @@ public class RewardedAds : MonoBehaviour, IUnityAdsListener
     Button myButton;
     public string myPlacementId = "rewardedVideo";
 
+    public delegate void RewardMethod(); // This defines what type of method you're going to call.
+    private RewardMethod rewardMethod_; // This is the variable holding the method you're going to call.
+
     void Start()
     {
         myButton = GetComponent<Button>();
@@ -24,6 +27,11 @@ public class RewardedAds : MonoBehaviour, IUnityAdsListener
         // Initialize the Ads listener and service:
         Advertisement.AddListener(this);
         Advertisement.Initialize(gameId, true);
+    }
+
+    public void SetRewardMethod(RewardMethod method)
+    {
+        rewardMethod_ = method;
     }
 
     // Implement a function for showing a rewarded video ad:
@@ -49,7 +57,7 @@ public class RewardedAds : MonoBehaviour, IUnityAdsListener
         if (showResult == ShowResult.Finished && !rewarded)
         {
             rewarded = true;
-            GameManager.instance.Reward();
+            rewardMethod_();
         }
         else if (showResult == ShowResult.Skipped)
         {
