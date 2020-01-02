@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class LevelSelectorManager : MonoBehaviour
 {
     public static LevelSelectorManager instance;
-    public RectTransform targetTrans;
+    public RectTransform scrollTrans;
     public RectTransform buttonPanelTrans;
     public GameObject buttonPrefab;
     public Image currentDifficultySprite;
@@ -50,10 +50,10 @@ public class LevelSelectorManager : MonoBehaviour
     /// <summary>
     /// Ajusta la posicion del tablero para que este salga centrado en pantalla
     /// </summary>
-    public void FitPosition()
+    private void FitPosition()
     {
         Vector3[] corners = new Vector3[4];
-        targetTrans.GetWorldCorners(corners);
+        scrollTrans.GetWorldCorners(corners);
         float yTargetCorner = corners[1].y;
         buttonPanelTrans.GetWorldCorners(corners);
         float yCorner = corners[1].y;
@@ -62,7 +62,7 @@ public class LevelSelectorManager : MonoBehaviour
             buttonPanelTrans.transform.position.y - (yCorner - yTargetCorner));
     }
 
-    public void InitButtons()
+    private void InitButtons()
     {
         for (int i = 0; i < numLevels_; i++)
         {

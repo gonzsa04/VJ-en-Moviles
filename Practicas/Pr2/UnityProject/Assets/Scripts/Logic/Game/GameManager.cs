@@ -65,7 +65,6 @@ public class GameManager : MonoBehaviour
             loadManager_.difficultiesInfo[loadManager_.difficultyLevel].numLevelsUnLocked)
         {
             loadManager_.difficultiesInfo[loadManager_.difficultyLevel].numLevelsUnLocked++;
-            LoadManager.instance.Save();
         }
 
         loadManager_.difficultiesInfo[loadManager_.difficultyLevel].currentLevel++;
@@ -90,7 +89,6 @@ public class GameManager : MonoBehaviour
         {
             money_ -= hintCost;
             loadManager_.money = money_;
-            LoadManager.instance.Save();
             moneyText.text = money_.ToString();
             StartCoroutine(boardManager.ShowHint());
         }
@@ -100,7 +98,6 @@ public class GameManager : MonoBehaviour
     {
         money_ += moneyIncrement;
         loadManager_.money = money_;
-        LoadManager.instance.Save();
         moneyText.text = money_.ToString();
     }
 

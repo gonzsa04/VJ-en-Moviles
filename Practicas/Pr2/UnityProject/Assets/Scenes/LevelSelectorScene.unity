@@ -1083,7 +1083,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 432124757ef6fc74885857bee0520e92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetTrans: {fileID: 1126791273}
+  scrollTrans: {fileID: 1126791273}
   buttonPanelTrans: {fileID: 1597837605}
   buttonPrefab: {fileID: 7555988377522995345, guid: 8b80d29bfcb539c49880b101f2041b09,
     type: 3}

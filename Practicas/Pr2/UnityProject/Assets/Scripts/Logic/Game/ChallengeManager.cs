@@ -47,7 +47,6 @@ public class ChallengeManager : MonoBehaviour
         //canvas
         LoadManager.instance.money += moneyIncrement;
         LoadManager.instance.medals++;
-        LoadManager.instance.Save();
         BackToMenu();
     }
 

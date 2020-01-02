@@ -24,15 +24,23 @@ public class Timer : MonoBehaviour
     }
 
     void Update()
-    {
-        timer_ -= Time.deltaTime;
+    { 
+        if (!IsTimerFinished())
+            timer_ -= Time.deltaTime;
+        else
+        {
+            timer_ = 0;
+            timerFinished_();
+        }
 
+        UpdateText();
+    }
+
+    private void UpdateText()
+    {
         string minutes = Mathf.Floor(timer_ / 60).ToString("00");
         string seconds = (timer_ % 60).ToString("00");
-
-        if (!IsTimerFinished())
-            timerText.text = string.Format("{0}:{1}", minutes, seconds);
-        else timerFinished_();
+        timerText.text = string.Format("{0}:{1}", minutes, seconds);
     }
 
     public void SetMethod(TimerFinished method)
@@ -43,11 +51,20 @@ public class Timer : MonoBehaviour
     public void Reset()
     {
         timer_ = initSeconds_;
+        UpdateText();
     }
 
     public void SetTime(float seconds)
     {
         timer_ = seconds;
+        if (timer_ < 0)
+            timer_ = 0;
+        UpdateText();
+    }
+
+    public float GetTime()
+    {
+        return timer_;
     }
 
     public bool IsTimerFinished()

@@ -20,6 +20,8 @@ public class JsonLoader
         public int money;
         public int medals;
         public int[] levelsUnlocked;
+        public int challengeTimeLeft;
+        public int currentTime;
         public string hash;
     }
 
@@ -111,8 +113,11 @@ public class JsonLoader
         SaveInfo saveInfo;
         saveInfo.money = rawJson_["money"];
         saveInfo.medals = rawJson_["medals"];
+        saveInfo.challengeTimeLeft = rawJson_["challengeTimeLeft"];
+        saveInfo.currentTime = rawJson_["currentTime"];
         saveInfo.levelsUnlocked = new int[rawJson_["levelsUnlocked"].Count];
         saveInfo.hash = rawJson_["hash"];
+
         for (int i = 0; i < saveInfo.levelsUnlocked.Length; i++)
         {
             saveInfo.levelsUnlocked[i] = rawJson_["levelsUnlocked"][i];

@@ -177,12 +177,11 @@ public class BoardManager : MonoBehaviour
 
         //Vector2 aux = new Vector2(0, 0);
 
-        //float kk = Mathf.Abs(topLimit.rect.height - bottomLimit.rect.height);
-        //Vector3 kkota = new Vector3(0, topLimit.rect.height + (kk / 2), 0);
-        //Debug.Log(Camera.main.ScreenToWorldPoint(kkota).y);
-
+        //float yOffset = Mathf.Abs(topLimit.rect.height - bottomLimit.rect.yMin);
+        //Vector3 yOffsetInWorld = new Vector3(0, yOffset, 0);
+        //Debug.Log(factor_);
         //aux.x = -cols * tileWidth_ / 2 + tileWidth_ / 2;
-        //aux.y = Camera.main.ScreenToWorldPoint(kkota).y;
+        //aux.y = -((Camera.main.ScreenToWorldPoint(yOffsetInWorld).y / 2) * factor_) - ((rows * tileHeight_ / 2) - (tileHeight_ / 2));
         //transform.position = aux;
     }
 

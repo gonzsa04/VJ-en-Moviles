@@ -11,6 +11,8 @@ public class MenuManager : MonoBehaviour
     public Text[] difficultyTexts;
     public Button challengeButtonComp;
     public GameObject timerPanel;
+    public RectTransform scrollTrans;
+    public RectTransform buttonPanelTrans;
 
     private Timer timer_;
     private static LoadManager loadManager_;
@@ -24,12 +26,7 @@ public class MenuManager : MonoBehaviour
 
     void Start()
     {
-        timer_.SetTime(0);//lo que leas
-        //timer_.SetTime(loadManager_.challengeTime);
-
-        if (loadManager_.fromChallenge) timer_.Reset();
-        loadManager_.fromChallenge = false;
-        SetTimer(!timer_.IsTimerFinished());
+        ManageTimer();
 
         moneyText.text = loadManager_.money.ToString();
         medalsText.text = loadManager_.medals.ToString();
@@ -37,6 +34,32 @@ public class MenuManager : MonoBehaviour
             difficultyTexts[i].text = string.Format("{0}/{1}", 
                 loadManager_.difficultiesInfo[i].numLevelsUnLocked, loadManager_.difficultiesInfo[i].numLevels);
         }
+
+        FitPosition();
+    }
+
+    private void ManageTimer()
+    {
+        int currentTime = System.DateTime.Now.Hour * 360 + System.DateTime.Now.Minute * 60 + System.DateTime.Now.Second;
+        int diff = Mathf.Abs(currentTime - loadManager_.currentTime);
+        timer_.SetTime(loadManager_.challengeTimeLeft - diff);
+
+        if (loadManager_.fromChallenge) timer_.Reset();
+        loadManager_.fromChallenge = false;
+        timer_.SetTime(0);// debug
+        SetTimer(!timer_.IsTimerFinished());
+    }
+
+    private void FitPosition()
+    {
+        Vector3[] corners = new Vector3[4];
+        scrollTrans.GetWorldCorners(corners);
+        float yTargetCorner = corners[1].y;
+        buttonPanelTrans.GetWorldCorners(corners);
+        float yCorner = corners[1].y;
+
+        buttonPanelTrans.transform.position = new Vector2(buttonPanelTrans.transform.position.x,
+            buttonPanelTrans.transform.position.y - (yCorner - yTargetCorner));
     }
 
     public void ActivateTimer()
@@ -54,6 +77,12 @@ public class MenuManager : MonoBehaviour
         timer_.enabled = active;
         timerPanel.SetActive(active);
         challengeButtonComp.enabled = !active;
+    }
+
+    private void OnDestroy()
+    {
+        loadManager_.challengeTimeLeft = (int)timer_.GetTime();
+        loadManager_.currentTime = System.DateTime.Now.Hour * 360 + System.DateTime.Now.Minute * 60 + System.DateTime.Now.Second;
     }
 
     public void GoToLevelSelector(int difficulty)

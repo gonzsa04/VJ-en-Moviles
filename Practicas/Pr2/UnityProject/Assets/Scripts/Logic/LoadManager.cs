@@ -23,8 +23,12 @@ public class LoadManager : MonoBehaviour
     [HideInInspector]
     public int medals;
     [HideInInspector]
-    public bool fromChallenge;
+    public int challengeTimeLeft;
+    [HideInInspector]
+    public int currentTime;
 
+    [HideInInspector]
+    public bool fromChallenge;
     [HideInInspector]
     public int difficultyLevel;
     [HideInInspector]
@@ -51,6 +55,9 @@ public class LoadManager : MonoBehaviour
 
         money = 0;
         medals = 0;
+        challengeTimeLeft = 0;
+        currentTime = 0;
+
         fromChallenge = false;
         DontDestroyOnLoad(this.gameObject);
     }
@@ -62,12 +69,15 @@ public class LoadManager : MonoBehaviour
         SceneManager.LoadScene("MenuScene");
     }
 
-    public void Save()
+    private void Save()
     {
         using (StreamWriter stream = new StreamWriter(Application.persistentDataPath + saveInfoRoute_))
         {
             saveInfo_.money = money;
             saveInfo_.medals = medals;
+            saveInfo_.challengeTimeLeft = challengeTimeLeft;
+            saveInfo_.currentTime = currentTime;
+
             for (int i = 0; i < saveInfo_.levelsUnlocked.Length; i++)
             {
                 saveInfo_.levelsUnlocked[i] = difficultiesInfo[i].numLevelsUnLocked;
@@ -96,6 +106,8 @@ public class LoadManager : MonoBehaviour
 
         money = saveInfo_.money;
         medals = saveInfo_.medals;
+        challengeTimeLeft = saveInfo_.challengeTimeLeft;
+        currentTime = saveInfo_.currentTime;
 
         for (int i = 0; i < difficultiesInfo.Length; i++)
         {
@@ -124,6 +136,8 @@ public class LoadManager : MonoBehaviour
     {
         saveInfo_.money = money = 0;
         saveInfo_.medals = medals = 0;
+        saveInfo_.challengeTimeLeft = 0;
+        saveInfo_.currentTime = 0;
         saveInfo_.levelsUnlocked = new int[difficultiesInfo.Length];
         saveInfo_.hash = "";
 
@@ -150,5 +164,11 @@ public class LoadManager : MonoBehaviour
         aux.hash = Encrypt(json);
 
         return (aux.hash != saveInfo_.hash);
+    }
+
+    private void OnDestroy()
+    {
+        currentTime = System.DateTime.Now.Hour * 360 + System.DateTime.Now.Minute * 60 + System.DateTime.Now.Second;
+        Save();
     }
 }

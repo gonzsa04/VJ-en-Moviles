@@ -2775,6 +2775,8 @@ MonoBehaviour:
   - {fileID: 2106479227}
   challengeButtonComp: {fileID: 524673700}
   timerPanel: {fileID: 1684247207}
+  scrollTrans: {fileID: 1126791273}
+  buttonPanelTrans: {fileID: 2045728129}
 --- !u!4 &1534617845
 Transform:
   m_ObjectHideFlags: 0
