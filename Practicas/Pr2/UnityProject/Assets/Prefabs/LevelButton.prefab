@@ -168,6 +168,7 @@ GameObject:
   - component: {fileID: 6648144818927054253}
   - component: {fileID: 4269674556923726065}
   - component: {fileID: 7483752668960607605}
+  - component: {fileID: -1710251052018704929}
   m_Layer: 5
   m_Name: LevelButton
   m_TagString: Untagged
@@ -307,3 +308,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textComponent: {fileID: 2650834447721192756}
   blockedSprite: {fileID: 21300000, guid: 1b790063eebf1e14d89e96b4053d89d1, type: 3}
+--- !u!114 &-1710251052018704929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7555988377522995345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38330ebc0677aa2459b60692485cb785, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  smallScale: 1
+  bigScale: 1.05

@@ -4,14 +4,8 @@ using UnityEngine.EventSystems;
 
 public class EnlargeAnimation : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
 {
-    public float scaleFactor;
-
-    void Start()
-    {
-        Button myButton = GetComponent<Button>();
-        
-        if (myButton) myButton.onClick.AddListener(ScaleDown);
-    }
+    public float smallScale = 1.0f;
+    public float bigScale = 1.2f;
 
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -25,11 +19,16 @@ public class EnlargeAnimation : MonoBehaviour, IPointerExitHandler, IPointerEnte
 
     private void ScaleUp()
     {
-        transform.localScale = transform.localScale * scaleFactor;
+        transform.localScale = new Vector2(bigScale, bigScale);
     }
 
     private void ScaleDown()
     {
-        transform.localScale = transform.localScale / scaleFactor;
+        transform.localScale = new Vector2(smallScale, smallScale);
+    }
+
+    private void OnDisable()
+    {
+        ScaleDown();
     }
 }

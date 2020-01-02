@@ -17,6 +17,13 @@ public class MenuManager : MonoBehaviour
     public GameObject notEnoughMoneyText;
     public RewardedAds rewardedComp;
 
+    public GameObject giftPanel;
+    public GameObject giftButton;
+    public GameObject giftDisabled;
+    public GameObject giftButtonBig;
+    public GameObject rewardPanel;
+    public Text giftMoneyText;
+
     private Timer timer_;
     private static LoadManager loadManager_;
 
@@ -26,7 +33,9 @@ public class MenuManager : MonoBehaviour
         timer_ = GetComponent<Timer>();
         timer_.SetMethod(DeactivateTimer);
         challengePanel.SetActive(false);
+        giftDisabled.SetActive(false);
         rewardedComp.SetRewardMethod(GoToChallenge);
+        giftPanel.SetActive(false);
     }
 
     void Start()
@@ -104,6 +113,31 @@ public class MenuManager : MonoBehaviour
     public void BackToMenu()
     {
         challengePanel.SetActive(false);
+    }
+
+    public void ActivateReward()
+    {
+        giftButtonBig.SetActive(false);
+        rewardPanel.SetActive(true);
+
+        int money = Random.Range(20, 41);
+        loadManager_.money += money;
+        moneyText.text = loadManager_.money.ToString();
+        giftMoneyText.text = string.Format("+{0}", money);
+    }
+
+    public void ActivateGift()
+    {
+        giftButtonBig.SetActive(true);
+        giftPanel.SetActive(true);
+        rewardPanel.SetActive(false);
+    }
+
+    public void DeactivateGift()
+    {
+        giftPanel.SetActive(false);
+        giftButton.SetActive(false);
+        giftDisabled.SetActive(true);
     }
 
     public void PayForChallenge(int howMany)

@@ -166,9 +166,20 @@ public class LoadManager : MonoBehaviour
         return (aux.hash != saveInfo_.hash);
     }
 
-    private void OnDestroy()
+    private void SaveWithTime()
     {
         currentTime = System.DateTime.Now.Hour * 360 + System.DateTime.Now.Minute * 60 + System.DateTime.Now.Second;
         Save();
+
+    }
+
+    private void OnApplicationFocus(bool focus)
+    {
+        //SaveWithTime();
+    }
+
+    private void OnApplicationQuit()
+    {
+        SaveWithTime();
     }
 }
