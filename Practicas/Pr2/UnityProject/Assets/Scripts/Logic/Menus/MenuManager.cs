@@ -13,6 +13,9 @@ public class MenuManager : MonoBehaviour
     public GameObject timerPanel;
     public RectTransform scrollTrans;
     public RectTransform buttonPanelTrans;
+    public GameObject challengePanel;
+    public GameObject notEnoughMoneyText;
+    public RewardedAds rewardedComp;
 
     private Timer timer_;
     private static LoadManager loadManager_;
@@ -22,6 +25,8 @@ public class MenuManager : MonoBehaviour
         loadManager_ = LoadManager.instance;
         timer_ = GetComponent<Timer>();
         timer_.SetMethod(DeactivateTimer);
+        challengePanel.SetActive(false);
+        rewardedComp.SetRewardMethod(GoToChallenge);
     }
 
     void Start()
@@ -91,7 +96,30 @@ public class MenuManager : MonoBehaviour
         SceneManager.LoadScene("LevelSelectorScene");
     }
 
-    public void GoToChallenge()
+    public void StartChallenge()
+    {
+        challengePanel.SetActive(true);
+    }
+
+    public void BackToMenu()
+    {
+        challengePanel.SetActive(false);
+    }
+
+    public void PayForChallenge(int howMany)
+    {
+        if (loadManager_.money >= howMany)
+        {
+            loadManager_.money -= howMany;
+            GoToChallenge();
+        }
+        else
+        {
+            notEnoughMoneyText.SetActive(true);
+        }
+    }
+
+    private void GoToChallenge()
     {
         SceneManager.LoadScene("ChallengeScene");
     }

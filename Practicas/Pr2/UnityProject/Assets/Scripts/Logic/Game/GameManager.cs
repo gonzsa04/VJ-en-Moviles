@@ -94,7 +94,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void Reward()
+    private void Reward()
     {
         money_ += moneyIncrement;
         loadManager_.money = money_;
