@@ -52,7 +52,6 @@ public class Tile : MonoBehaviour
     /// </summary>
     public void SetPressed(bool pressed)
     {
-        unselected_.gameObject.SetActive(!pressed);
         selected_.gameObject.SetActive(pressed);
 
         if (!pressed) QuitPath();
@@ -80,6 +79,17 @@ public class Tile : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    /// <summary>
+    /// Desactiva todos los caminos que pudiera haber sobre el Tile
+    /// </summary>
+    public void QuitPath()
+    {
+        right_.gameObject.SetActive(false);
+        up_.gameObject.SetActive(false);
+        left_.gameObject.SetActive(false);
+        down_.gameObject.SetActive(false);
     }
 
     /// <summary>
@@ -112,15 +122,24 @@ public class Tile : MonoBehaviour
         leftHint_.sprite = upHint_.sprite = rightHint_.sprite = downHint_.sprite = skin.hint;
     }
 
-    /// <summary>
-    /// Desactiva todos los caminos que pudiera haber sobre el Tile
-    /// </summary>
-    private void QuitPath()
+    public void SetSelectedScale(float scaleFactor)
     {
-        right_.gameObject.SetActive(false);
-        up_.gameObject.SetActive(false);
-        left_.gameObject.SetActive(false);
-        down_.gameObject.SetActive(false);
+        selected_.transform.localScale = selected_.transform.localScale * scaleFactor;
+    }
+
+    public void SetUnSelectedScale(float scaleFactor)
+    {
+        unselected_.transform.localScale = unselected_.transform.localScale * scaleFactor;
+    }
+
+    public Vector3 GetSelectedScale()
+    {
+        return selected_.transform.localScale;
+    }
+
+    public Vector3 GetUnSelectedScale()
+    {
+        return unselected_.transform.localScale;
     }
 }
 
