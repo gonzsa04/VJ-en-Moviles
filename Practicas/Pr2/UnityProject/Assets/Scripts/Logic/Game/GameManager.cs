@@ -14,9 +14,12 @@ public class GameManager : MonoBehaviour
     public int moneyIncrement = 20;
     public int hintCost = 25;
     public Image currentDifficultySprite;
+    public Image currentDifficultySpriteClear;
     public Text currentDifficultyText;
+    public Text currentDifficultyTextClear;
     public Sprite[] difficultySprites;
     public RewardedAds rewardedComp;
+    public GameObject clearPanel;
 
     private static LoadManager loadManager_;
     private int money_;
@@ -30,6 +33,7 @@ public class GameManager : MonoBehaviour
     
     void Start()
     {
+        clearPanel.SetActive(false);
         rewardedComp.SetRewardMethod(Reward);
         money_ = loadManager_.money;
         moneyText.text = money_.ToString();
@@ -46,14 +50,16 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (boardManager.LevelCompleted() && !boardManager.isButtonDown)
-            ToNextLevel();
+        if (boardManager.LevelCompleted() && !boardManager.isButtonDown && !boardManager.IsAnimated())
+            clearPanel.SetActive(true);
     }
 
     private void SetLevelName()
     {
         currentDifficultySprite.sprite = difficultySprites[loadManager_.difficultyLevel];
+        currentDifficultySpriteClear.sprite = difficultySprites[loadManager_.difficultyLevel];
         currentDifficultyText.text = (loadManager_.difficultiesInfo[loadManager_.difficultyLevel].currentLevel).ToString();
+        currentDifficultyTextClear.text = (loadManager_.difficultiesInfo[loadManager_.difficultyLevel].currentLevel).ToString();
     }
 
     public void ToNextLevel()
@@ -81,6 +87,7 @@ public class GameManager : MonoBehaviour
         }
 
         SetLevelName();
+        clearPanel.SetActive(false);
     }
 
     public void ShowHints()
@@ -109,5 +116,16 @@ public class GameManager : MonoBehaviour
     public void BackToLevelSelector()
     {
         SceneManager.LoadScene("LevelSelectorScene");
+    }
+
+    public void BackToMenu()
+    {
+        SceneManager.LoadScene("MenuScene");
+    }
+
+    public void StartEndLevelAnimation()
+    {
+        boardManager.StartAnimation();
+        clearPanel.SetActive(false);
     }
 }

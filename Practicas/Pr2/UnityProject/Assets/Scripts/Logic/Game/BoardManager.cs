@@ -20,6 +20,7 @@ public class BoardManager : MonoBehaviour
     private int[,] hints_;
     private int lastHint_ = 1;
     private int skinIndex_;
+    private bool isAnimated_;
     
     public SpriteRenderer tracker;  // huella que deja el dedo al pulsar
     public GameObject tilePrefab;   // modelo de tile a instanciar
@@ -35,6 +36,10 @@ public class BoardManager : MonoBehaviour
     [Tooltip("Resolucion para tableros de 6x8")]
     public float bigBoardScale = 0.6f;
     public int numHintsGiven = 5;   // numero de pistas que da "comprar pista"
+
+    public float animationRate = 0.1f;
+    public float animScaleFactor = 0.1f;
+    public float animLastScale = 0.1f;
 
     [HideInInspector]
     public bool isButtonDown;
@@ -310,6 +315,16 @@ public class BoardManager : MonoBehaviour
         return (selected == hints_.GetLength(0));
     }
 
+    public bool IsAnimated()
+    {
+        return isAnimated_;
+    }
+
+    public void SetAnimated(bool b)
+    {
+        isAnimated_ = b;
+    }
+
     /// <summary>
     /// Devuelve la direccion hacia la que se encuentra "b" respecto a "a"
     /// </summary>
@@ -419,5 +434,68 @@ public class BoardManager : MonoBehaviour
         return (((index + 1 == path_[path_.Count - 1] || index - 1 == path_[path_.Count - 1]) 
             && index /cols == path_[path_.Count - 1]/cols) ||                                  // izq-der
             index + cols == path_[path_.Count - 1] || index - cols == path_[path_.Count - 1]); // arriba-abajo
+    }
+
+
+    public void StartAnimation()
+    {
+        SetAnimated(true);
+        for (int i = 0; i < board_.Count; i++)
+        {
+            Tile tileComp;
+            tileComp = board_[i].GetComponent<Tile>();
+            tileComp.QuitPath();
+        }
+
+        Invoke("InvokeSelectedAnimation", 0.5f);
+    }
+
+    private IEnumerator SelectedTileAnimation()
+    {
+        float scaleX = 999999;
+
+        while (scaleX > animLastScale)
+        {
+            for (int i = 0; i < board_.Count; i++)
+            {
+                Tile tileComp;
+                tileComp = board_[i].GetComponent<Tile>();
+                tileComp.SetSelectedScale(animScaleFactor);
+                scaleX = tileComp.GetSelectedScale().x;
+            }
+
+            yield return new WaitForSeconds(animationRate);
+        }
+    }
+
+    private IEnumerator UnSelectedTileAnimation()
+    {
+        float scaleX = 999999;
+
+        while (scaleX > animLastScale)
+        {
+            for (int i = 0; i < board_.Count; i++)
+            {
+                Tile tileComp;
+                tileComp = board_[i].GetComponent<Tile>();
+                tileComp.SetUnSelectedScale(animScaleFactor);
+                scaleX = tileComp.GetUnSelectedScale().x;
+            }
+       
+            yield return new WaitForSeconds(animationRate);
+        }
+        isAnimated_ = false;
+        GameManager.instance.ToNextLevel();
+    }
+
+    private void InvokeSelectedAnimation()
+    {
+        StartCoroutine(SelectedTileAnimation());
+        Invoke("InvokeUnSelectedAnimation", animationRate * 10);
+    }
+
+    private void InvokeUnSelectedAnimation()
+    {
+        StartCoroutine(UnSelectedTileAnimation());
     }
 }
