@@ -21,7 +21,7 @@ public class BoardManager : MonoBehaviour
     private int lastHint_ = 1;
     private int skinIndex_;
     private bool isAnimated_;
-    
+
     public SpriteRenderer tracker;  // huella que deja el dedo al pulsar
     public GameObject tilePrefab;   // modelo de tile a instanciar
     [Tooltip("Sprite que determina el limite de juego por arriba")]
@@ -43,6 +43,8 @@ public class BoardManager : MonoBehaviour
 
     [HideInInspector]
     public bool isButtonDown;
+    [HideInInspector]
+    public bool onFocus_;
 
     /// <summary>
     /// Inicializa los campos de boardManager, establece el factor de escala que usara el tablero y carga todos los niveles
@@ -53,6 +55,7 @@ public class BoardManager : MonoBehaviour
         boolBoard_ = new List<bool>();
         path_ = new List<int>();
         isButtonDown = false;
+        onFocus_ = true;
 
         tracker.gameObject.SetActive(false);
 
@@ -220,7 +223,7 @@ public class BoardManager : MonoBehaviour
 
     void Update()
     {
-        HandleInput();
+        if(onFocus_)HandleInput();
     }
 
 #if (!UNITY_EDITOR && UNITY_ANDROID || UNITY_IOS)

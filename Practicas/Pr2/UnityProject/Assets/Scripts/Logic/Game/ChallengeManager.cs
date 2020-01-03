@@ -21,15 +21,15 @@ public class ChallengeManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        timerComponent_ = gameObject.GetComponent<Timer>();
+        timerComponent_.SetMethod(GameOver);
+        rewardedAdsComp.SetRewardMethod(DuplicateMoney);
     }
 
     void Start()
     {
         level_ = Random.Range(1, LoadManager.instance.totalNumLevels + 1);
-        rewardedAdsComp.SetRewardMethod(DuplicateMoney);
         won_ = false;
-        timerComponent_ = gameObject.GetComponent<Timer>();
-        timerComponent_.SetMethod(GameOver);
         winCanvas.SetActive(false);
         loseCanvas.SetActive(false);
         
@@ -61,6 +61,7 @@ public class ChallengeManager : MonoBehaviour
 
     private void Win()
     {
+        boardManager.onFocus_ = false;
         winCanvas.SetActive(true);
         timerComponent_.SetPaused(true);
         LoadManager.instance.money += moneyIncrement;
@@ -69,6 +70,7 @@ public class ChallengeManager : MonoBehaviour
 
     private void GameOver()
     {
+        boardManager.onFocus_ = false;
         loseCanvas.SetActive(true);
     }
 }

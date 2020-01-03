@@ -16,6 +16,7 @@ public class MenuManager : MonoBehaviour
     public GameObject challengePanel;
     public GameObject notEnoughMoneyText;
     public RewardedAds rewardedComp;
+    public RewardedAds giftRewardedComp;
 
     public GameObject giftPanel;
     public GameObject giftButton;
@@ -23,16 +24,22 @@ public class MenuManager : MonoBehaviour
     public GameObject giftButtonBig;
     public GameObject rewardPanel;
     public Text giftMoneyText;
+    public int minGift = 20, maxGift = 41;
 
     public Timer timerChallenge_;
     public Timer timerGift_;
+
     private static LoadManager loadManager_;
+    private int giftMoney_;
 
     void Awake()
     {
         loadManager_ = LoadManager.instance;
         timerChallenge_.SetMethod(DeactivateChallengeTimer);
         timerGift_.SetMethod(ActivateGift);
+        rewardedComp.SetRewardMethod(GoToChallenge);
+        giftRewardedComp.SetRewardMethod(DuplicateGift);
+
         challengePanel.SetActive(false);
         giftDisabled.SetActive(false);
         giftPanel.SetActive(false);
@@ -41,7 +48,6 @@ public class MenuManager : MonoBehaviour
     void Start()
     {
         ManageTimer();
-        rewardedComp.SetRewardMethod(GoToChallenge);
 
         moneyText.text = loadManager_.money.ToString();
         medalsText.text = loadManager_.medals.ToString();
@@ -60,10 +66,8 @@ public class MenuManager : MonoBehaviour
         timerChallenge_.SetTime(loadManager_.challengeTimeLeft - diff);
         timerGift_.SetTime(loadManager_.giftTimeLeft - diff);
 
-
         if (loadManager_.fromChallenge) timerChallenge_.Reset();
         loadManager_.fromChallenge = false;
-        timerChallenge_.SetTime(0);// debug
         SetTimer(!timerChallenge_.IsTimerFinished());
         if (!timerGift_.IsTimerFinished()) DeactivateGift();
         else ActivateGift();
@@ -91,8 +95,6 @@ public class MenuManager : MonoBehaviour
         SetTimer(false);
     }
 
-
-
     private void SetTimer(bool active)
     {
         timerChallenge_.enabled = active;
@@ -100,12 +102,25 @@ public class MenuManager : MonoBehaviour
         challengeButtonComp.enabled = !active;
     }
 
-    private void OnApplicationQuit()
+    private void OnDestroy()
     {
         loadManager_.challengeTimeLeft = (int)timerChallenge_.GetTime();
         loadManager_.giftTimeLeft = (int)timerGift_.GetTime();
         loadManager_.currentTime = System.DateTime.Now.Hour * 360 + System.DateTime.Now.Minute * 60 + System.DateTime.Now.Second;
         loadManager_.SaveWithTime();
+    }
+
+    private void GiveReward()
+    {
+        loadManager_.money += giftMoney_;
+        moneyText.text = loadManager_.money.ToString();
+        giftMoneyText.text = string.Format("+{0}", giftMoney_);
+    }
+
+    private void DuplicateGift()
+    {
+        GiveReward();
+        DeactivateGift();
     }
 
     public void GoToLevelSelector(int difficulty)
@@ -129,10 +144,8 @@ public class MenuManager : MonoBehaviour
         giftButtonBig.SetActive(false);
         rewardPanel.SetActive(true);
 
-        int money = Random.Range(20, 41);
-        loadManager_.money += money;
-        moneyText.text = loadManager_.money.ToString();
-        giftMoneyText.text = string.Format("+{0}", money);
+        giftMoney_ = Random.Range(minGift, maxGift);
+        GiveReward();
     }
 
     public void ActivateBigGift()
@@ -177,5 +190,10 @@ public class MenuManager : MonoBehaviour
     public void QuitApplication()
     {
         Application.Quit();
+    }
+
+    private void OnApplicationFocus(bool focus)
+    {
+        if (focus) ManageTimer();
     }
 }

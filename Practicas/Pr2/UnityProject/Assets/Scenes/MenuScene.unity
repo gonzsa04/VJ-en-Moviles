@@ -4920,12 +4920,15 @@ MonoBehaviour:
   challengePanel: {fileID: 664838359}
   notEnoughMoneyText: {fileID: 1047422315}
   rewardedComp: {fileID: 478997337}
+  giftRewardedComp: {fileID: 1599809289}
   giftPanel: {fileID: 1839383948}
   giftButton: {fileID: 300008835}
   giftDisabled: {fileID: 713899378}
   giftButtonBig: {fileID: 2063302867}
   rewardPanel: {fileID: 1587284786}
   giftMoneyText: {fileID: 458871352}
+  minGift: 20
+  maxGift: 41
   timerChallenge_: {fileID: 1684247211}
   timerGift_: {fileID: 713899382}
 --- !u!4 &1534617845
