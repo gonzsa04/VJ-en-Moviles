@@ -756,7 +756,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1534617844}
-        m_MethodName: ActivateGift
+        m_MethodName: ActivateBigGift
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -963,6 +963,85 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 360001962}
+  m_CullTransparentMesh: 0
+--- !u!1 &405342023
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 405342024}
+  - component: {fileID: 405342026}
+  - component: {fileID: 405342025}
+  m_Layer: 5
+  m_Name: GiftTimerText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &405342024
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 405342023}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
+  m_Children: []
+  m_Father: {fileID: 713899381}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -0.0000043511, y: -3}
+  m_SizeDelta: {x: 539.38, y: 236.25}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &405342025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 405342023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 200
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 2
+    m_MaxSize: 200
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 59:59
+--- !u!222 &405342026
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 405342023}
   m_CullTransparentMesh: 0
 --- !u!1 &458871350
 GameObject:
@@ -2240,6 +2319,7 @@ GameObject:
   - component: {fileID: 713899381}
   - component: {fileID: 713899380}
   - component: {fileID: 713899379}
+  - component: {fileID: 713899382}
   m_Layer: 5
   m_Name: GiftDisabled
   m_TagString: Untagged
@@ -2295,7 +2375,8 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.00032, y: 1.00032, z: 1.00032}
-  m_Children: []
+  m_Children:
+  - {fileID: 405342024}
   m_Father: {fileID: 686902373}
   m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2304,6 +2385,21 @@ RectTransform:
   m_AnchoredPosition: {x: -137.25998, y: -218.58005}
   m_SizeDelta: {x: 130, y: 135}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &713899382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 713899378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1cb617d8df18244da9dccda4a0c7cce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minutes: 59
+  seconds: 59
+  timerText: {fileID: 405342025}
 --- !u!1 &748387831
 GameObject:
   m_ObjectHideFlags: 0
@@ -3264,7 +3360,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 41.99202, y: -80.00995}
+  m_AnchoredPosition: {x: 41.992065, y: -80.01001}
   m_SizeDelta: {x: 342.5, y: 284.59998}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1047422317
@@ -4789,7 +4885,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1534617845}
   - component: {fileID: 1534617844}
-  - component: {fileID: 1534617846}
   m_Layer: 0
   m_Name: MenuManager
   m_TagString: Untagged
@@ -4830,6 +4925,8 @@ MonoBehaviour:
   giftButtonBig: {fileID: 2063302867}
   rewardPanel: {fileID: 1587284786}
   giftMoneyText: {fileID: 458871352}
+  timerChallenge_: {fileID: 1684247211}
+  timerGift_: {fileID: 713899382}
 --- !u!4 &1534617845
 Transform:
   m_ObjectHideFlags: 0
@@ -4844,21 +4941,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1534617846
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1534617843}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1cb617d8df18244da9dccda4a0c7cce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minutes: 29
-  seconds: 59
-  timerText: {fileID: 1248066446}
 --- !u!1 &1559971662
 GameObject:
   m_ObjectHideFlags: 0
@@ -5705,13 +5787,14 @@ GameObject:
   - component: {fileID: 1684247208}
   - component: {fileID: 1684247210}
   - component: {fileID: 1684247209}
+  - component: {fileID: 1684247211}
   m_Layer: 5
   m_Name: TimerPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1684247208
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5771,6 +5854,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1684247207}
   m_CullTransparentMesh: 0
+--- !u!114 &1684247211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1684247207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1cb617d8df18244da9dccda4a0c7cce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minutes: 29
+  seconds: 59
+  timerText: {fileID: 1248066446}
 --- !u!1 &1700285030
 GameObject:
   m_ObjectHideFlags: 0
