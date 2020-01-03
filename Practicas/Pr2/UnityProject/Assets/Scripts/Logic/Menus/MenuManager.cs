@@ -34,13 +34,13 @@ public class MenuManager : MonoBehaviour
         timer_.SetMethod(DeactivateTimer);
         challengePanel.SetActive(false);
         giftDisabled.SetActive(false);
-        rewardedComp.SetRewardMethod(GoToChallenge);
         giftPanel.SetActive(false);
     }
 
     void Start()
     {
         ManageTimer();
+        rewardedComp.SetRewardMethod(GoToChallenge);
 
         moneyText.text = loadManager_.money.ToString();
         medalsText.text = loadManager_.medals.ToString();

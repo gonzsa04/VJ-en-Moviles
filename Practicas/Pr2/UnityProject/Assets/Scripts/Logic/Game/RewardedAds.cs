@@ -57,7 +57,7 @@ public class RewardedAds : MonoBehaviour, IUnityAdsListener
         if (showResult == ShowResult.Finished && !rewarded)
         {
             rewarded = true;
-            rewardMethod_();
+            if(rewardMethod_ != null) rewardMethod_();
         }
         else if (showResult == ShowResult.Skipped)
         {
@@ -77,5 +77,10 @@ public class RewardedAds : MonoBehaviour, IUnityAdsListener
     public void OnUnityAdsDidStart(string placementId)
     {
         // Optional actions to take when the end-users triggers an ad.
+    }
+
+    private void OnDestroy()
+    {
+        rewardMethod_ = null;
     }
 }

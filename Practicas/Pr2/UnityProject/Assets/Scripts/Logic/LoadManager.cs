@@ -175,7 +175,8 @@ public class LoadManager : MonoBehaviour
 
     private void OnApplicationFocus(bool focus)
     {
-        //SaveWithTime();
+        if (!focus)
+            SaveWithTime();
     }
 
     private void OnApplicationQuit()

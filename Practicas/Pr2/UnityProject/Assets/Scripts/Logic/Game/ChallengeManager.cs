@@ -10,8 +10,12 @@ public class ChallengeManager : MonoBehaviour
     public static ChallengeManager instance;
     public BoardManager boardManager;
     public int moneyIncrement = 50;
+    public GameObject winCanvas;
+    public GameObject loseCanvas;
+    public RewardedAds rewardedAdsComp;
     
     private int level_;
+    private bool won_;
     Timer timerComponent_;
 
     private void Awake()
@@ -22,8 +26,12 @@ public class ChallengeManager : MonoBehaviour
     void Start()
     {
         level_ = Random.Range(1, LoadManager.instance.totalNumLevels + 1);
+        rewardedAdsComp.SetRewardMethod(DuplicateMoney);
+        won_ = false;
         timerComponent_ = gameObject.GetComponent<Timer>();
         timerComponent_.SetMethod(GameOver);
+        winCanvas.SetActive(false);
+        loseCanvas.SetActive(false);
         
         boardManager.LoadLevel(level_);
 
@@ -32,27 +40,35 @@ public class ChallengeManager : MonoBehaviour
 
     void Update()
     {
-        if (boardManager.LevelCompleted() && !boardManager.isButtonDown)
-           Win();
+        if (!won_ && boardManager.LevelCompleted() && !boardManager.isButtonDown)
+        {
+            won_ = true;
+            Win();
+        }
     }
 
-    private void BackToMenu()
+    public void BackToMenu()
     {
        LoadManager.instance.fromChallenge = true;
        SceneManager.LoadScene("MenuScene");
     }
 
+    public void DuplicateMoney()
+    {
+        LoadManager.instance.money += moneyIncrement;
+        BackToMenu();
+    }
+
     private void Win()
     {
-        //canvas
+        winCanvas.SetActive(true);
+        timerComponent_.SetPaused(true);
         LoadManager.instance.money += moneyIncrement;
         LoadManager.instance.medals++;
-        BackToMenu();
     }
 
     private void GameOver()
     {
-        //canvas
-        BackToMenu();
+        loseCanvas.SetActive(true);
     }
 }

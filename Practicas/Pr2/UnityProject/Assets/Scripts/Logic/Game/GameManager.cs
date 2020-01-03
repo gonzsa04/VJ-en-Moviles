@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     private int money_;
     private int level_;
 
-    private void Awake()
+    void Awake()
     {
         instance = this;
         loadManager_ = LoadManager.instance;
@@ -34,9 +34,9 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         clearPanel.SetActive(false);
-        rewardedComp.SetRewardMethod(Reward);
         money_ = loadManager_.money;
         moneyText.text = money_.ToString();
+        rewardedComp.SetRewardMethod(Reward);
 
         level_ = loadManager_.numLevel;
 
