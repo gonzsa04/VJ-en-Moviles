@@ -52,9 +52,10 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (boardManager.LevelCompleted() && !boardManager.isButtonDown && !boardManager.IsAnimated())
+        if (boardManager.LevelCompleted() && !boardManager.isButtonDown && !boardManager.IsAnimated() && boardManager.onFocus_)
         {
             boardManager.onFocus_ = false;
+            UnlockNextLevel();
             clearPanel.SetActive(true);
         }
     }
@@ -67,11 +68,8 @@ public class GameManager : MonoBehaviour
         currentDifficultyTextClear.text = (loadManager_.difficultiesInfo[loadManager_.difficultyLevel].currentLevel).ToString();
     }
 
-    public void ToNextLevel()
+    public void UnlockNextLevel()
     {
-        level_++;
-        boardManager.LoadLevel(level_);
-        loadManager_.numLevel = level_;
         if (loadManager_.difficultiesInfo[loadManager_.difficultyLevel].currentLevel ==
             loadManager_.difficultiesInfo[loadManager_.difficultyLevel].numLevelsUnLocked)
         {
@@ -79,6 +77,13 @@ public class GameManager : MonoBehaviour
         }
 
         loadManager_.difficultiesInfo[loadManager_.difficultyLevel].currentLevel++;
+    }
+
+    public void ToNextLevel()
+    {
+        level_++;
+        loadManager_.numLevel = level_;
+        boardManager.LoadLevel(level_);
 
         int lastLevel = 0;
         for (int i = 0; i < loadManager_.difficultyLevel + 1; i++)
@@ -97,15 +102,18 @@ public class GameManager : MonoBehaviour
 
     public void ShowHints()
     {
-        if (money_ >= hintCost && !boardManager.AllHintsGiven())
+        if (!boardManager.IsAnimated())
         {
-            money_ -= hintCost;
-            loadManager_.money = money_;
-            moneyText.text = money_.ToString();
-            StartCoroutine(boardManager.ShowHint());
+            if (money_ >= hintCost && !boardManager.AllHintsGiven())
+            {
+                money_ -= hintCost;
+                loadManager_.money = money_;
+                moneyText.text = money_.ToString();
+                StartCoroutine(boardManager.ShowHint());
+            }
+            else if (money_ < hintCost)
+                notEnoughMoney.SetActive(true);
         }
-        else if (money_ < hintCost)
-            notEnoughMoney.SetActive(true);
     }
 
     private void Reward()
@@ -117,12 +125,14 @@ public class GameManager : MonoBehaviour
 
     public void RestartLevel()
     {
-        boardManager.RestartFrom(0);
+        if (!boardManager.IsAnimated())
+            boardManager.RestartFrom(0);
     }
 
     public void BackToLevelSelector()
     {
-        SceneManager.LoadScene("LevelSelectorScene");
+        if(!boardManager.IsAnimated())
+            SceneManager.LoadScene("LevelSelectorScene");
     }
 
     public void BackToMenu()

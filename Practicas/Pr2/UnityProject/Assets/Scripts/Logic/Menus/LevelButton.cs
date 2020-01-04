@@ -18,6 +18,8 @@ public class LevelButton : MonoBehaviour
         if (LoadManager.instance.difficultiesInfo[LoadManager.instance.difficultyLevel].numLevelsUnLocked <= level_ - 1)
         {
             btn.enabled = false;
+            GetComponent<EnlargeAnimation>().enabled = false;
+
             gameObject.GetComponent<Image>().sprite = blockedSprite;
             for (int i = 0; i < transform.childCount; i++)
             {

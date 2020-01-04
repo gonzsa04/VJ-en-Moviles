@@ -49,7 +49,6 @@ public class ChallengeManager : MonoBehaviour
 
     public void BackToMenu()
     {
-       LoadManager.instance.fromChallenge = true;
        SceneManager.LoadScene("MenuScene");
     }
 

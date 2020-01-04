@@ -51,8 +51,8 @@ public class MenuManager : MonoBehaviour
 
         moneyText.text = loadManager_.money.ToString();
         medalsText.text = loadManager_.medals.ToString();
-        for(int i = 0; i < difficultyTexts.Length; i++) {
-            difficultyTexts[i].text = string.Format("{0}/{1}", 
+        for (int i = 0; i < difficultyTexts.Length; i++) {
+            difficultyTexts[i].text = string.Format("{0}/{1}",
                 loadManager_.difficultiesInfo[i].numLevelsUnLocked, loadManager_.difficultiesInfo[i].numLevels);
         }
 
@@ -61,15 +61,16 @@ public class MenuManager : MonoBehaviour
 
     private void ManageTimer()
     {
+        int currentDay = System.DateTime.Now.DayOfYear;
         int currentTime = System.DateTime.Now.Hour * 360 + System.DateTime.Now.Minute * 60 + System.DateTime.Now.Second;
-        int diff = Mathf.Abs(currentTime - loadManager_.currentTime);
+        int diffDay = (currentDay - loadManager_.day) * 24 * 60 * 60;
+        int diffHour = currentTime - loadManager_.currentTime;
+        int diff = Mathf.Abs(diffDay + diffHour);
         timerChallenge_.SetTime(loadManager_.challengeTimeLeft - diff);
         timerGift_.SetTime(loadManager_.giftTimeLeft - diff);
 
-        if (loadManager_.fromChallenge) timerChallenge_.Reset();
-        loadManager_.fromChallenge = false;
         SetTimer(!timerChallenge_.IsTimerFinished());
-        if (!timerGift_.IsTimerFinished()) DeactivateGift();
+        if (!timerGift_.IsTimerFinished()) DisableGift();
         else ActivateGift();
     }
 
@@ -104,10 +105,15 @@ public class MenuManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        loadManager_.challengeTimeLeft = (int)timerChallenge_.GetTime();
-        loadManager_.giftTimeLeft = (int)timerGift_.GetTime();
-        loadManager_.currentTime = System.DateTime.Now.Hour * 360 + System.DateTime.Now.Minute * 60 + System.DateTime.Now.Second;
-        loadManager_.SaveWithTime();
+        UpdateTimers();
+    }
+
+    private void OnApplicationFocus(bool focus)
+    {
+        if (!focus)
+            UpdateTimers();
+        else
+            ManageTimer();
     }
 
     private void GiveReward()
@@ -120,7 +126,14 @@ public class MenuManager : MonoBehaviour
     private void DuplicateGift()
     {
         GiveReward();
-        DeactivateGift();
+        ResetGift();
+    }
+
+    private void UpdateTimers()
+    { 
+        loadManager_.challengeTimeLeft = (int)timerChallenge_.GetTime();
+        loadManager_.giftTimeLeft = (int)timerGift_.GetTime();
+        loadManager_.SaveWithTime();
     }
 
     public void GoToLevelSelector(int difficulty)
@@ -159,14 +172,19 @@ public class MenuManager : MonoBehaviour
     {
         giftButton.SetActive(true);
         giftDisabled.SetActive(false);
-        timerGift_.Reset();
     }
 
-    public void DeactivateGift()
+    private void DisableGift()
     {
         giftPanel.SetActive(false);
         giftButton.SetActive(false);
         giftDisabled.SetActive(true);
+    }
+
+    public void ResetGift()
+    {
+        DisableGift();
+        timerGift_.Reset();
     }
 
     public void PayForChallenge(int howMany)
@@ -184,16 +202,12 @@ public class MenuManager : MonoBehaviour
 
     private void GoToChallenge()
     {
+        timerChallenge_.Reset();
         SceneManager.LoadScene("ChallengeScene");
     }
 
     public void QuitApplication()
     {
         Application.Quit();
-    }
-
-    private void OnApplicationFocus(bool focus)
-    {
-        if (focus) ManageTimer();
     }
 }

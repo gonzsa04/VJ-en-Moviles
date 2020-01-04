@@ -5197,7 +5197,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1534617844}
-        m_MethodName: DeactivateGift
+        m_MethodName: ResetGift
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -28,9 +28,9 @@ public class LoadManager : MonoBehaviour
     public int giftTimeLeft;
     [HideInInspector]
     public int currentTime;
-
     [HideInInspector]
-    public bool fromChallenge;
+    public int day;
+
     [HideInInspector]
     public int difficultyLevel;
     [HideInInspector]
@@ -60,8 +60,8 @@ public class LoadManager : MonoBehaviour
         challengeTimeLeft = 0;
         giftTimeLeft = 0;
         currentTime = 0;
-
-        fromChallenge = false;
+        day = 1;
+        
         DontDestroyOnLoad(this.gameObject);
     }
 
@@ -103,6 +103,7 @@ public class LoadManager : MonoBehaviour
     public void SaveWithTime()
     {
         currentTime = System.DateTime.Now.Hour * 360 + System.DateTime.Now.Minute * 60 + System.DateTime.Now.Second;
+        day = System.DateTime.Now.Date.DayOfYear;
         Save();
 
     }
@@ -121,6 +122,7 @@ public class LoadManager : MonoBehaviour
         challengeTimeLeft = saveInfo_.challengeTimeLeft;
         giftTimeLeft = saveInfo_.giftTimeLeft;
         currentTime = saveInfo_.currentTime;
+        day = saveInfo_.day;
 
         for (int i = 0; i < difficultiesInfo.Length; i++)
         {
@@ -152,6 +154,7 @@ public class LoadManager : MonoBehaviour
         saveInfo_.challengeTimeLeft = 0;
         saveInfo_.giftTimeLeft = 0;
         saveInfo_.currentTime = 0;
+        saveInfo_.day = System.DateTime.Now.DayOfYear;
         saveInfo_.levelsUnlocked = new int[difficultiesInfo.Length];
         saveInfo_.hash = "";
 

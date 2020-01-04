@@ -25,7 +25,7 @@ public class RewardedAds : MonoBehaviour, IUnityAdsListener
 
         // Initialize the Ads listener and service:
         Advertisement.AddListener(this);
-        Advertisement.Initialize(gameId, true);
+        Advertisement.Initialize(gameId, false);
     }
 
     public void SetRewardMethod(RewardMethod method)

@@ -28,17 +28,20 @@ public class Timer : MonoBehaviour
     }
 
     void Update()
-    { 
-        if (!paused_ && !IsTimerFinished())
-            timer_ -= Time.deltaTime;
-        else if(!timerFinishedCalled_)
+    {
+        if (!paused_)
         {
-            timerFinishedCalled_ = true;
-            timer_ = 0;
-            if(timerFinished_ != null)timerFinished_();
-        }
+            if (!IsTimerFinished())
+                timer_ -= Time.deltaTime;
+            else if (!timerFinishedCalled_)
+            {
+                timerFinishedCalled_ = true;
+                timer_ = 0;
+                if (timerFinished_ != null) timerFinished_();
+            }
 
-        UpdateText();
+            UpdateText();
+        }
     }
 
     private void UpdateText()

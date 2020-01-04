@@ -203,6 +203,7 @@ public class BoardManager : MonoBehaviour
     /// </summary>
     public IEnumerator ShowHint()
     {
+        onFocus_ = false;
         for(int i = lastHint_; i < lastHint_ + numHintsGiven; i++)
         {
             if(i >= hints_.GetLength(0)) break;
@@ -219,6 +220,7 @@ public class BoardManager : MonoBehaviour
         }
 
         lastHint_ += numHintsGiven;
+        onFocus_ = true;
     }
 
     public bool AllHintsGiven()
