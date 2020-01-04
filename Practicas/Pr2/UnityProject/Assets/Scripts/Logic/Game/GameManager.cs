@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     public Sprite[] difficultySprites;
     public RewardedAds rewardedComp;
     public GameObject clearPanel;
+    public GameObject notEnoughMoney;
 
     private static LoadManager loadManager_;
     private int money_;
@@ -35,6 +36,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         clearPanel.SetActive(false);
+        notEnoughMoney.SetActive(false);
         money_ = loadManager_.money;
         moneyText.text = money_.ToString();
 
@@ -102,6 +104,8 @@ public class GameManager : MonoBehaviour
             moneyText.text = money_.ToString();
             StartCoroutine(boardManager.ShowHint());
         }
+        else if (money_ < hintCost)
+            notEnoughMoney.SetActive(true);
     }
 
     private void Reward()

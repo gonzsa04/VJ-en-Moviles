@@ -34,17 +34,6 @@ public class Tile : MonoBehaviour
     public SpriteRenderer down_;
     public SpriteRenderer downHint_;
 
-    //public void kk()
-    //{
-    //    selected_.transform.position.Set(selected_.transform.position.x, selected_.transform.position.y, -2);
-
-    //    right_.transform.position.Set(right_.transform.position.x, right_.transform.position.y, -3);
-    //    rightHint_.transform.position.Set(rightHint_.transform.position.x, rightHint_.transform.position.y, -1);
-
-    //    left_.transform.position.Set(left_.transform.position.x, left_.transform.position.y, -3);
-    //    leftHint_.transform.position.Set(leftHint_.transform.position.x, leftHint_.transform.position.y, -1);
-    //}
-
     /// <summary>
     /// Pulsa o no el Tile
     /// Pulsado: activa sprite de seleccionado / desactiva sprite de no seleccionado
@@ -114,6 +103,17 @@ public class Tile : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    /// <summary>
+    /// Desactiva todas las pistas que pudiera haber sobre el Tile
+    /// </summary>
+    public void QuitHint()
+    {
+        rightHint_.gameObject.SetActive(false);
+        upHint_.gameObject.SetActive(false);
+        leftHint_.gameObject.SetActive(false);
+        downHint_.gameObject.SetActive(false);
     }
 
     public void SetSkin(Skin skin)

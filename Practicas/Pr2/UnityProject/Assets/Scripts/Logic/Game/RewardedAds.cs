@@ -10,6 +10,7 @@ public class RewardedAds : MonoBehaviour, IUnityAdsListener
 
     Button myButton;
     public string myPlacementId = "rewardedVideo";
+    public GameObject notReadyText;
 
     public delegate void RewardMethod(); // This defines what type of method you're going to call.
     private RewardMethod rewardMethod_; // This is the variable holding the method you're going to call.
@@ -17,9 +18,7 @@ public class RewardedAds : MonoBehaviour, IUnityAdsListener
     void Start()
     {
         myButton = GetComponent<Button>();
-
-        // Set interactivity to be dependent on the Placement’s status:
-        myButton.interactable = Advertisement.IsReady(myPlacementId);
+        notReadyText.SetActive(false);
 
         // Map the ShowRewardedVideo function to the button’s click listener:
         if (myButton) myButton.onClick.AddListener(ShowRewardedVideo);
@@ -37,8 +36,12 @@ public class RewardedAds : MonoBehaviour, IUnityAdsListener
     // Implement a function for showing a rewarded video ad:
     void ShowRewardedVideo()
     {
-        rewarded = false;
-        Advertisement.Show(myPlacementId);
+        if (Advertisement.IsReady(myPlacementId))
+        {
+            rewarded = false;
+            Advertisement.Show(myPlacementId);
+        }
+        else notReadyText.SetActive(true);
     }
 
     // Implement IUnityAdsListener interface methods:

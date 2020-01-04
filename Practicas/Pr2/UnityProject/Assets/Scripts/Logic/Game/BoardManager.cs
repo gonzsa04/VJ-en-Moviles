@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// Tablero de Tiles que se encarga de instanciar los niveles del juego y gestionar cada uno de los Tiles que lo conforman
@@ -25,9 +26,9 @@ public class BoardManager : MonoBehaviour
     public SpriteRenderer tracker;  // huella que deja el dedo al pulsar
     public GameObject tilePrefab;   // modelo de tile a instanciar
     [Tooltip("Sprite que determina el limite de juego por arriba")]
-    public Sprite topLimit;
+    public GameObject topLimit;
     [Tooltip("Sprite que determina el limite de juego por abajo")]
-    public Sprite bottomLimit;
+    public GameObject bottomLimit;
     [Tooltip("Posibles skins. Se elegira una alearoria")]
     public List<Skin> skins;
 
@@ -117,6 +118,7 @@ public class BoardManager : MonoBehaviour
     /// </summary>
     private void Reset()
     {
+        onFocus_ = true;
         skinIndex_ = Random.Range(0, 7);
         tracker.GetComponent<SpriteRenderer>().sprite = skins[skinIndex_].tracker;
 
@@ -148,13 +150,16 @@ public class BoardManager : MonoBehaviour
         float height = Camera.main.orthographicSize * 2;
         float width = Camera.main.aspect * height;
 
-        float topFactor = topLimit.rect.width / topLimit.rect.height;
-        float bottomFactor = bottomLimit.rect.width / bottomLimit.rect.height;
+        Sprite topLimitSprite = topLimit.GetComponent<Image>().sprite;
+        Sprite bottomLimitSprite = bottomLimit.GetComponent<Image>().sprite;
+
+        float topFactor = topLimitSprite.rect.width / topLimitSprite.rect.height;
+        float bottomFactor = bottomLimitSprite.rect.width / bottomLimitSprite.rect.height;
         float topHeight = width / topFactor;
         float bottomHeight = width / bottomFactor;
         float xFactor_ = (float)width / (float)baseWidth_;
         float yFactor_ = (float)(height - (topHeight + bottomHeight)) / (float)baseHeight_;
-        
+
         if (yFactor_ < xFactor_)
             factor_ = yFactor_;
         else
@@ -177,20 +182,20 @@ public class BoardManager : MonoBehaviour
     /// </summary>
     public void FitPosition()
     {
+        RectTransform topLimitRect = topLimit.GetComponent<RectTransform>();
+        RectTransform bottomLimitRect = bottomLimit.GetComponent<RectTransform>();
+
+        Vector3[] topCorners = new Vector3[4];
+        topLimitRect.GetWorldCorners(topCorners);
+        Vector3[] bottomCorners = new Vector3[4];
+        bottomLimitRect.GetWorldCorners(bottomCorners);
+
+        float midPoint = (bottomCorners[1].y - topCorners[0].y) / 2;
+
         Vector2 aux = new Vector2(0, 0);
-
         aux.x = -cols * tileWidth_ / 2 + tileWidth_ / 2;
-        aux.y = -rows * tileHeight_ / 2 + tileHeight_ / 2;
+        aux.y = (-rows * tileHeight_ / 2 + tileHeight_ / 2) + (topCorners[0].y + midPoint);
         transform.position = aux;
-
-        //Vector2 aux = new Vector2(0, 0);
-
-        //float yOffset = Mathf.Abs(topLimit.rect.height - bottomLimit.rect.yMin);
-        //Vector3 yOffsetInWorld = new Vector3(0, yOffset, 0);
-        //Debug.Log(factor_);
-        //aux.x = -cols * tileWidth_ / 2 + tileWidth_ / 2;
-        //aux.y = -((Camera.main.ScreenToWorldPoint(yOffsetInWorld).y / 2) * factor_) - ((rows * tileHeight_ / 2) - (tileHeight_ / 2));
-        //transform.position = aux;
     }
 
     /// <summary>
@@ -448,6 +453,7 @@ public class BoardManager : MonoBehaviour
             Tile tileComp;
             tileComp = board_[i].GetComponent<Tile>();
             tileComp.QuitPath();
+            tileComp.QuitHint();
         }
 
         Invoke("InvokeSelectedAnimation", 0.5f);
