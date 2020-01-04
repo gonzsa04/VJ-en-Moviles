@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 343018763}
   - component: {fileID: 343018762}
   m_Layer: 0
-  m_Name: LoadManager
+  m_Name: DataManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -151,6 +151,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   money: 0
   medals: 0
+  challengeTimeLeft: 0
+  giftTimeLeft: 0
+  currentTime: 0
+  day: 0
   difficultyLevel: 0
   numLevel: 0
   totalNumLevels: 0

@@ -10,6 +10,7 @@ using UnityEngine.UI;
 /// </summary>
 public class BackGroundFitter : MonoBehaviour
 {
+    [Tooltip("Sprite que se pondra ocupando todo el fondo")]
     public Sprite background;
 
     void Start()

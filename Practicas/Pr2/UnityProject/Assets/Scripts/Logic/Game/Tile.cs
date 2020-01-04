@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Objeto seleccionable que puede anyadir camino o pistas sobre el
+/// Componente de los objetos seleccionables que puede anyadir camino o pistas sobre ellos
 /// </summary>
 public class Tile : MonoBehaviour
 {
@@ -116,27 +116,44 @@ public class Tile : MonoBehaviour
         downHint_.gameObject.SetActive(false);
     }
 
+    /// <summary>
+    /// Establece la skin con la que aparecera el objeto
+    /// </summary>
     public void SetSkin(Skin skin)
     {
         selected_.sprite = skin.selected;
         leftHint_.sprite = upHint_.sprite = rightHint_.sprite = downHint_.sprite = skin.hint;
     }
 
+    /// <summary>
+    /// Se le aplica al Sprite de seleccion un factor de escala
+    /// </summary>
+    /// <param name="scaleFactor">factor de escala a aplicar</param>
     public void SetSelectedScale(float scaleFactor)
     {
         selected_.transform.localScale = selected_.transform.localScale * scaleFactor;
     }
 
+    /// <summary>
+    /// Se le aplica al Sprite de no seleccion un factor de escala
+    /// </summary>
+    /// <param name="scaleFactor">factor de escala a aplicar</param>
     public void SetUnSelectedScale(float scaleFactor)
     {
         unselected_.transform.localScale = unselected_.transform.localScale * scaleFactor;
     }
 
+    /// <summary>
+    /// Devuelve el factor de escala aplicado sobre el Sprite de seleccion
+    /// </summary>
     public Vector3 GetSelectedScale()
     {
         return selected_.transform.localScale;
     }
 
+    /// <summary>
+    /// Devuelve el factor de escala aplicado sobre el Sprite de no seleccion
+    /// </summary>
     public Vector3 GetUnSelectedScale()
     {
         return unselected_.transform.localScale;

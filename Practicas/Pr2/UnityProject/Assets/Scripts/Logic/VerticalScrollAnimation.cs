@@ -2,10 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Componente que desplaza su objeto verticalmente hasta alcanzar una posicion
+/// Una vez alcanzada, el objeto vuelve a su posicion inicial y se desactiva
+/// </summary>
 public class VerticalScrollAnimation : MonoBehaviour
 {
+    [Tooltip("Posicion objetivo")]
     public Transform targetPosition;
+    [Tooltip("Velocidad de desplazamiento")]
     public float vel = 1.5f;
+    [Tooltip("Delay entre que llega al objetivo y se desactiva")]
     public float delay = 0.5f;
 
     private Vector3 initialPosition;

@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Clase que genera un hash MD5 dado un string a encriptar
+/// </summary>
 public class MD5Encrypter
 {
     public static string Md5Sum(string strToEncrypt)

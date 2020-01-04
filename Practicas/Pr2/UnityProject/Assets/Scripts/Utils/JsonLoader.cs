@@ -5,15 +5,20 @@ using System.IO;
 using SimpleJSON;
 
 /// <summary>
-/// Clase cargadora de niveles a partir de .json
-/// Los carga y guarda su informacion en un dicionario, cuyas claves seran el numero de cada nivel
+/// Clase cargadora a partir de .json
+/// Carga los niveles y guarda su informacion en un dicionario, cuyas claves seran el numero de cada nivel
 /// Devolvera la informacion de un nivel dada su clave
+/// Carga los datos guardados de las partidas anteriores
 /// </summary>
 public class JsonLoader
 {
     private Dictionary<int, LevelInfo> levels_;
     private JSONNode rawJson_;
 
+    /// <summary>
+    /// Informacion que se guarda de una partida:
+    /// Dinero, monedas, niveles desbloqueados y tiempos
+    /// </summary>
     [System.Serializable]
     public struct SaveInfo
     {
@@ -27,6 +32,10 @@ public class JsonLoader
         public string hash;
     }
 
+    /// <summary>
+    /// Informacion de cabecera en el archivo de niveles:
+    /// Numero de dificultades y niveles por cada dificultad
+    /// </summary>
     public struct HeaderInfo
     {
         public int numDifficulties;
@@ -68,10 +77,16 @@ public class JsonLoader
         levels_.Add(level["index"], levelInfo);
     }
 
+    /// <summary>
+    /// Inicializa el diccionario de niveles
+    /// </summary>
     public JsonLoader() {
         levels_ = new Dictionary<int, LevelInfo>();
     }
 
+    /// <summary>
+    /// Establece el json a leer
+    /// </summary>
     public void SetJson(string json)
     {
         rawJson_ = JSON.Parse(json);
@@ -98,6 +113,10 @@ public class JsonLoader
         return levels_[number]; 
     }
 
+    /// <summary>
+    /// Carga la cabecera de los niveles y lo guarda en un struct
+    /// </summary>
+    /// <returns>struct con la informacion leida del header</returns>
     public HeaderInfo LoadHeader()
     {
         HeaderInfo headerInfo;
@@ -110,6 +129,10 @@ public class JsonLoader
         return headerInfo;
     }
 
+    /// <summary>
+    /// Carga los datos guardados de una partida y los guarda en un struct
+    /// </summary>
+    /// <returns>struct con la informacion leida del archivo de guardado</returns>
     public SaveInfo LoadSaveInfo()
     {
         SaveInfo saveInfo;

@@ -4,17 +4,25 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.IO;
 
-public class LoadManager : MonoBehaviour
+/// <summary>
+/// Componente del Manager de la escena LoadScene. Carga y guarda las partidas, carga los niveles
+/// y gestiona la informacion entre escenas durante la ejecucion de la aplicacion
+/// </summary>
+public class DataManager : MonoBehaviour
 {
+    /// <summary>
+    /// Informacion de cada dificultad: numero de niveles que tiene, numero de niveles debloqueados
+    /// y nivel actual que quiere jugarse
+    /// </summary>
     [HideInInspector]
     public struct DifficultyInfo
     {
-        public int numLevels;      //numero de niveles de esta dificultad
+        public int numLevels;      
         public int numLevelsUnLocked;
-        public int currentLevel;    //nivel actual personal de la dificultad
+        public int currentLevel;    
     }
 
-    public static LoadManager instance;
+    public static DataManager instance;
 
     [HideInInspector]
     public DifficultyInfo[] difficultiesInfo;
@@ -48,6 +56,8 @@ public class LoadManager : MonoBehaviour
     private string saveInfoRoute_ = "/saveInfo.json";
     private string hashHeader = "JorGaloOneLine1998-UCM-GDV-2019-2020";
 
+    // inicializacion de atributos y lectura de todos los niveles
+    // le indicamos que este objeto no debe destruirse entre escenas
     void Awake()
     {
         instance = this;
@@ -65,6 +75,7 @@ public class LoadManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
+    // carga los datos de partida guardados y va a la escena del menu
     void Start()
     {
         totalNumLevels = 0;
@@ -72,6 +83,10 @@ public class LoadManager : MonoBehaviour
         SceneManager.LoadScene("MenuScene");
     }
 
+    /// <summary>
+    /// Guarda los datos de la partida actual: dinero, retos, tiempo restante del regalo y los retos y
+    /// ultimo nivel desbloqueado de cada dificultad, y los encripta con un hash
+    /// </summary>
     public void Save()
     {
         using (StreamWriter stream = new StreamWriter(Application.persistentDataPath + saveInfoRoute_))
@@ -100,14 +115,17 @@ public class LoadManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Guarda la informacion de la partida actual y el tiempo actual (dia de 1 a 366 y hora actual en segundos)
+    /// </summary>
     public void SaveWithTime()
     {
         currentTime = System.DateTime.Now.Hour * 360 + System.DateTime.Now.Minute * 60 + System.DateTime.Now.Second;
         day = System.DateTime.Now.Date.DayOfYear;
         Save();
-
     }
 
+    // carga informacion de una partida guardada si la hubiera, si no, carga una partida con los valores iniciales
     private void Load()
     {
         JsonLoader.HeaderInfo headerInfo = jsonLoader.LoadHeader();
@@ -132,6 +150,8 @@ public class LoadManager : MonoBehaviour
         }
     }
 
+    // carga una partida guardada en route. Comprueba si la informacion no ha sido modificada. De ser asi,
+    // carga una partida con los valores iniciales
     private void LoadFromFile(string route)
     {
         using (StreamReader stream = new StreamReader(route))
@@ -147,6 +167,7 @@ public class LoadManager : MonoBehaviour
         }
     }
 
+    // carga una partida con los valores iniciales
     private void LoadDefault()
     {
         saveInfo_.money = money = 0;
@@ -165,12 +186,14 @@ public class LoadManager : MonoBehaviour
         }
     }
 
+    // manda encriptar los datos guardados
     private string Encrypt(string file)
     {
         string firstHash = MD5Encrypter.Md5Sum(file);
         return MD5Encrypter.Md5Sum(hashHeader + firstHash);
     }
 
+    // determina si la informacion de los datos guardados ha sido modificada
     private bool HasInfoChanged()
     {
         JsonLoader.SaveInfo aux = saveInfo_;
@@ -183,12 +206,14 @@ public class LoadManager : MonoBehaviour
         return (aux.hash != saveInfo_.hash);
     }
 
+    // cuando la aplicacion sale de foco, se guarda la informacion de la partida actual con el tiempo actual
     private void OnApplicationFocus(bool focus)
     {
         if (!focus)
             SaveWithTime();
     }
 
+    // cuando la aplicacion se cierra, se guarda la informacion de la partida actual con el tiempo actual
     private void OnApplicationQuit()
     {
         SaveWithTime();

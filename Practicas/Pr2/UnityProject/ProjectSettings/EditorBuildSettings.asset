@@ -21,15 +21,15 @@ EditorBuildSettings:
     path: Assets/Scenes/ChallengeScene.unity
     guid: c13bfb4b353e85145a51b08d70093574
   - enabled: 0
-    path: Assets/Scenes/GameManagerScene.unity
+    path: Assets/Scenes/Test/GameManagerScene.unity
     guid: b67d851a28b059944ad1b80947f0c70c
   - enabled: 0
-    path: Assets/Scenes/ReadMapScene.unity
+    path: Assets/Scenes/Test/ReadMapScene.unity
     guid: 4d05fbdbe4f9a2a4a943abd025cd5ddf
   - enabled: 0
-    path: Assets/Scenes/AspectRatioScene.unity
+    path: Assets/Scenes/Test/AspectRatioScene.unity
     guid: d3584334a35056642afc72a1d0a4fa16
   - enabled: 0
-    path: Assets/Scenes/TouchScene.unity
+    path: Assets/Scenes/Test/TouchScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   m_configObjects: {}

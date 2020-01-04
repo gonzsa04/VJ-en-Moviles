@@ -2,6 +2,10 @@
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
+/// <summary>
+/// Componente que agranda su objeto cuanto el cursor esta sobre el,
+/// y lo disminuye cuando no
+/// </summary>
 public class EnlargeAnimation : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
 {
     public float smallScale = 1.0f;

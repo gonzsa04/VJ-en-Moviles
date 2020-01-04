@@ -1782,7 +1782,7 @@ MonoBehaviour:
   - {fileID: 5696740823501507245, guid: 42a55cc516218db479bbce77ae6abd52, type: 3}
   - {fileID: 686705334361358050, guid: 1a28424274c5c3148a4664c397af451c, type: 3}
   smallBoardScale: 0.8
-  bigBoardScale: 0.7
+  bigBoardScale: 0.75
   numHintsGiven: 5
   animationRate: 0.1
   animScaleFactor: 0.1

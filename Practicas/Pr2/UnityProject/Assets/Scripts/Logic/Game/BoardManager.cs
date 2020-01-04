@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// Tablero de Tiles que se encarga de instanciar los niveles del juego y gestionar cada uno de los Tiles que lo conforman
+/// Componente del tablero de Tiles que se encarga de instanciar los niveles del juego y gestionar cada uno de los Tiles que lo conforman
 /// Puede adaptarse a distintas resoluciones y aspect ratio, ademas de tener dos modos de tablero (small: 6x5 y big:6x8)
 /// </summary>
 public class BoardManager : MonoBehaviour
@@ -16,11 +16,11 @@ public class BoardManager : MonoBehaviour
     private float tileWidth_, tileHeight_;
     private const float baseWidth_ = 5.62f;    // ancho jugable estandar (1080:1920)
     private const float baseHeight_ = 6.21f;   // alto jugable estandar (1080:1920)
-    private float factor_;
+    private float factor_;                     // factor de escalado del tablero
     private int rows = 3, cols = 3;
-    private int[,] hints_;
-    private int lastHint_ = 1;
-    private int skinIndex_;
+    private int[,] hints_;                     // todas las pistas
+    private int lastHint_ = 1;                 // ultima pista mostrada
+    private int skinIndex_;                    // index de la skin utilizada entre todas las posibles
     private bool isAnimated_;
 
     public SpriteRenderer tracker;  // huella que deja el dedo al pulsar
@@ -45,10 +45,10 @@ public class BoardManager : MonoBehaviour
     [HideInInspector]
     public bool isButtonDown;
     [HideInInspector]
-    public bool onFocus_;
+    public bool onFocus_; // permite o no interactuar con el tablero
 
     /// <summary>
-    /// Inicializa los campos de boardManager, establece el factor de escala que usara el tablero y carga todos los niveles
+    /// Inicializa los campos de boardManager y establece el factor de escala que usara el tablero
     /// </summary>
     void Awake()
     {
@@ -75,7 +75,7 @@ public class BoardManager : MonoBehaviour
     {
         Reset();
 
-        JsonLoader.LevelInfo levelInfo = LoadManager.instance.jsonLoader.LoadByNumber(number);
+        JsonLoader.LevelInfo levelInfo = DataManager.instance.jsonLoader.LoadByNumber(number);
         rows = levelInfo.layout_.Length;
         cols = levelInfo.layout_[0].Length;
         hints_ = levelInfo.path_;
@@ -133,6 +133,10 @@ public class BoardManager : MonoBehaviour
         lastHint_ = 1;
     }
 
+    /// <summary>
+    /// Restablece la tabla de Tiles a partir de un punto del camino actual
+    /// </summary>
+    /// <param name="indexInPath"></param>
     public void RestartFrom(int indexInPath)
     {
         for (int currentCount = path_.Count - 1; indexInPath == -1 || currentCount > indexInPath; currentCount--)
@@ -167,7 +171,7 @@ public class BoardManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Ajusta la escala del tablero (y todos sus hijos / llamar despues de loadLevel()) al aspect ratio y al tamaño de la ventana
+    /// Ajusta la escala del tablero (y todos sus hijos) al aspect ratio y al tamaño de la ventana
     /// </summary>
     private void FitScaleToAspectRatio()
     {
@@ -223,11 +227,15 @@ public class BoardManager : MonoBehaviour
         onFocus_ = true;
     }
 
+    /// <summary>
+    /// Devuelve si se han dado ya todas las pistas
+    /// </summary>
     public bool AllHintsGiven()
     {
         return (lastHint_ >= hints_.GetLength(0));
     }
 
+    // si el tablero debe ser interactuable, se ejecuta su input
     void Update()
     {
         if(onFocus_)HandleInput();
@@ -313,7 +321,6 @@ public class BoardManager : MonoBehaviour
     /// <summary>
     /// Indica si el nivel actual ha sido completado: todas sus casillas han sido seleccionadas
     /// </summary>
-    /// <returns></returns>
     public bool LevelCompleted()
     {
         int selected = 0;
@@ -446,7 +453,9 @@ public class BoardManager : MonoBehaviour
             index + cols == path_[path_.Count - 1] || index - cols == path_[path_.Count - 1]); // arriba-abajo
     }
 
-
+    /// <summary>
+    /// Inicia una animacion de escalado
+    /// </summary>
     public void StartAnimation()
     {
         SetAnimated(true);
@@ -461,6 +470,7 @@ public class BoardManager : MonoBehaviour
         Invoke("InvokeSelectedAnimation", 0.5f);
     }
 
+    // actualizacion de la animacion de escalado para los Sprites de seleccion de los Tiles hasta la escala seleccionada
     private IEnumerator SelectedTileAnimation()
     {
         float scaleX = 999999;
@@ -479,6 +489,7 @@ public class BoardManager : MonoBehaviour
         }
     }
 
+    // actualizacion de la animacion de escalado para los Sprites de no seleccion de los Tiles hasta la escala seleccionada
     private IEnumerator UnSelectedTileAnimation()
     {
         float scaleX = 999999;
@@ -499,12 +510,14 @@ public class BoardManager : MonoBehaviour
         GameManager.instance.ToNextLevel();
     }
 
+    // inicio de la animacion de escalado para los Sprites de seleccion de los Tiles hasta la escala seleccionada
     private void InvokeSelectedAnimation()
     {
         StartCoroutine(SelectedTileAnimation());
         Invoke("InvokeUnSelectedAnimation", animationRate * 10);
     }
 
+    // inicio de la animacion de escalado para los Sprites de no seleccion de los Tiles hasta la escala seleccionada
     private void InvokeUnSelectedAnimation()
     {
         StartCoroutine(UnSelectedTileAnimation());

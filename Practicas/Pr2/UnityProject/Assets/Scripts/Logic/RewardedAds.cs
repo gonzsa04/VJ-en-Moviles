@@ -2,18 +2,25 @@
 using UnityEngine.UI;
 using UnityEngine.Advertisements;
 
+/// <summary>
+/// Componente que gestiona la visualizacion de anuncios
+/// Al acabar un anuncio, llama a la funcion definida por la variable rewardMethod_
+/// </summary>
 [RequireComponent(typeof(Button))]
 public class RewardedAds : MonoBehaviour, IUnityAdsListener
 {
     private string gameId = "1486550";
     private bool rewarded = false;
+    private Button myButton;
+    private string myPlacementId = "rewardedVideo";
+    private RewardMethod rewardMethod_; // variable que indica la funcion a ser llamada
 
-    Button myButton;
-    public string myPlacementId = "rewardedVideo";
+    /// <summary>
+    /// Tipo de la funcion a llamar al acabar el anuncio
+    /// </summary>
+    public delegate void RewardMethod();
+    [Tooltip("Texto en el que se avisara de que el anuncio no esta listo")]
     public GameObject notReadyText;
-
-    public delegate void RewardMethod(); // This defines what type of method you're going to call.
-    private RewardMethod rewardMethod_; // This is the variable holding the method you're going to call.
 
     void Start()
     {
@@ -28,6 +35,16 @@ public class RewardedAds : MonoBehaviour, IUnityAdsListener
         Advertisement.Initialize(gameId, false);
     }
 
+    // valor por defecto de la variable que indica la funcion a llamar
+    private void OnDestroy()
+    {
+        rewardMethod_ = null;
+    }
+
+    /// <summary>
+    /// Establece la funcion a la que se llamara al acabar un anuncio
+    /// </summary>
+    /// <param name="method">funcion a llamar</param>
     public void SetRewardMethod(RewardMethod method)
     {
         rewardMethod_ = method;
@@ -80,10 +97,5 @@ public class RewardedAds : MonoBehaviour, IUnityAdsListener
     public void OnUnityAdsDidStart(string placementId)
     {
         // Optional actions to take when the end-users triggers an ad.
-    }
-
-    private void OnDestroy()
-    {
-        rewardMethod_ = null;
     }
 }
